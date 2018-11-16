@@ -16,8 +16,8 @@ namespace moRFctrl
     {
         DeviceList devList;
         HidDevice[] hidList;
-        public bool moRFeusPresent = false;
-        HidDevice moRfeusDevice;
+        bool _moRFeusDetected = false;
+        HidDevice moRFeusDevice;
 
         public HID()
         {
@@ -30,20 +30,40 @@ namespace moRFctrl
             {
                 if (dev.VendorID == 4292 && dev.ProductID == 60105)
                 {
-                    moRFeusPresent = true;
-                    moRfeusDevice = dev;
+                    moRFeusDetected = true;
+                    moRFeusDevice = dev;
                 }
             }
 
-            if (moRFeusPresent)
+            if (moRFeusDetected)
             {
+                Program.MainClass.StatusMessage = "Found Othernet moRFeus";
                 Console.WriteLine("Found Othernet moRFeus: ");
-                Console.WriteLine(moRfeusDevice.DevicePath + "\n");
+                Console.WriteLine(moRFeusDevice.DevicePath + "\n");
             }
             else
             {
-                Console.WriteLine("No Othernet moRfeus found\n");
+                Program.MainClass.StatusMessage = "No Othernet moRFeus found";
+                Console.WriteLine("No Othernet moRFeus found\n");
             }
         }
+
+        #region Properties
+        /// <summary>
+        /// Is moRFeus device present
+        /// </summary>
+        public bool moRFeusDetected
+        {
+            get
+            {
+                return _moRFeusDetected;
+            }
+
+            set
+            {
+                _moRFeusDetected = value;
+            }
+        }
+        #endregion
     }
 }

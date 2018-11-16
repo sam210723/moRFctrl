@@ -10,13 +10,16 @@ namespace moRFctrl
     static class Program
     {
         // Classes
+        public static Main MainClass;
         public static HID HIDClass;
-        
+
+        // Threads
+        private static Thread MainThread;
+        private static Thread HIDThread;
+
         // Globals
         static bool confirmExit = false;
 
-        // Threads
-        private static Thread HIDThread;
 
         /// <summary>
         /// The main entry point for the application.
@@ -27,13 +30,17 @@ namespace moRFctrl
             // Configure main form
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            MainClass = new Main();
 
             // Create threads
+            MainThread = Thread.CurrentThread;
             HIDThread = new Thread(new ThreadStart(HIDThreadStart));
 
             // Start threads
             HIDThread.Start();
+
+            // Start main form
+            Application.Run(MainClass);
         }
 
         #region Threads

@@ -30,8 +30,37 @@ namespace moRFctrl
 
             // Set status strip background colour (control property doesn't work)
             statusStrip.BackColor = Color.FromArgb(55, 55, 55);
+
+            toolStripStatusLabel.Text = "Initialising";
         }
 
+        #region Properties
+        /// <summary>
+        /// Tool strip status message
+        /// </summary>
+        public string StatusMessage
+        {
+            get
+            {
+                return toolStripStatusLabel.Text;
+            }
+
+            set
+            {
+                if (statusStrip.InvokeRequired)
+                {
+                    statusStrip.BeginInvoke(new MethodInvoker(delegate
+                    {
+                        toolStripStatusLabel.Text = value;
+                    }));
+                }
+                else
+                {
+                    toolStripStatusLabel.Text = value;
+                }
+            }
+        }
+        #endregion
 
         #region Events
         /// <summary>
