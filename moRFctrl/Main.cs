@@ -27,6 +27,9 @@ namespace moRFctrl
             // Set menu strip colours (control property doesn't work)
             menuStrip.BackColor = Color.FromArgb(70, 70, 70);
             menuStrip.ForeColor = Color.White;
+
+            // Set status strip background colour (control property doesn't work)
+            statusStrip.BackColor = Color.FromArgb(55, 55, 55);
         }
 
 

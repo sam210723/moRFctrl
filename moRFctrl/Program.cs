@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -8,8 +9,14 @@ namespace moRFctrl
 {
     static class Program
     {
+        // Classes
+        public static HID HIDClass;
+        
         // Globals
         static bool confirmExit = false;
+
+        // Threads
+        private static Thread HIDThread;
 
         /// <summary>
         /// The main entry point for the application.
@@ -21,7 +28,20 @@ namespace moRFctrl
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
+
+            // Create threads
+            HIDThread = new Thread(new ThreadStart(HIDThreadStart));
+
+            // Start threads
+            HIDThread.Start();
         }
+
+        #region Threads
+        private static void HIDThreadStart()
+        {
+            HIDClass = new HID();
+        }
+        #endregion
 
         /// <summary>
         /// Cleanly exit the application
