@@ -42,6 +42,7 @@
             this.radioFunctionMixer = new System.Windows.Forms.RadioButton();
             this.trackMixerI = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
+            this.checkBiasTee = new System.Windows.Forms.CheckBox();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.groupFunction.SuspendLayout();
@@ -180,12 +181,25 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Mixer Current";
             // 
+            // checkBiasTee
+            // 
+            this.checkBiasTee.AutoSize = true;
+            this.checkBiasTee.ForeColor = System.Drawing.Color.White;
+            this.checkBiasTee.Location = new System.Drawing.Point(12, 114);
+            this.checkBiasTee.Name = "checkBiasTee";
+            this.checkBiasTee.Size = new System.Drawing.Size(68, 17);
+            this.checkBiasTee.TabIndex = 7;
+            this.checkBiasTee.Text = "Bias Tee";
+            this.checkBiasTee.UseVisualStyleBackColor = true;
+            this.checkBiasTee.CheckedChanged += new System.EventHandler(this.checkBiasTee_CheckedChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(553, 240);
+            this.Controls.Add(this.checkBiasTee);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackMixerI);
             this.Controls.Add(this.groupFunction);
@@ -229,6 +243,7 @@
         private System.Windows.Forms.RadioButton radioFunctionMixer;
         private System.Windows.Forms.TrackBar trackMixerI;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBiasTee;
     }
 }
 

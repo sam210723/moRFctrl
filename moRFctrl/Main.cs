@@ -102,6 +102,21 @@ namespace moRFctrl
         }
 
         /// <summary>
+        /// Set bias tee
+        /// </summary>
+        private void checkBiasTee_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBiasTee.Checked)
+            {
+                moRFeus.SetBiasTee(moRFeus.BIAS_ON);
+            }
+            else
+            {
+                moRFeus.SetBiasTee(moRFeus.BIAS_OFF);
+            }
+        }
+
+        /// <summary>
         /// Trigger graceful exit
         /// </summary>
         private void Main_FormClosing(object sender, FormClosingEventArgs e)

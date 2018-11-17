@@ -14,8 +14,11 @@ namespace moRFctrl
         static byte[] paramFunc = { 0x82 };
         static byte[] paramMixI = { 0x83 };
         static byte[] paramBias = { 0x84 };
+
         public static int FUNC_MIXER = 0;
         public static int FUNC_GENERATOR = 1;
+        public static int BIAS_OFF = 0;
+        public static int BIAS_ON = 1;
 
         /// <summary>
         /// Set generator frequency
@@ -85,6 +88,30 @@ namespace moRFctrl
             valPadded = valPadded.Reverse().ToArray();
 
             SendCommand(type, param, valPadded);
+        }
+
+        /// <summary>
+        /// Set bias tee (on/off)
+        /// </summary>
+        public static void SetBiasTee(int bias)
+        {
+            byte[] type = typeSet;
+            byte[] param = paramBias;
+
+            if (bias == BIAS_OFF)
+            {
+                byte[] val = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+                SendCommand(type, param, val);
+            }
+            else if (bias == BIAS_ON)
+            {
+                byte[] val = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 };
+                SendCommand(type, param, val);
+            }
+            else
+            {
+                return;
+            }
         }
 
         /// <summary>
