@@ -37,8 +37,12 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnFreqSet = new System.Windows.Forms.Button();
             this.textFrequency = new System.Windows.Forms.TextBox();
+            this.groupFunction = new System.Windows.Forms.GroupBox();
+            this.radioFunctionMixer = new System.Windows.Forms.RadioButton();
+            this.radioFunctionGenerator = new System.Windows.Forms.RadioButton();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            this.groupFunction.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -85,7 +89,7 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip.Location = new System.Drawing.Point(0, 218);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(553, 22);
             this.statusStrip.SizingGrip = false;
@@ -117,12 +121,49 @@
             this.textFrequency.TabIndex = 3;
             this.textFrequency.Text = "1000000000";
             // 
+            // groupFunction
+            // 
+            this.groupFunction.Controls.Add(this.radioFunctionGenerator);
+            this.groupFunction.Controls.Add(this.radioFunctionMixer);
+            this.groupFunction.ForeColor = System.Drawing.Color.White;
+            this.groupFunction.Location = new System.Drawing.Point(160, 34);
+            this.groupFunction.Name = "groupFunction";
+            this.groupFunction.Size = new System.Drawing.Size(88, 69);
+            this.groupFunction.TabIndex = 4;
+            this.groupFunction.TabStop = false;
+            this.groupFunction.Text = "Function";
+            // 
+            // radioFunctionMixer
+            // 
+            this.radioFunctionMixer.AutoSize = true;
+            this.radioFunctionMixer.Location = new System.Drawing.Point(9, 19);
+            this.radioFunctionMixer.Name = "radioFunctionMixer";
+            this.radioFunctionMixer.Size = new System.Drawing.Size(50, 17);
+            this.radioFunctionMixer.TabIndex = 0;
+            this.radioFunctionMixer.TabStop = true;
+            this.radioFunctionMixer.Text = "Mixer";
+            this.radioFunctionMixer.UseVisualStyleBackColor = true;
+            this.radioFunctionMixer.CheckedChanged += new System.EventHandler(this.radioFunctionMixer_CheckedChanged);
+            // 
+            // radioFunctionGenerator
+            // 
+            this.radioFunctionGenerator.AutoSize = true;
+            this.radioFunctionGenerator.Location = new System.Drawing.Point(8, 42);
+            this.radioFunctionGenerator.Name = "radioFunctionGenerator";
+            this.radioFunctionGenerator.Size = new System.Drawing.Size(72, 17);
+            this.radioFunctionGenerator.TabIndex = 1;
+            this.radioFunctionGenerator.TabStop = true;
+            this.radioFunctionGenerator.Text = "Generator";
+            this.radioFunctionGenerator.UseVisualStyleBackColor = true;
+            this.radioFunctionGenerator.CheckedChanged += new System.EventHandler(this.radioFunctionGenerator_CheckedChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(553, 450);
+            this.ClientSize = new System.Drawing.Size(553, 240);
+            this.Controls.Add(this.groupFunction);
             this.Controls.Add(this.textFrequency);
             this.Controls.Add(this.btnFreqSet);
             this.Controls.Add(this.statusStrip);
@@ -139,6 +180,8 @@
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            this.groupFunction.ResumeLayout(false);
+            this.groupFunction.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,6 +198,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.Button btnFreqSet;
         private System.Windows.Forms.TextBox textFrequency;
+        private System.Windows.Forms.GroupBox groupFunction;
+        private System.Windows.Forms.RadioButton radioFunctionGenerator;
+        private System.Windows.Forms.RadioButton radioFunctionMixer;
     }
 }
 

@@ -72,6 +72,28 @@ namespace moRFctrl
         }
 
         /// <summary>
+        /// Set function to Mixer
+        /// </summary>
+        private void radioFunctionMixer_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioFunctionMixer.Checked)
+            {
+                moRFeus.SetFunction(moRFeus.FUNC_MIXER);
+            }
+        }
+
+        /// <summary>
+        /// Set function to Generator
+        /// </summary>
+        private void radioFunctionGenerator_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioFunctionGenerator.Checked)
+            {
+                moRFeus.SetFunction(moRFeus.FUNC_GENERATOR);
+            }
+        }
+
+        /// <summary>
         /// Trigger graceful exit
         /// </summary>
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
