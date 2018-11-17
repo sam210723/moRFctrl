@@ -38,11 +38,14 @@
             this.btnFreqSet = new System.Windows.Forms.Button();
             this.textFrequency = new System.Windows.Forms.TextBox();
             this.groupFunction = new System.Windows.Forms.GroupBox();
-            this.radioFunctionMixer = new System.Windows.Forms.RadioButton();
             this.radioFunctionGenerator = new System.Windows.Forms.RadioButton();
+            this.radioFunctionMixer = new System.Windows.Forms.RadioButton();
+            this.trackMixerI = new System.Windows.Forms.TrackBar();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.groupFunction.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -133,18 +136,6 @@
             this.groupFunction.TabStop = false;
             this.groupFunction.Text = "Function";
             // 
-            // radioFunctionMixer
-            // 
-            this.radioFunctionMixer.AutoSize = true;
-            this.radioFunctionMixer.Location = new System.Drawing.Point(9, 19);
-            this.radioFunctionMixer.Name = "radioFunctionMixer";
-            this.radioFunctionMixer.Size = new System.Drawing.Size(50, 17);
-            this.radioFunctionMixer.TabIndex = 0;
-            this.radioFunctionMixer.TabStop = true;
-            this.radioFunctionMixer.Text = "Mixer";
-            this.radioFunctionMixer.UseVisualStyleBackColor = true;
-            this.radioFunctionMixer.CheckedChanged += new System.EventHandler(this.radioFunctionMixer_CheckedChanged);
-            // 
             // radioFunctionGenerator
             // 
             this.radioFunctionGenerator.AutoSize = true;
@@ -157,12 +148,46 @@
             this.radioFunctionGenerator.UseVisualStyleBackColor = true;
             this.radioFunctionGenerator.CheckedChanged += new System.EventHandler(this.radioFunctionGenerator_CheckedChanged);
             // 
+            // radioFunctionMixer
+            // 
+            this.radioFunctionMixer.AutoSize = true;
+            this.radioFunctionMixer.Location = new System.Drawing.Point(9, 19);
+            this.radioFunctionMixer.Name = "radioFunctionMixer";
+            this.radioFunctionMixer.Size = new System.Drawing.Size(50, 17);
+            this.radioFunctionMixer.TabIndex = 0;
+            this.radioFunctionMixer.TabStop = true;
+            this.radioFunctionMixer.Text = "Mixer";
+            this.radioFunctionMixer.UseVisualStyleBackColor = true;
+            this.radioFunctionMixer.CheckedChanged += new System.EventHandler(this.radioFunctionMixer_CheckedChanged);
+            // 
+            // trackMixerI
+            // 
+            this.trackMixerI.LargeChange = 1;
+            this.trackMixerI.Location = new System.Drawing.Point(12, 63);
+            this.trackMixerI.Maximum = 7;
+            this.trackMixerI.Name = "trackMixerI";
+            this.trackMixerI.Size = new System.Drawing.Size(135, 45);
+            this.trackMixerI.TabIndex = 5;
+            this.trackMixerI.Scroll += new System.EventHandler(this.trackMixerI_Scroll);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(48, 95);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Mixer Current";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(553, 240);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.trackMixerI);
             this.Controls.Add(this.groupFunction);
             this.Controls.Add(this.textFrequency);
             this.Controls.Add(this.btnFreqSet);
@@ -182,6 +207,7 @@
             this.statusStrip.PerformLayout();
             this.groupFunction.ResumeLayout(false);
             this.groupFunction.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,6 +227,8 @@
         private System.Windows.Forms.GroupBox groupFunction;
         private System.Windows.Forms.RadioButton radioFunctionGenerator;
         private System.Windows.Forms.RadioButton radioFunctionMixer;
+        private System.Windows.Forms.TrackBar trackMixerI;
+        private System.Windows.Forms.Label label1;
     }
 }
 

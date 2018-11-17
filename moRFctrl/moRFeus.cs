@@ -65,6 +65,29 @@ namespace moRFctrl
         }
 
         /// <summary>
+        /// Set mixer current
+        /// </summary>
+        /// <param name="i">0 to 7</param>
+        public static void SetMixerCurrent(int mixI)
+        {
+            byte[] type = typeSet;
+            byte[] param = paramMixI;
+            byte[] val = BitConverter.GetBytes(mixI);
+            byte[] valPadded = new byte[8];
+
+            // Create padded value array
+            byte[] nullByte = { 0x00 };
+            for (int i = val.Length; i < 8; i++)
+            {
+                Buffer.BlockCopy(nullByte, 0, valPadded, 0, nullByte.Length);
+            }
+            Buffer.BlockCopy(val, 0, valPadded, 0, val.Length);
+            valPadded = valPadded.Reverse().ToArray();
+
+            SendCommand(type, param, valPadded);
+        }
+
+        /// <summary>
         /// Build moRFeus protocol command and send as HID report
         /// </summary>
         static void SendCommand(byte[] type, byte[] param, byte[] val)

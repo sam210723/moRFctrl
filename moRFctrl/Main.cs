@@ -94,6 +94,14 @@ namespace moRFctrl
         }
 
         /// <summary>
+        /// Set mixer current
+        /// </summary>
+        private void trackMixerI_Scroll(object sender, EventArgs e)
+        {
+            moRFeus.SetMixerCurrent(trackMixerI.Value);
+        }
+
+        /// <summary>
         /// Trigger graceful exit
         /// </summary>
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
