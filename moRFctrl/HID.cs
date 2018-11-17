@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace moRFctrl
@@ -40,11 +41,22 @@ namespace moRFctrl
                 Program.MainClass.StatusMessage = "Found Othernet moRFeus";
                 Console.WriteLine("Found Othernet moRFeus: ");
                 Console.WriteLine(moRFeusDevice.DevicePath + "\n");
+
+                ConfigDevice();
             }
             else
             {
                 Program.MainClass.StatusMessage = "No Othernet moRFeus found";
                 Console.WriteLine("No Othernet moRFeus found\n");
+            }
+        }
+
+        private void ConfigDevice()
+        {
+            HidStream hidStream;
+            if (moRFeusDevice.TryOpen(out hidStream))
+            {
+                Console.WriteLine("Opened device.");
             }
         }
 
