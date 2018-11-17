@@ -35,6 +35,8 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnFreqSet = new System.Windows.Forms.Button();
+            this.textFrequency = new System.Windows.Forms.TextBox();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -97,12 +99,32 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel.Text = "...";
             // 
+            // btnFreqSet
+            // 
+            this.btnFreqSet.Location = new System.Drawing.Point(107, 34);
+            this.btnFreqSet.Name = "btnFreqSet";
+            this.btnFreqSet.Size = new System.Drawing.Size(40, 23);
+            this.btnFreqSet.TabIndex = 2;
+            this.btnFreqSet.Text = "Set";
+            this.btnFreqSet.UseVisualStyleBackColor = true;
+            this.btnFreqSet.Click += new System.EventHandler(this.btnFreqSet_Click);
+            // 
+            // textFrequency
+            // 
+            this.textFrequency.Location = new System.Drawing.Point(12, 36);
+            this.textFrequency.Name = "textFrequency";
+            this.textFrequency.Size = new System.Drawing.Size(89, 20);
+            this.textFrequency.TabIndex = 3;
+            this.textFrequency.Text = "1000000000";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(553, 450);
+            this.Controls.Add(this.textFrequency);
+            this.Controls.Add(this.btnFreqSet);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -131,6 +153,8 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.Button btnFreqSet;
+        private System.Windows.Forms.TextBox textFrequency;
     }
 }
 

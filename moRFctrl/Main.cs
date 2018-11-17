@@ -64,6 +64,14 @@ namespace moRFctrl
 
         #region Events
         /// <summary>
+        /// Set generator frequency
+        /// </summary>
+        private void btnFreqSet_Click(object sender, EventArgs e)
+        {
+            moRFeus.SetFrequency(int.Parse(textFrequency.Text));
+        }
+
+        /// <summary>
         /// Trigger graceful exit
         /// </summary>
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
