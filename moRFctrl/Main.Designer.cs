@@ -42,10 +42,27 @@
             this.label1 = new System.Windows.Forms.Label();
             this.checkBiasTee = new System.Windows.Forms.CheckBox();
             this.groupSweep = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.numStepSize = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numStartFreq = new System.Windows.Forms.NumericUpDown();
+            this.numStopFreq = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numDwellTime = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnSweep = new System.Windows.Forms.Button();
+            this.progressSweep = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
+            this.groupSweep.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numStepSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStartFreq)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStopFreq)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDwellTime)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -92,7 +109,7 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 358);
+            this.statusStrip.Location = new System.Drawing.Point(0, 300);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(262, 22);
             this.statusStrip.SizingGrip = false;
@@ -122,7 +139,7 @@
             // 
             this.radioFunctionGenerator.AutoSize = true;
             this.radioFunctionGenerator.ForeColor = System.Drawing.Color.White;
-            this.radioFunctionGenerator.Location = new System.Drawing.Point(182, 98);
+            this.radioFunctionGenerator.Location = new System.Drawing.Point(182, 100);
             this.radioFunctionGenerator.Name = "radioFunctionGenerator";
             this.radioFunctionGenerator.Size = new System.Drawing.Size(72, 17);
             this.radioFunctionGenerator.TabIndex = 3;
@@ -134,7 +151,7 @@
             // 
             this.radioFunctionMixer.AutoSize = true;
             this.radioFunctionMixer.ForeColor = System.Drawing.Color.White;
-            this.radioFunctionMixer.Location = new System.Drawing.Point(182, 75);
+            this.radioFunctionMixer.Location = new System.Drawing.Point(182, 77);
             this.radioFunctionMixer.Name = "radioFunctionMixer";
             this.radioFunctionMixer.Size = new System.Drawing.Size(50, 17);
             this.radioFunctionMixer.TabIndex = 2;
@@ -145,7 +162,7 @@
             // trackMixerI
             // 
             this.trackMixerI.LargeChange = 1;
-            this.trackMixerI.Location = new System.Drawing.Point(12, 71);
+            this.trackMixerI.Location = new System.Drawing.Point(12, 73);
             this.trackMixerI.Maximum = 7;
             this.trackMixerI.Name = "trackMixerI";
             this.trackMixerI.Size = new System.Drawing.Size(131, 45);
@@ -156,7 +173,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(46, 100);
+            this.label1.Location = new System.Drawing.Point(46, 102);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 6;
@@ -166,7 +183,7 @@
             // 
             this.checkBiasTee.AutoSize = true;
             this.checkBiasTee.ForeColor = System.Drawing.Color.White;
-            this.checkBiasTee.Location = new System.Drawing.Point(182, 42);
+            this.checkBiasTee.Location = new System.Drawing.Point(181, 42);
             this.checkBiasTee.Name = "checkBiasTee";
             this.checkBiasTee.Size = new System.Drawing.Size(68, 17);
             this.checkBiasTee.TabIndex = 4;
@@ -176,13 +193,196 @@
             // 
             // groupSweep
             // 
+            this.groupSweep.Controls.Add(this.tableLayoutPanel1);
+            this.groupSweep.Controls.Add(this.btnSweep);
+            this.groupSweep.Controls.Add(this.progressSweep);
             this.groupSweep.ForeColor = System.Drawing.Color.White;
-            this.groupSweep.Location = new System.Drawing.Point(12, 122);
+            this.groupSweep.Location = new System.Drawing.Point(12, 138);
             this.groupSweep.Name = "groupSweep";
-            this.groupSweep.Size = new System.Drawing.Size(238, 225);
+            this.groupSweep.Size = new System.Drawing.Size(238, 150);
             this.groupSweep.TabIndex = 8;
             this.groupSweep.TabStop = false;
             this.groupSweep.Text = "Sweep";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.numStepSize, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.numStartFreq, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.numStopFreq, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.numDwellTime, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 17);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(226, 100);
+            this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // numStepSize
+            // 
+            this.numStepSize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.numStepSize.ForeColor = System.Drawing.Color.White;
+            this.numStepSize.Location = new System.Drawing.Point(116, 53);
+            this.numStepSize.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.numStepSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numStepSize.Name = "numStepSize";
+            this.numStepSize.Size = new System.Drawing.Size(107, 20);
+            this.numStepSize.TabIndex = 8;
+            this.numStepSize.ThousandsSeparator = true;
+            this.numStepSize.Value = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 50);
+            this.label5.Name = "label5";
+            this.label5.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label5.Size = new System.Drawing.Size(74, 18);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Step Size (Hz)";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label3.Size = new System.Drawing.Size(104, 18);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Start Frequency (Hz)";
+            // 
+            // numStartFreq
+            // 
+            this.numStartFreq.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.numStartFreq.ForeColor = System.Drawing.Color.White;
+            this.numStartFreq.Location = new System.Drawing.Point(116, 3);
+            this.numStartFreq.Maximum = new decimal(new int[] {
+            1105032704,
+            1,
+            0,
+            0});
+            this.numStartFreq.Minimum = new decimal(new int[] {
+            85000000,
+            0,
+            0,
+            0});
+            this.numStartFreq.Name = "numStartFreq";
+            this.numStartFreq.Size = new System.Drawing.Size(107, 20);
+            this.numStartFreq.TabIndex = 2;
+            this.numStartFreq.ThousandsSeparator = true;
+            this.numStartFreq.Value = new decimal(new int[] {
+            85000000,
+            0,
+            0,
+            0});
+            // 
+            // numStopFreq
+            // 
+            this.numStopFreq.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.numStopFreq.ForeColor = System.Drawing.Color.White;
+            this.numStopFreq.Location = new System.Drawing.Point(116, 28);
+            this.numStopFreq.Maximum = new decimal(new int[] {
+            1105032704,
+            1,
+            0,
+            0});
+            this.numStopFreq.Minimum = new decimal(new int[] {
+            85000000,
+            0,
+            0,
+            0});
+            this.numStopFreq.Name = "numStopFreq";
+            this.numStopFreq.Size = new System.Drawing.Size(107, 20);
+            this.numStopFreq.TabIndex = 3;
+            this.numStopFreq.ThousandsSeparator = true;
+            this.numStopFreq.Value = new decimal(new int[] {
+            1105032704,
+            1,
+            0,
+            0});
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 25);
+            this.label4.Name = "label4";
+            this.label4.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label4.Size = new System.Drawing.Size(104, 18);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Stop Frequency (Hz)";
+            // 
+            // numDwellTime
+            // 
+            this.numDwellTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.numDwellTime.ForeColor = System.Drawing.Color.White;
+            this.numDwellTime.Location = new System.Drawing.Point(116, 78);
+            this.numDwellTime.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.numDwellTime.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numDwellTime.Name = "numDwellTime";
+            this.numDwellTime.Size = new System.Drawing.Size(107, 20);
+            this.numDwellTime.TabIndex = 9;
+            this.numDwellTime.ThousandsSeparator = true;
+            this.numDwellTime.Value = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 75);
+            this.label6.Name = "label6";
+            this.label6.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label6.Size = new System.Drawing.Size(81, 18);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Dwell Time (ms)";
+            // 
+            // btnSweep
+            // 
+            this.btnSweep.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.btnSweep.Location = new System.Drawing.Point(157, 121);
+            this.btnSweep.Name = "btnSweep";
+            this.btnSweep.Size = new System.Drawing.Size(75, 23);
+            this.btnSweep.TabIndex = 1;
+            this.btnSweep.Text = "Start";
+            this.btnSweep.UseVisualStyleBackColor = false;
+            // 
+            // progressSweep
+            // 
+            this.progressSweep.Location = new System.Drawing.Point(6, 122);
+            this.progressSweep.Name = "progressSweep";
+            this.progressSweep.Size = new System.Drawing.Size(147, 21);
+            this.progressSweep.TabIndex = 0;
             // 
             // label2
             // 
@@ -200,7 +400,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(262, 380);
+            this.ClientSize = new System.Drawing.Size(262, 322);
             this.Controls.Add(this.radioFunctionMixer);
             this.Controls.Add(this.radioFunctionGenerator);
             this.Controls.Add(this.label2);
@@ -216,6 +416,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Main";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "moRFctrl";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
@@ -224,6 +425,13 @@
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).EndInit();
+            this.groupSweep.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numStepSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStartFreq)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStopFreq)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDwellTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -246,6 +454,17 @@
         private System.Windows.Forms.CheckBox checkBiasTee;
         private System.Windows.Forms.GroupBox groupSweep;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ProgressBar progressSweep;
+        private System.Windows.Forms.Button btnSweep;
+        private System.Windows.Forms.NumericUpDown numStopFreq;
+        private System.Windows.Forms.NumericUpDown numStartFreq;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.NumericUpDown numStepSize;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numDwellTime;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -90,11 +90,13 @@ namespace moRFctrl
                     textFrequency.BeginInvoke(new MethodInvoker(delegate
                     {
                         textFrequency.Text = value;
+                        textFrequency.SelectionStart = textFrequency.TextLength;
                     }));
                 }
                 else
                 {
                     textFrequency.Text = value;
+                    textFrequency.SelectionStart = textFrequency.TextLength;
                 }
             }
         }
