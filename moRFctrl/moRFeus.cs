@@ -122,11 +122,39 @@ namespace moRFctrl
         /// </summary>
         public static void GetFrequency()
         {
-            byte[] type = typeGet;
-            byte[] param = paramFreq;
             byte[] val = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-            SendCommand(type, param, val);
+            SendCommand(typeGet, paramFreq, val);
+        }
+
+        /// <summary>
+        /// Get mode (mixer/generator)
+        /// </summary>
+        public static void GetFunction()
+        {
+            byte[] val = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+            SendCommand(typeGet, paramFunc, val);
+        }
+
+        /// <summary>
+        /// Get mixer current
+        /// </summary>
+        public static void GetMixerCurrent()
+        {
+            byte[] val = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+            SendCommand(typeGet, paramMixI, val);
+        }
+
+        /// <summary>
+        /// Get bias tee (on/off)
+        /// </summary>
+        public static void GetBiasTee()
+        {
+            byte[] val = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+            SendCommand(typeGet, paramBias, val);
         }
         #endregion
 
