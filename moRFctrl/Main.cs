@@ -85,7 +85,17 @@ namespace moRFctrl
 
             set
             {
-                textFrequency.Text = value;
+                if (textFrequency.InvokeRequired)
+                {
+                    textFrequency.BeginInvoke(new MethodInvoker(delegate
+                    {
+                        textFrequency.Text = value;
+                    }));
+                }
+                else
+                {
+                    textFrequency.Text = value;
+                }
             }
         }
 
@@ -113,13 +123,55 @@ namespace moRFctrl
             set
             {
                 if (value == moRFeus.FUNC_MIXER) {
-                    radioFunctionMixer.Checked = true;
-                    radioFunctionGenerator.Checked = false;
+                    if (radioFunctionMixer.InvokeRequired)
+                    {
+                        radioFunctionMixer.BeginInvoke(new MethodInvoker(delegate
+                        {
+                            radioFunctionMixer.Checked = true;
+                        }));
+                    }
+                    else
+                    {
+                        radioFunctionMixer.Checked = true;
+                    }
+
+                    if (radioFunctionGenerator.InvokeRequired)
+                    {
+                        radioFunctionGenerator.BeginInvoke(new MethodInvoker(delegate
+                        {
+                            radioFunctionGenerator.Checked = false;
+                        }));
+                    }
+                    else
+                    {
+                        radioFunctionGenerator.Checked = false;
+                    }
                 }
                 else if (value == moRFeus.FUNC_GENERATOR)
                 {
-                    radioFunctionMixer.Checked = false;
-                    radioFunctionGenerator.Checked = true;
+                    if (radioFunctionMixer.InvokeRequired)
+                    {
+                        radioFunctionMixer.BeginInvoke(new MethodInvoker(delegate
+                        {
+                            radioFunctionMixer.Checked = false;
+                        }));
+                    }
+                    else
+                    {
+                        radioFunctionMixer.Checked = false;
+                    }
+
+                    if (radioFunctionGenerator.InvokeRequired)
+                    {
+                        radioFunctionGenerator.BeginInvoke(new MethodInvoker(delegate
+                        {
+                            radioFunctionGenerator.Checked = true;
+                        }));
+                    }
+                    else
+                    {
+                        radioFunctionGenerator.Checked = true;
+                    }
                 }
             }
         }
@@ -136,7 +188,17 @@ namespace moRFctrl
 
             set
             {
-                trackMixerI.Value = value;
+                if (trackMixerI.InvokeRequired)
+                {
+                    trackMixerI.BeginInvoke(new MethodInvoker(delegate
+                    {
+                        trackMixerI.Value = value;
+                    }));
+                }
+                else
+                {
+                    trackMixerI.Value = value;
+                }
             }
         }
 
@@ -152,10 +214,19 @@ namespace moRFctrl
 
             set
             {
-                checkBiasTee.Checked = value;
+                if (checkBiasTee.InvokeRequired)
+                {
+                    checkBiasTee.BeginInvoke(new MethodInvoker(delegate
+                    {
+                        checkBiasTee.Checked = value;
+                    }));
+                }
+                else
+                {
+                    checkBiasTee.Checked = value;
+                }
             }
         }
-
         #endregion
 
         #region Events

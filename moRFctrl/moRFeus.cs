@@ -159,6 +159,66 @@ namespace moRFctrl
         #endregion
 
         /// <summary>
+        /// Pasrse HID input report
+        /// </summary>
+        /// <param name="r">Input report</param>
+        public static void ParseReport(byte[] r)
+        {
+            Console.WriteLine("\nFrom HID:");
+            Console.WriteLine("Raw: " + BitConverter.ToString(r).Replace("-", string.Empty));
+            Console.WriteLine("Length: " + r.Length);
+
+            byte type = r[1];
+            byte param = r[2];
+            byte[] val = new byte[8];
+            Array.Copy(r, 3, val, 0, 8);
+
+            if (type == typeGet[1])
+            {
+                Console.WriteLine("Report Type: GET");
+            }
+            else if (type == typeSet[1])
+            {
+                Console.WriteLine("Report Type: SET");
+                return;
+            }
+
+            if (param == paramFreq[0])
+            {
+                Console.WriteLine("Parameter: FREQUENCY");
+
+                Program.MainClass.Frequency = BitConverter.ToInt64(val.Reverse().ToArray(), 0).ToString();
+            }
+            else if (param == paramFunc[0])
+            {
+                Console.WriteLine("Parameter: FUNCTION");
+
+                Program.MainClass.Function = BitConverter.ToInt16(val.Reverse().ToArray(), 0);
+            }
+            else if (param == paramMixI[0])
+            {
+                Console.WriteLine("Parameter: MIXER CURRENT");
+
+                Program.MainClass.MixerCurrent = BitConverter.ToInt16(val.Reverse().ToArray(), 0);
+            }
+            else if (param == paramBias[0])
+            {
+                Console.WriteLine("Parameter: BIAS TEE");
+
+                if (BitConverter.ToInt16(val.Reverse().ToArray(), 0) == BIAS_OFF)
+                {
+                    Program.MainClass.BiasTee = false;
+                }
+                else
+                {
+                    Program.MainClass.BiasTee = true;
+                }
+            }
+
+            Console.WriteLine("Value: " + BitConverter.ToString(val).Replace("-", string.Empty));
+        }
+
+        /// <summary>
         /// Build moRFeus protocol command and send as HID report
         /// </summary>
         static void SendCommand(byte[] type, byte[] param, byte[] val)
@@ -172,8 +232,8 @@ namespace moRFctrl
             Buffer.BlockCopy(pad, 0, cmd, type.Length + param.Length + val.Length, pad.Length);
 
             Console.WriteLine("\nTo HID:");
-            Console.WriteLine(BitConverter.ToString(cmd).Replace("-", string.Empty));
-            Console.WriteLine(cmd.Length);
+            Console.WriteLine("Raw: " + BitConverter.ToString(cmd).Replace("-", string.Empty));
+            Console.WriteLine("Length: " + cmd.Length);
             Program.HIDClass.WriteHIDReport(cmd);
         }
     }

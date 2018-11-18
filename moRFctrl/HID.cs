@@ -77,9 +77,7 @@ namespace moRFctrl
                     Report report;
                     while (inputReceiver.TryRead(inputReportBuffer, 0, out report))
                     {
-                        Console.WriteLine("\nFrom HID:");
-                        Console.WriteLine(BitConverter.ToString(inputReportBuffer).Replace("-", string.Empty));
-                        Console.WriteLine(report.Length);
+                        moRFeus.ParseReport(inputReportBuffer);
                     }
                 };
                 inputReceiver.Start(hidStream);
@@ -88,7 +86,7 @@ namespace moRFctrl
                 moRFeusOpen = true;
 
                 // Initial polling of device values
-                Task.Delay(100).ContinueWith(t => Program.MainClass.PollDevice());
+                Task.Delay(10).ContinueWith(t => Program.MainClass.PollDevice());
             }
         }
 
@@ -110,6 +108,9 @@ namespace moRFctrl
             }
         }
 
+        /// <summary>
+        /// On device disconnect
+        /// </summary>
         private void Disconnected(object sender, EventArgs e)
         {
             moRFeusOpen = false;
