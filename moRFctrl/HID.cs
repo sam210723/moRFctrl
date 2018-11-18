@@ -3,6 +3,7 @@ using HidSharp.Reports;
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace moRFctrl
 {
@@ -86,7 +87,8 @@ namespace moRFctrl
                 moRFeusStream.Closed += new EventHandler(Disconnected);
                 moRFeusOpen = true;
 
-                //Program.MainClass.PollDevice();
+                // Initial polling of device values
+                Task.Delay(100).ContinueWith(t => Program.MainClass.PollDevice());
             }
         }
 

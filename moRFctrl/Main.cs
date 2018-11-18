@@ -40,6 +40,9 @@ namespace moRFctrl
         /// Get initial state of the device and update UI elements
         /// </summary>
         public void PollDevice() {
+            moRFeus.GetBiasTee();
+            moRFeus.GetMixerCurrent();
+            moRFeus.GetFunction();
             moRFeus.GetFrequency();
         }
 
@@ -69,6 +72,90 @@ namespace moRFctrl
                 }
             }
         }
+
+        /// <summary>
+        /// Frequency text box
+        /// </summary>
+        public string Frequency
+        {
+            get
+            {
+                return textFrequency.Text;
+            }
+
+            set
+            {
+                textFrequency.Text = value;
+            }
+        }
+
+        /// <summary>
+        /// Function radio buttons
+        /// </summary>
+        public int Function
+        {
+            get
+            {
+                if (radioFunctionMixer.Checked)
+                {
+                    return moRFeus.FUNC_MIXER;
+                }
+                else if (radioFunctionGenerator.Checked)
+                {
+                    return moRFeus.FUNC_GENERATOR;
+                }
+                else {
+                    return -1;
+                }
+                
+            }
+
+            set
+            {
+                if (value == moRFeus.FUNC_MIXER) {
+                    radioFunctionMixer.Checked = true;
+                    radioFunctionGenerator.Checked = false;
+                }
+                else if (value == moRFeus.FUNC_GENERATOR)
+                {
+                    radioFunctionMixer.Checked = false;
+                    radioFunctionGenerator.Checked = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Mixer current track
+        /// </summary>
+        public int MixerCurrent
+        {
+            get
+            {
+                return trackMixerI.Value;
+            }
+
+            set
+            {
+                trackMixerI.Value = value;
+            }
+        }
+
+        /// <summary>
+        /// Bias Tee checkbox
+        /// </summary>
+        public bool BiasTee
+        {
+            get
+            {
+                return checkBiasTee.Checked;
+            }
+
+            set
+            {
+                checkBiasTee.Checked = value;
+            }
+        }
+
         #endregion
 
         #region Events
