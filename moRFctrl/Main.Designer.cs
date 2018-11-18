@@ -35,17 +35,16 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnFreqSet = new System.Windows.Forms.Button();
             this.textFrequency = new System.Windows.Forms.TextBox();
-            this.groupFunction = new System.Windows.Forms.GroupBox();
             this.radioFunctionGenerator = new System.Windows.Forms.RadioButton();
             this.radioFunctionMixer = new System.Windows.Forms.RadioButton();
             this.trackMixerI = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBiasTee = new System.Windows.Forms.CheckBox();
+            this.groupSweep = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
-            this.groupFunction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +55,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(553, 24);
+            this.menuStrip.Size = new System.Drawing.Size(262, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -93,9 +92,9 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 218);
+            this.statusStrip.Location = new System.Drawing.Point(0, 358);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(553, 22);
+            this.statusStrip.Size = new System.Drawing.Size(262, 22);
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip";
@@ -107,44 +106,26 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusLabel.Text = "...";
             // 
-            // btnFreqSet
-            // 
-            this.btnFreqSet.Location = new System.Drawing.Point(107, 34);
-            this.btnFreqSet.Name = "btnFreqSet";
-            this.btnFreqSet.Size = new System.Drawing.Size(40, 23);
-            this.btnFreqSet.TabIndex = 2;
-            this.btnFreqSet.Text = "Set";
-            this.btnFreqSet.UseVisualStyleBackColor = true;
-            this.btnFreqSet.Click += new System.EventHandler(this.btnFreqSet_Click);
-            // 
             // textFrequency
             // 
-            this.textFrequency.Location = new System.Drawing.Point(12, 36);
+            this.textFrequency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.textFrequency.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textFrequency.ForeColor = System.Drawing.Color.White;
+            this.textFrequency.Location = new System.Drawing.Point(12, 34);
             this.textFrequency.Name = "textFrequency";
-            this.textFrequency.Size = new System.Drawing.Size(89, 20);
-            this.textFrequency.TabIndex = 3;
+            this.textFrequency.Size = new System.Drawing.Size(131, 32);
+            this.textFrequency.TabIndex = 0;
             this.textFrequency.Text = "1000000000";
-            // 
-            // groupFunction
-            // 
-            this.groupFunction.Controls.Add(this.radioFunctionGenerator);
-            this.groupFunction.Controls.Add(this.radioFunctionMixer);
-            this.groupFunction.ForeColor = System.Drawing.Color.White;
-            this.groupFunction.Location = new System.Drawing.Point(160, 34);
-            this.groupFunction.Name = "groupFunction";
-            this.groupFunction.Size = new System.Drawing.Size(88, 69);
-            this.groupFunction.TabIndex = 4;
-            this.groupFunction.TabStop = false;
-            this.groupFunction.Text = "Function";
+            this.textFrequency.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textFrequency_KeyPress);
             // 
             // radioFunctionGenerator
             // 
             this.radioFunctionGenerator.AutoSize = true;
-            this.radioFunctionGenerator.Location = new System.Drawing.Point(8, 42);
+            this.radioFunctionGenerator.ForeColor = System.Drawing.Color.White;
+            this.radioFunctionGenerator.Location = new System.Drawing.Point(182, 98);
             this.radioFunctionGenerator.Name = "radioFunctionGenerator";
             this.radioFunctionGenerator.Size = new System.Drawing.Size(72, 17);
-            this.radioFunctionGenerator.TabIndex = 1;
-            this.radioFunctionGenerator.TabStop = true;
+            this.radioFunctionGenerator.TabIndex = 3;
             this.radioFunctionGenerator.Text = "Generator";
             this.radioFunctionGenerator.UseVisualStyleBackColor = true;
             this.radioFunctionGenerator.CheckedChanged += new System.EventHandler(this.radioFunctionGenerator_CheckedChanged);
@@ -152,11 +133,11 @@
             // radioFunctionMixer
             // 
             this.radioFunctionMixer.AutoSize = true;
-            this.radioFunctionMixer.Location = new System.Drawing.Point(9, 19);
+            this.radioFunctionMixer.ForeColor = System.Drawing.Color.White;
+            this.radioFunctionMixer.Location = new System.Drawing.Point(182, 75);
             this.radioFunctionMixer.Name = "radioFunctionMixer";
             this.radioFunctionMixer.Size = new System.Drawing.Size(50, 17);
-            this.radioFunctionMixer.TabIndex = 0;
-            this.radioFunctionMixer.TabStop = true;
+            this.radioFunctionMixer.TabIndex = 2;
             this.radioFunctionMixer.Text = "Mixer";
             this.radioFunctionMixer.UseVisualStyleBackColor = true;
             this.radioFunctionMixer.CheckedChanged += new System.EventHandler(this.radioFunctionMixer_CheckedChanged);
@@ -164,10 +145,10 @@
             // trackMixerI
             // 
             this.trackMixerI.LargeChange = 1;
-            this.trackMixerI.Location = new System.Drawing.Point(12, 63);
+            this.trackMixerI.Location = new System.Drawing.Point(12, 71);
             this.trackMixerI.Maximum = 7;
             this.trackMixerI.Name = "trackMixerI";
-            this.trackMixerI.Size = new System.Drawing.Size(135, 45);
+            this.trackMixerI.Size = new System.Drawing.Size(131, 45);
             this.trackMixerI.TabIndex = 5;
             this.trackMixerI.Scroll += new System.EventHandler(this.trackMixerI_Scroll);
             // 
@@ -175,7 +156,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(48, 95);
+            this.label1.Location = new System.Drawing.Point(46, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 6;
@@ -185,26 +166,49 @@
             // 
             this.checkBiasTee.AutoSize = true;
             this.checkBiasTee.ForeColor = System.Drawing.Color.White;
-            this.checkBiasTee.Location = new System.Drawing.Point(12, 114);
+            this.checkBiasTee.Location = new System.Drawing.Point(182, 42);
             this.checkBiasTee.Name = "checkBiasTee";
             this.checkBiasTee.Size = new System.Drawing.Size(68, 17);
-            this.checkBiasTee.TabIndex = 7;
-            this.checkBiasTee.Text = "Bias Tee";
+            this.checkBiasTee.TabIndex = 4;
+            this.checkBiasTee.Text = "Bias-Tee";
             this.checkBiasTee.UseVisualStyleBackColor = true;
             this.checkBiasTee.CheckedChanged += new System.EventHandler(this.checkBiasTee_CheckedChanged);
+            // 
+            // groupSweep
+            // 
+            this.groupSweep.ForeColor = System.Drawing.Color.White;
+            this.groupSweep.Location = new System.Drawing.Point(12, 122);
+            this.groupSweep.Name = "groupSweep";
+            this.groupSweep.Size = new System.Drawing.Size(238, 225);
+            this.groupSweep.TabIndex = 8;
+            this.groupSweep.TabStop = false;
+            this.groupSweep.Text = "Sweep";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(143, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 22);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Hz";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(553, 240);
+            this.ClientSize = new System.Drawing.Size(262, 380);
+            this.Controls.Add(this.radioFunctionMixer);
+            this.Controls.Add(this.radioFunctionGenerator);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.groupSweep);
             this.Controls.Add(this.checkBiasTee);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackMixerI);
-            this.Controls.Add(this.groupFunction);
             this.Controls.Add(this.textFrequency);
-            this.Controls.Add(this.btnFreqSet);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -219,8 +223,6 @@
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            this.groupFunction.ResumeLayout(false);
-            this.groupFunction.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -236,14 +238,14 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private System.Windows.Forms.Button btnFreqSet;
         private System.Windows.Forms.TextBox textFrequency;
-        private System.Windows.Forms.GroupBox groupFunction;
         private System.Windows.Forms.RadioButton radioFunctionGenerator;
         private System.Windows.Forms.RadioButton radioFunctionMixer;
         private System.Windows.Forms.TrackBar trackMixerI;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBiasTee;
+        private System.Windows.Forms.GroupBox groupSweep;
+        private System.Windows.Forms.Label label2;
     }
 }
 

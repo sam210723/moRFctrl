@@ -32,6 +32,11 @@ namespace moRFctrl
             statusStrip.BackColor = Color.FromArgb(55, 55, 55);
 
             toolStripStatusLabel.Text = "Initialising";
+
+            textFrequency.SelectionStart = textFrequency.TextLength;
+
+            // Initial device poll
+            //moRFeus.GetFrequency();
         }
 
         #region Properties
@@ -66,9 +71,12 @@ namespace moRFctrl
         /// <summary>
         /// Set generator frequency
         /// </summary>
-        private void btnFreqSet_Click(object sender, EventArgs e)
+        private void textFrequency_KeyPress(object sender, KeyPressEventArgs e)
         {
-            moRFeus.SetFrequency(int.Parse(textFrequency.Text));
+            if (e.KeyChar == (char)13 && textFrequency.Text != "")
+            {
+                moRFeus.SetFrequency(int.Parse(textFrequency.Text));
+            }
         }
 
         /// <summary>

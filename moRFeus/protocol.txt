@@ -25,12 +25,15 @@ reply from moRFeus (16 bytes) when in mixer mode:
 reply from moRFeus (16 bytes) when in generator mode:
 0x72,0x82,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,x00,0x00,0x00
 
-general: first byte is 0x72 for “get”-ing and 0x77 for “set”-ing. second byte is 0x81 for frequency, 0x82 for function (mixer/generator), 0x83 for mixer current, 0x84 for biastee on(1) and off(0).
+general: first byte is 0x72 for ï¿½getï¿½-ing and 0x77 for ï¿½setï¿½-ing.
+second byte is 0x81 for frequency, 0x82 for function (mixer/generator), 0x83 for mixer current, 0x84 for biastee on(1) and off(0).
 Value to be set is sent in the next eight bytes (and returned in those eight bytes), and after these 10 bytes (1+1+8), 6 bytes of zero padding is sent.
 
-Please note this is as the protocol works in raw form. Depending upon OS and libraries used, there might be complications (for example windows expects an extra byte to be sent before the sent report).
+Please note this is as the protocol works in raw form. Depending upon OS and libraries used, there might be complications
+(for example windows expects an extra byte to be sent before the sent report).
 
 Also, the protocol may change on a firmware update, and comes with no support.
-The command line tools released above are the preferred options for scripting (sweep could easily be implemented by calling out to the tools from python, for example, instead of re-implementing the protocol in python).
+The command line tools released above are the preferred options for scripting
+(sweep could easily be implemented by calling out to the tools from python, for example, instead of re-implementing the protocol in python).
 
 https://forums.othernet.is/t/rf-product-morfeus-frequency-converter-and-signal-generator/5025/57
