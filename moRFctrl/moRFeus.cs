@@ -20,11 +20,12 @@ namespace moRFctrl
         public static int BIAS_OFF = 0;
         public static int BIAS_ON = 1;
 
+        #region Set
         /// <summary>
         /// Set generator frequency
         /// </summary>
         /// <param name="freq">Frequency in Hz</param>
-        public static void SetFrequency(int freq)
+        public static void SetFrequency(UInt64 freq)
         {
             byte[] type = typeSet;
             byte[] param = paramFreq;
@@ -113,6 +114,21 @@ namespace moRFctrl
                 return;
             }
         }
+        #endregion
+
+        #region Get
+        /// <summary>
+        /// Get generator frequency
+        /// </summary>
+        public static void GetFrequency()
+        {
+            byte[] type = typeGet;
+            byte[] param = paramFreq;
+            byte[] val = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+            SendCommand(type, param, val);
+        }
+        #endregion
 
         /// <summary>
         /// Build moRFeus protocol command and send as HID report
@@ -127,6 +143,7 @@ namespace moRFctrl
             Buffer.BlockCopy(val, 0, cmd, type.Length + param.Length, val.Length);
             Buffer.BlockCopy(pad, 0, cmd, type.Length + param.Length + val.Length, pad.Length);
 
+            Console.WriteLine("\nTo HID:");
             Console.WriteLine(BitConverter.ToString(cmd).Replace("-", string.Empty));
             Console.WriteLine(cmd.Length);
             Program.HIDClass.WriteHIDReport(cmd);

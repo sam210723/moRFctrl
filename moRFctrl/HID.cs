@@ -1,4 +1,5 @@
 ﻿using HidSharp;
+using HidSharp.Reports;
 using System;
 using System.Linq;
 using System.Threading;
@@ -39,16 +40,16 @@ namespace moRFctrl
             // Indicate connection status
             if (moRFeusDetected)
             {
-                Program.MainClass.StatusMessage = "Found Othernet moRFeus";
-                Console.WriteLine("Found Othernet moRFeus: ");
-                Console.WriteLine(moRFeusDevice.DevicePath + "\n");
+                Program.MainClass.StatusMessage = "Found moRFeus";
+                Console.WriteLine("Found moRFeus: ");
+                Console.WriteLine(moRFeusDevice.DevicePath);
 
                 ConfigDevice();
             }
             else
             {
-                Program.MainClass.StatusMessage = "No Othernet moRFeus found";
-                Console.WriteLine("No Othernet moRFeus found\n");
+                Program.MainClass.StatusMessage = "No moRFeus found";
+                Console.WriteLine("No moRFeus found\n");
             }
         }
 
@@ -60,11 +61,32 @@ namespace moRFctrl
             HidStream hidStream;
             if (moRFeusDevice.TryOpen(out hidStream))
             {
-                Console.WriteLine("Opened HID stream");
-                hidStream.ReadTimeout = Timeout.Infinite;
-
                 moRFeusStream = hidStream;
+                Console.WriteLine("Connected to moRFeus");
+                Program.MainClass.StatusMessage = "Connected to moRFeus";
+                moRFeusStream.ReadTimeout = Timeout.Infinite;
+
+
+                byte[] inputReportBuffer = new byte[moRFeusDevice.GetMaxInputReportLength()];
+                ReportDescriptor reportDescriptor = moRFeusDevice.GetReportDescriptor();
+                HidSharp.Reports.Input.HidDeviceInputReceiver inputReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
+
+                inputReceiver.Received += (sender, e) =>
+                {
+                    Report report;
+                    while (inputReceiver.TryRead(inputReportBuffer, 0, out report))
+                    {
+                        Console.WriteLine("\nFrom HID:");
+                        Console.WriteLine(BitConverter.ToString(inputReportBuffer).Replace("-", string.Empty));
+                        Console.WriteLine(report.Length);
+                    }
+                };
+                inputReceiver.Start(hidStream);
+                
+                moRFeusStream.Closed += new EventHandler(Disconnected);
                 moRFeusOpen = true;
+
+                //Program.MainClass.PollDevice();
             }
         }
 
@@ -75,8 +97,21 @@ namespace moRFctrl
         {
             if (moRFeusOpen)
             {
-                moRFeusStream.Write(report);
+                try
+                {
+                    moRFeusStream.Write(report);
+                }
+                catch (System.IO.IOException e)
+                {
+                    Disconnected(null, null);
+                }
             }
+        }
+
+        private void Disconnected(object sender, EventArgs e)
+        {
+            moRFeusOpen = false;
+            Program.MainClass.StatusMessage = "Lost connection to moRFeus";
         }
 
         #region Properties

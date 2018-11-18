@@ -34,9 +34,13 @@ namespace moRFctrl
             toolStripStatusLabel.Text = "Initialising";
 
             textFrequency.SelectionStart = textFrequency.TextLength;
+        }
 
-            // Initial device poll
-            //moRFeus.GetFrequency();
+        /// <summary>
+        /// Get initial state of the device and update UI elements
+        /// </summary>
+        public void PollDevice() {
+            moRFeus.GetFrequency();
         }
 
         #region Properties
@@ -75,7 +79,17 @@ namespace moRFctrl
         {
             if (e.KeyChar == (char)13 && textFrequency.Text != "")
             {
-                moRFeus.SetFrequency(int.Parse(textFrequency.Text));
+                // Frequency within moRFeus range
+                if (UInt64.Parse(textFrequency.Text) > 5400000000)
+                {
+                    textFrequency.Text = "5400000000";
+                }
+                else if (UInt64.Parse(textFrequency.Text) < 85000000)
+                {
+                    textFrequency.Text = "85000000";
+                }
+
+                moRFeus.SetFrequency(UInt64.Parse(textFrequency.Text));
             }
         }
 
