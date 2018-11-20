@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,8 +16,6 @@ namespace moRFctrl
     /// </summary>
     public partial class Main : Form
     {
-        Sweep currentSweep = null;
-
         public Main()
         {
             InitializeComponent();
@@ -345,14 +344,23 @@ namespace moRFctrl
         private void btnSweep_Click(object sender, EventArgs e)
         {
             // Start new sweep
-            if (currentSweep == null)
+            if (Program.SweepThread == null)
             {
                 UInt64 start = (UInt64) numStartFreq.Value;
                 UInt64 stop = (UInt64) numStopFreq.Value;
                 UInt64 step = (UInt64) numStepSize.Value;
                 double dwell = (double) numDwellTime.Value;
 
-                // Update UI elements
+                // Disable UI elements
+                textFrequency.Enabled = false;
+                trackMixerI.Enabled = false;
+                labelMixerI.ForeColor = Color.DarkSlateGray;
+                checkBiasTee.AutoCheck = false;
+                checkBiasTee.ForeColor = Color.DarkSlateGray;
+                radioFunctionMixer.AutoCheck = false;
+                radioFunctionMixer.ForeColor = Color.DarkSlateGray;
+                radioFunctionGenerator.AutoCheck = false;
+                radioFunctionGenerator.ForeColor = Color.DarkSlateGray;
                 btnSweep.Text = "Stop";
                 numStartFreq.Enabled = false;
                 labelSweepStart.ForeColor = Color.DarkSlateGray;
@@ -364,14 +372,25 @@ namespace moRFctrl
                 labelSweepDwell.ForeColor = Color.DarkSlateGray;
 
                 // Start new sweep
-                currentSweep = new Sweep(start, stop, step, dwell);
+                Program.SweepThread = new Thread(() => Program.SweepThreadStart(start, stop, step, dwell));
+                Program.SweepThread.Start();
             }
             else  // Stop current sweep
             {
                 StatusMessage = "Sweep stopped";
-                currentSweep = null;
+                Program.SweepThread.Abort();
+                Program.SweepThread = null;
 
-                // Update UI elements
+                // Enable UI elements
+                textFrequency.Enabled = true;
+                trackMixerI.Enabled = true;
+                labelMixerI.ForeColor = Color.White;
+                checkBiasTee.Enabled = true;
+                checkBiasTee.ForeColor = Color.White;
+                radioFunctionMixer.AutoCheck = true;
+                radioFunctionMixer.ForeColor = Color.White;
+                radioFunctionGenerator.AutoCheck = true;
+                radioFunctionGenerator.ForeColor = Color.White;
                 btnSweep.Text = "Start";
                 numStartFreq.Enabled = true;
                 labelSweepStart.ForeColor = Color.White;

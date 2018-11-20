@@ -39,7 +39,7 @@
             this.radioFunctionGenerator = new System.Windows.Forms.RadioButton();
             this.radioFunctionMixer = new System.Windows.Forms.RadioButton();
             this.trackMixerI = new System.Windows.Forms.TrackBar();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelMixerI = new System.Windows.Forms.Label();
             this.checkBiasTee = new System.Windows.Forms.CheckBox();
             this.groupSweep = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -102,7 +102,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -171,15 +171,15 @@
             this.trackMixerI.TabIndex = 5;
             this.trackMixerI.Scroll += new System.EventHandler(this.trackMixerI_Scroll);
             // 
-            // label1
+            // labelMixerI
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(46, 102);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Mixer Current";
+            this.labelMixerI.AutoSize = true;
+            this.labelMixerI.ForeColor = System.Drawing.Color.White;
+            this.labelMixerI.Location = new System.Drawing.Point(46, 102);
+            this.labelMixerI.Name = "labelMixerI";
+            this.labelMixerI.Size = new System.Drawing.Size(69, 13);
+            this.labelMixerI.TabIndex = 6;
+            this.labelMixerI.Text = "Mixer Current";
             // 
             // checkBiasTee
             // 
@@ -434,7 +434,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupSweep);
             this.Controls.Add(this.checkBiasTee);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelMixerI);
             this.Controls.Add(this.trackMixerI);
             this.Controls.Add(this.textFrequency);
             this.Controls.Add(this.statusStrip);
@@ -478,7 +478,7 @@
         private System.Windows.Forms.RadioButton radioFunctionGenerator;
         private System.Windows.Forms.RadioButton radioFunctionMixer;
         private System.Windows.Forms.TrackBar trackMixerI;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelMixerI;
         private System.Windows.Forms.CheckBox checkBiasTee;
         private System.Windows.Forms.GroupBox groupSweep;
         private System.Windows.Forms.Label label2;

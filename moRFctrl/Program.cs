@@ -12,10 +12,12 @@ namespace moRFctrl
         // Classes
         public static Main MainClass;
         public static HID HIDClass;
+        public static Sweep SweepClass;
 
         // Threads
         private static Thread MainThread;
         private static Thread HIDThread;
+        public static Thread SweepThread;
 
         // Globals
         static bool confirmExit = false;
@@ -47,6 +49,11 @@ namespace moRFctrl
         private static void HIDThreadStart()
         {
             HIDClass = new HID();
+        }
+
+        public static void SweepThreadStart(UInt64 start, UInt64 stop, UInt64 step, double dwell)
+        {
+            SweepClass = new Sweep(start, stop, step, dwell);
         }
         #endregion
 

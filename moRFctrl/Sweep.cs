@@ -20,7 +20,10 @@ namespace moRFctrl
         /// <param name="dwell">Dwell time (s)</param>
         public Sweep(UInt64 start, UInt64 stop, UInt64 step, double dwell)
         {
-            
+            Console.WriteLine("\nSTARTING SWEEP");
+            Console.Write(string.Format("Start:  {0} Hz\nStop:   {1} Hz\nStep:   {2} Hz\nDwell:  {3}s\n\n", start, stop, step, dwell));
+
+
         }
 
         /// <summary>
