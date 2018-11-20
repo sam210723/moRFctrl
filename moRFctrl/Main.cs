@@ -75,7 +75,7 @@ namespace moRFctrl
         /// <summary>
         /// Begin frequency sweep
         /// </summary>
-        private void BeginSweep()
+        private void DoSweep()
         {
             // Start new sweep
             if (Program.SweepThread == null)
@@ -85,25 +85,7 @@ namespace moRFctrl
                 UInt64 step = (UInt64)numStepSize.Value;
                 double dwell = (double)numDwellTime.Value;
 
-                // Disable UI elements
-                textFrequency.Enabled = false;
-                trackMixerI.Enabled = false;
-                labelMixerI.ForeColor = Color.DarkSlateGray;
-                checkBiasTee.AutoCheck = false;
-                checkBiasTee.ForeColor = Color.DarkSlateGray;
-                radioFunctionMixer.AutoCheck = false;
-                radioFunctionMixer.ForeColor = Color.DarkSlateGray;
-                radioFunctionGenerator.AutoCheck = false;
-                radioFunctionGenerator.ForeColor = Color.DarkSlateGray;
-                btnSweep.Text = "Stop";
-                numStartFreq.Enabled = false;
-                labelSweepStart.ForeColor = Color.DarkSlateGray;
-                numStopFreq.Enabled = false;
-                labelSweepStop.ForeColor = Color.DarkSlateGray;
-                numStepSize.Enabled = false;
-                labelSweepStep.ForeColor = Color.DarkSlateGray;
-                numDwellTime.Enabled = false;
-                labelSweepDwell.ForeColor = Color.DarkSlateGray;
+                DisableSweepUI();
 
                 // Start new sweep
                 Program.SweepThread = new Thread(() => Program.SweepThreadStart(start, stop, step, dwell));
@@ -115,6 +97,23 @@ namespace moRFctrl
                 Program.SweepThread.Abort();
                 Program.SweepThread = null;
 
+                EnableSweepUI();
+            }
+        }
+
+        /// <summary>
+        /// Enable sweep UI elements
+        /// </summary>
+        public void EnableSweepUI()
+        {
+            if (textFrequency.InvokeRequired)
+            {
+                textFrequency.BeginInvoke(new MethodInvoker(delegate {
+                    EnableSweepUI();
+                }));
+            }
+            else
+            {
                 // Enable UI elements
                 textFrequency.Enabled = true;
                 trackMixerI.Enabled = true;
@@ -135,6 +134,41 @@ namespace moRFctrl
                 numDwellTime.Enabled = true;
                 labelSweepDwell.ForeColor = Color.White;
                 SweepProgress = 0;
+            }
+        }
+
+        /// <summary>
+        /// Disable sweep UI elements
+        /// </summary>
+        public void DisableSweepUI()
+        {
+            if (textFrequency.InvokeRequired)
+            {
+                textFrequency.BeginInvoke(new MethodInvoker(delegate {
+                    DisableSweepUI();
+                }));
+            }
+            else
+            {
+                // Disable UI elements
+                textFrequency.Enabled = false;
+                trackMixerI.Enabled = false;
+                labelMixerI.ForeColor = Color.DarkSlateGray;
+                checkBiasTee.AutoCheck = false;
+                checkBiasTee.ForeColor = Color.DarkSlateGray;
+                radioFunctionMixer.AutoCheck = false;
+                radioFunctionMixer.ForeColor = Color.DarkSlateGray;
+                radioFunctionGenerator.AutoCheck = false;
+                radioFunctionGenerator.ForeColor = Color.DarkSlateGray;
+                btnSweep.Text = "Stop";
+                numStartFreq.Enabled = false;
+                labelSweepStart.ForeColor = Color.DarkSlateGray;
+                numStopFreq.Enabled = false;
+                labelSweepStop.ForeColor = Color.DarkSlateGray;
+                numStepSize.Enabled = false;
+                labelSweepStep.ForeColor = Color.DarkSlateGray;
+                numDwellTime.Enabled = false;
+                labelSweepDwell.ForeColor = Color.DarkSlateGray;
             }
         }
 
@@ -421,7 +455,7 @@ namespace moRFctrl
         /// </summary>
         private void btnSweep_Click(object sender, EventArgs e)
         {
-            BeginSweep();
+            DoSweep();
         }
 
         /// <summary>

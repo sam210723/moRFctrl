@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace moRFctrl
@@ -11,6 +12,8 @@ namespace moRFctrl
     /// </summary>
     class Sweep
     {
+        public UInt64 currentFrequency = 0;
+
         /// <summary>
         /// Begin frequency sweep
         /// </summary>
@@ -27,11 +30,33 @@ namespace moRFctrl
             // Initial config
             moRFeus.SetFunction(moRFeus.FUNC_GENERATOR);
             moRFeus.SetFrequency(start);
+            moRFeus.GetFrequency();
             Program.MainClass.SweepProgress = 0;
             Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(start, stop, step, dwell));
 
             // Do sweep
+            UInt64 bandwidth = stop - start;
+            UInt64 steps = bandwidth / step;
+            UInt64 i = 1;
+            while (i < steps)
+            {
+                Thread.Sleep((int)(dwell * 1000));
 
+                UInt64 newFrequency = start + (step * i);
+                if (newFrequency > 5400000000)
+                {
+                    newFrequency = 5400000000;
+                }
+                moRFeus.SetFrequency(newFrequency);
+
+                Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(newFrequency, stop, step, dwell));
+                Program.MainClass.SweepProgress = (int) Math.Round((double) i / steps * 100);
+                i += 1;
+            }
+
+            Program.MainClass.SweepProgress = 100;
+            Program.MainClass.StatusMessage = "Sweep finished";
+            Program.MainClass.EnableSweepUI();
         }
 
         /// <summary>

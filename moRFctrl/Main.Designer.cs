@@ -134,7 +134,6 @@
             this.textFrequency.Name = "textFrequency";
             this.textFrequency.Size = new System.Drawing.Size(131, 32);
             this.textFrequency.TabIndex = 0;
-            this.textFrequency.Text = "1000000000";
             this.textFrequency.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textFrequency_KeyPress);
             // 
             // radioFunctionGenerator

@@ -192,7 +192,7 @@ namespace moRFctrl
             {
                 Console.WriteLine("Parameter: FREQUENCY");
 
-                Program.MainClass.Frequency = BitConverter.ToInt64(val.Reverse().ToArray(), 0).ToString();
+                Program.MainClass.Frequency = BitConverter.ToUInt64(val.Reverse().ToArray(), 0).ToString();
             }
             else if (param == paramFunc[0])
             {

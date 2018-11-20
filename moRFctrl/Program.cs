@@ -79,6 +79,8 @@ namespace moRFctrl
             }
 
             Console.WriteLine("Application exiting with code {0}", code);
+            HIDThread.Abort();
+            SweepThread?.Abort();
 
             //Environment.Exit(code);
             Application.Exit();
