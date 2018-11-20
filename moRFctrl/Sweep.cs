@@ -23,6 +23,7 @@ namespace moRFctrl
             moRFeus.GetFrequency();
 
             // Initial GQRX config
+            //TODO: Handle sweep after initial sweep + connection
             Program.MainClass.StatusMessage = "Connecting to GQRX...";
             if (Program.GQRXThread.ThreadState != ThreadState.Running)
             {
@@ -46,10 +47,11 @@ namespace moRFctrl
 
 
             // Do sweep
+            // TODO: Comments
             Program.MainClass.StatusMessage = "Starting sweep";
             UInt64 bandwidth = stop - start;
             UInt64 steps = bandwidth / step;
-            UInt64 i = 1;
+            UInt64 i = 0;
             UInt64 newFrequency = 0;
             while (newFrequency < stop)
             {
