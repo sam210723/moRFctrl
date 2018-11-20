@@ -316,6 +316,15 @@ namespace moRFctrl
         {
             Program.CleanExit(0, null);
         }
+
+        /// <summary>
+        /// Show About dialog
+        /// </summary>
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About aboutDialog = new About();
+            aboutDialog.ShowDialog();
+        }
         #endregion
     }
 }
