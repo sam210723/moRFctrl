@@ -10,11 +10,13 @@ namespace moRFctrl
         public static Main MainClass;
         public static HID HIDClass;
         public static Sweep SweepClass;
+        public static gqrx GQRXClass;
 
         // Threads
         private static Thread MainThread;
         private static Thread HIDThread;
         public static Thread SweepThread;
+        public static Thread GQRXThread;
 
         // Globals
         static bool confirmExit = false;
@@ -34,6 +36,7 @@ namespace moRFctrl
             // Create threads
             MainThread = Thread.CurrentThread;
             HIDThread = new Thread(new ThreadStart(HIDThreadStart));
+            GQRXThread = new Thread(new ThreadStart(GQRXThreadStart));
 
             // Start threads
             HIDThread.Start();
@@ -51,6 +54,11 @@ namespace moRFctrl
         public static void SweepThreadStart(UInt64 start, UInt64 stop, UInt64 step, double dwell)
         {
             SweepClass = new Sweep(start, stop, step, dwell);
+        }
+
+        public static void GQRXThreadStart()
+        {
+            GQRXClass = new gqrx();
         }
         #endregion
 
@@ -78,6 +86,7 @@ namespace moRFctrl
             Console.WriteLine("Application exiting with code {0}", code);
             HIDThread.Abort();
             SweepThread?.Abort();
+            GQRXThread?.Abort();
 
             //Environment.Exit(code);
             Application.Exit();

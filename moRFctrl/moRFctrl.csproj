@@ -55,6 +55,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="gqrx.cs" />
     <Compile Include="HID.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>

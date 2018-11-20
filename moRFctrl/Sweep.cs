@@ -8,8 +8,6 @@ namespace moRFctrl
     /// </summary>
     class Sweep
     {
-        public UInt64 currentFrequency = 0;
-
         /// <summary>
         /// Begin frequency sweep
         /// </summary>
@@ -19,18 +17,36 @@ namespace moRFctrl
         /// <param name="dwell">Dwell time (s)</param>
         public Sweep(UInt64 start, UInt64 stop, UInt64 step, double dwell)
         {
-            Program.MainClass.StatusMessage = "Starting sweep";
-            Console.WriteLine("\nSTARTING SWEEP");
-            Console.Write(string.Format("Start:  {0} Hz\nStop:   {1} Hz\nStep:   {2} Hz\nDwell:  {3}s\n\n", start, stop, step, dwell));
-
-            // Initial config
+            // Initial moRFeus config
             moRFeus.SetFunction(moRFeus.FUNC_GENERATOR);
             moRFeus.SetFrequency(start);
             moRFeus.GetFrequency();
+
+            // Initial GQRX config
+            Program.MainClass.StatusMessage = "Connecting to GQRX...";
+            if (Program.GQRXThread.ThreadState != ThreadState.Running)
+            {
+                Program.GQRXThread.Start();
+            }
+            Thread.Sleep(500);
+
+            if (Program.GQRXClass.IsConnected)
+            {
+                Program.MainClass.StatusMessage = "GQRX connection ready";
+            }
+            else
+            {
+                Program.MainClass.StatusMessage = "GQRX connection failed";
+            }
+            Thread.Sleep(1000);
+
+            // Initial UI config
             Program.MainClass.SweepProgress = 0;
             Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(start, stop, step, dwell));
 
+
             // Do sweep
+            Program.MainClass.StatusMessage = "Starting sweep";
             UInt64 bandwidth = stop - start;
             UInt64 steps = bandwidth / step;
             UInt64 i = 1;
@@ -45,6 +61,12 @@ namespace moRFctrl
                     newFrequency = 5400000000;
                 }
                 moRFeus.SetFrequency(newFrequency);
+                
+                if (Program.GQRXClass.IsConnected)
+                {
+                    Program.GQRXClass.SetFrequency(newFrequency);
+                }
+
 
                 Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(newFrequency, stop, step, dwell));
                 

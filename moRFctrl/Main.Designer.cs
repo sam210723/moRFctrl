@@ -377,7 +377,7 @@
             this.numDwellTime.TabIndex = 9;
             this.numDwellTime.ThousandsSeparator = true;
             this.numDwellTime.Value = new decimal(new int[] {
-            4,
+            2,
             0,
             0,
             0});
