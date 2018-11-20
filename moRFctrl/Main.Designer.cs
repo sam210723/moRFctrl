@@ -129,6 +129,7 @@
             this.textFrequency.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textFrequency.ForeColor = System.Drawing.Color.White;
             this.textFrequency.Location = new System.Drawing.Point(12, 34);
+            this.textFrequency.MaxLength = 10;
             this.textFrequency.Name = "textFrequency";
             this.textFrequency.Size = new System.Drawing.Size(131, 32);
             this.textFrequency.TabIndex = 0;

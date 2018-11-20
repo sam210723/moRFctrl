@@ -180,7 +180,12 @@ namespace moRFctrl
             else if (type == typeSet[1])
             {
                 Console.WriteLine("Report Type: SET");
-                return;
+
+                // Only parse set report for frequency
+                if (param != paramFreq[0])
+                {
+                    return;
+                }
             }
 
             if (param == paramFreq[0])
