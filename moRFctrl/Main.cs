@@ -15,6 +15,8 @@ namespace moRFctrl
     /// </summary>
     public partial class Main : Form
     {
+        Sweep currentSweep = null;
+
         public Main()
         {
             InitializeComponent();
@@ -47,6 +49,42 @@ namespace moRFctrl
             moRFeus.GetMixerCurrent();
             moRFeus.GetFunction();
             moRFeus.GetFrequency();
+        }
+
+        /// <summary>
+        /// Trigger full sweep time calculation and display in human readable form
+        /// </summary>
+        private void GetSweepTime()
+        {
+            UInt64 start = (UInt64)numStartFreq.Value;
+            UInt64 stop = (UInt64)numStopFreq.Value;
+            UInt64 step = (UInt64)numStepSize.Value;
+            double dwell = (double)numDwellTime.Value;
+
+            // Keep stop bigger than start
+            if (start > stop)
+            {
+                numStartFreq.Value = stop;
+                numStopFreq.Value = start;
+                return;
+            }
+
+            // Human readable time
+            double time = Sweep.Time(start, stop, step, dwell);
+            TimeSpan span = TimeSpan.FromSeconds(time);
+            
+            if (span.Hours == 0 && span.Minutes == 0)
+            {
+                StatusMessage = string.Format("Sweep time: {0}s", span.Seconds);
+            }
+            else if (span.Hours == 0)
+            {
+                StatusMessage = string.Format("Sweep time: {0}m {1}s", span.Minutes, span.Seconds);
+            }
+            else
+            {
+                StatusMessage = string.Format("Sweep time: {0}h {1}m {2}s", span.Hours, span.Minutes, span.Seconds);
+            }
         }
 
         #region Properties
@@ -299,6 +337,83 @@ namespace moRFctrl
             {
                 moRFeus.SetBiasTee(moRFeus.BIAS_OFF);
             }
+        }
+
+        /// <summary>
+        /// Begin frequency sweep
+        /// </summary>
+        private void btnSweep_Click(object sender, EventArgs e)
+        {
+            // Start new sweep
+            if (currentSweep == null)
+            {
+                UInt64 start = (UInt64) numStartFreq.Value;
+                UInt64 stop = (UInt64) numStopFreq.Value;
+                UInt64 step = (UInt64) numStepSize.Value;
+                double dwell = (double) numDwellTime.Value;
+
+                // Update UI elements
+                btnSweep.Text = "Stop";
+                numStartFreq.Enabled = false;
+                labelSweepStart.ForeColor = Color.DarkSlateGray;
+                numStopFreq.Enabled = false;
+                labelSweepStop.ForeColor = Color.DarkSlateGray;
+                numStepSize.Enabled = false;
+                labelSweepStep.ForeColor = Color.DarkSlateGray;
+                numDwellTime.Enabled = false;
+                labelSweepDwell.ForeColor = Color.DarkSlateGray;
+
+                // Start new sweep
+                currentSweep = new Sweep(start, stop, step, dwell);
+            }
+            else  // Stop current sweep
+            {
+                StatusMessage = "Sweep stopped";
+                currentSweep = null;
+
+                // Update UI elements
+                btnSweep.Text = "Start";
+                numStartFreq.Enabled = true;
+                labelSweepStart.ForeColor = Color.White;
+                numStopFreq.Enabled = true;
+                labelSweepStop.ForeColor = Color.White;
+                numStepSize.Enabled = true;
+                labelSweepStep.ForeColor = Color.White;
+                numDwellTime.Enabled = true;
+                labelSweepDwell.ForeColor = Color.White;
+            }
+        }
+
+        /// <summary>
+        /// Estimate full sweep time on change
+        /// </summary>
+        private void numStartFreq_ValueChanged(object sender, EventArgs e)
+        {
+            GetSweepTime();
+        }
+
+        /// <summary>
+        /// Estimate full sweep time on change
+        /// </summary>
+        private void numStopFreq_ValueChanged(object sender, EventArgs e)
+        {
+            GetSweepTime();
+        }
+
+        /// <summary>
+        /// Estimate full sweep time on change
+        /// </summary>
+        private void numStepSize_ValueChanged(object sender, EventArgs e)
+        {
+            GetSweepTime();
+        }
+
+        /// <summary>
+        /// Estimate full sweep time on change
+        /// </summary>
+        private void numDwellTime_ValueChanged(object sender, EventArgs e)
+        {
+            GetSweepTime();
         }
 
         /// <summary>
