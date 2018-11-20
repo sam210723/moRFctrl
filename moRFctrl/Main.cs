@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace moRFctrl
 {
+    /// <summary>
+    /// Main UI form
+    /// </summary>
     public partial class Main : Form
     {
         public Main()

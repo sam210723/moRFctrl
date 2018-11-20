@@ -12,10 +12,12 @@ namespace moRFctrl
         // Classes
         public static Main MainClass;
         public static HID HIDClass;
+        public static Sweep SweepClass;
 
         // Threads
         private static Thread MainThread;
         private static Thread HIDThread;
+        private static Thread SweepThread;
 
         // Globals
         static bool confirmExit = false;
@@ -35,9 +37,11 @@ namespace moRFctrl
             // Create threads
             MainThread = Thread.CurrentThread;
             HIDThread = new Thread(new ThreadStart(HIDThreadStart));
+            SweepThread = new Thread(new ThreadStart(SweepThreadStart));
 
             // Start threads
             HIDThread.Start();
+            SweepThread.Start();
 
             // Start main form
             Application.Run(MainClass);
@@ -47,6 +51,11 @@ namespace moRFctrl
         private static void HIDThreadStart()
         {
             HIDClass = new HID();
+        }
+
+        private static void SweepThreadStart()
+        {
+            SweepClass = new Sweep();
         }
         #endregion
 
