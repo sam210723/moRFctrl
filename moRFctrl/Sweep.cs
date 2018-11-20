@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace moRFctrl
 {
@@ -38,11 +34,12 @@ namespace moRFctrl
             UInt64 bandwidth = stop - start;
             UInt64 steps = bandwidth / step;
             UInt64 i = 1;
-            while (i < steps)
+            UInt64 newFrequency = 0;
+            while (newFrequency < stop)
             {
                 Thread.Sleep((int)(dwell * 1000));
 
-                UInt64 newFrequency = start + (step * i);
+                newFrequency = start + (step * i);
                 if (newFrequency > 5400000000)
                 {
                     newFrequency = 5400000000;
@@ -50,7 +47,16 @@ namespace moRFctrl
                 moRFeus.SetFrequency(newFrequency);
 
                 Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(newFrequency, stop, step, dwell));
-                Program.MainClass.SweepProgress = (int) Math.Round((double) i / steps * 100);
+                
+                // Cap progress bar to 100
+                if ((int) Math.Round((double)i / steps * 100) > 100) {
+                    Program.MainClass.SweepProgress = 100;
+                }
+                else
+                {
+                    Program.MainClass.SweepProgress = (int) Math.Round((double)i / steps * 100);
+                }
+
                 i += 1;
             }
 

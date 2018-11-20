@@ -371,7 +371,7 @@
             1,
             0,
             0,
-            131072});
+            65536});
             this.numDwellTime.Name = "numDwellTime";
             this.numDwellTime.Size = new System.Drawing.Size(107, 20);
             this.numDwellTime.TabIndex = 9;

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace moRFctrl
@@ -95,7 +89,6 @@ namespace moRFctrl
             {
                 StatusMessage = "Sweep stopped";
                 Program.SweepThread.Abort();
-                Program.SweepThread = null;
 
                 EnableSweepUI();
             }
@@ -118,7 +111,7 @@ namespace moRFctrl
                 textFrequency.Enabled = true;
                 trackMixerI.Enabled = true;
                 labelMixerI.ForeColor = Color.White;
-                checkBiasTee.Enabled = true;
+                checkBiasTee.AutoCheck = true;
                 checkBiasTee.ForeColor = Color.White;
                 radioFunctionMixer.AutoCheck = true;
                 radioFunctionMixer.ForeColor = Color.White;
@@ -134,6 +127,8 @@ namespace moRFctrl
                 numDwellTime.Enabled = true;
                 labelSweepDwell.ForeColor = Color.White;
                 SweepProgress = 0;
+
+                Program.SweepThread = null;
             }
         }
 
