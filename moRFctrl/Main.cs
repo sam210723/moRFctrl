@@ -439,7 +439,14 @@ namespace moRFctrl
         {
             if (checkBiasTee.Checked)
             {
-                moRFeus.SetBiasTee(moRFeus.BIAS_ON);
+                if (MessageBox.Show("Enable 5V bias-tee?\nThis can damage some devices!", "Bias-Tee", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    moRFeus.SetBiasTee(moRFeus.BIAS_ON);
+                }
+                else
+                {
+                    checkBiasTee.Checked = false;
+                }
             }
             else
             {
