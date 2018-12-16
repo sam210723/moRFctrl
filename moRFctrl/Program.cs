@@ -40,6 +40,7 @@ namespace moRFctrl
 
             // Start threads
             HIDThread.Start();
+            GQRXThread.Start();
 
             // Start main form
             Application.Run(MainClass);

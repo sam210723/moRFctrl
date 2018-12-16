@@ -22,12 +22,12 @@ namespace moRFctrl
             moRFeus.SetFrequency(start);
             moRFeus.GetFrequency();
 
-            // Initial GQRX config
+            // Initial Gqrx config
             //TODO: Handle sweep after initial sweep + connection
             Program.MainClass.StatusMessage = "Connecting to Gqrx...";
-            if (Program.GQRXThread.ThreadState != ThreadState.Running)
+            if (Program.GQRXClass.IsConnected != true)
             {
-                Program.GQRXThread.Start();
+                Program.GQRXClass.Connect("127.0.0.1");
             }
             Thread.Sleep(500);
 
@@ -47,7 +47,7 @@ namespace moRFctrl
 
 
             //Step sequence globals
-            Program.MainClass.StatusMessage = "Starting step sequence";
+            //Program.MainClass.StatusMessage = "Starting step sequence";
             UInt64 bandwidth = stop - start;
             UInt64 steps = bandwidth / step;
             UInt64 i = 0;

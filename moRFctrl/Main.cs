@@ -91,6 +91,7 @@ namespace moRFctrl
             {
                 StatusMessage = "Step sequence stopped";
                 Program.SweepThread.Abort();
+                Program.GQRXClass.Disconnect();
 
                 EnableUI();
             }

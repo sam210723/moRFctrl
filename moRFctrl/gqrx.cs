@@ -14,24 +14,34 @@ namespace moRFctrl
     class gqrx
     {
         private TcpClient client;
-        private string host = "127.0.0.1";
+        private string host_ = "127.0.0.1";
         private int port = 7356;
 
         public gqrx()
         {
-            Connect();
+            
         }
 
         /// <summary>
         /// Open socket to Gqrx
         /// </summary>
-        private void Connect()
+        public void Connect(string host)
         {
-            Console.WriteLine(string.Format("Connecting to Gqrx ({0}:{1})", host, port));
+            host_ = host;
+            Console.WriteLine(string.Format("Connecting to Gqrx ({0}:{1})", host_, port));
 
             // Open TCP socket to Gqrx remote control
             client = new TcpClient();
-            client.BeginConnect(host, port, new AsyncCallback(Connected), null);
+            client.BeginConnect(host_, port, new AsyncCallback(Connected), null);
+        }
+
+        /// <summary>
+        /// Close socket
+        /// </summary>
+        public void Disconnect()
+        {
+            client.Close();
+            client.Dispose();
         }
 
         /// <summary>
@@ -39,7 +49,7 @@ namespace moRFctrl
         /// </summary>
         private void Connected(IAsyncResult ar)
         {
-            Console.WriteLine(string.Format("Connected to Gqrx ({0}:{1})", host, port));
+            Console.WriteLine(string.Format("Connected to Gqrx ({0}:{1})", host_, port));
 
             // Initial config
             //SetDemod("AM");
@@ -129,11 +139,11 @@ namespace moRFctrl
         {
             get
             {
-                if (client != null)
+                try
                 {
                     return client.Connected;
                 }
-                else
+                catch (NullReferenceException e)
                 {
                     return false;
                 }
