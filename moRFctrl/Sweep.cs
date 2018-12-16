@@ -48,7 +48,7 @@ namespace moRFctrl
 
             // Do sweep
             // TODO: Comments
-            Program.MainClass.StatusMessage = "Starting sweep";
+            Program.MainClass.StatusMessage = "Starting step sequence";
             UInt64 bandwidth = stop - start;
             UInt64 steps = bandwidth / step;
             UInt64 i = 0;
@@ -85,8 +85,8 @@ namespace moRFctrl
             }
 
             Program.MainClass.SweepProgress = 100;
-            Program.MainClass.StatusMessage = "Sweep finished";
-            Program.MainClass.EnableSweepUI();
+            Program.MainClass.StatusMessage = "Step sequence finished";
+            Program.MainClass.EnableUI();
         }
 
         /// <summary>

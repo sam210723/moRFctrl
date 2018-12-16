@@ -203,7 +203,7 @@
             this.groupSweep.Size = new System.Drawing.Size(238, 150);
             this.groupSweep.TabIndex = 8;
             this.groupSweep.TabStop = false;
-            this.groupSweep.Text = "Sweep";
+            this.groupSweep.Text = "Step Generator";
             // 
             // tableLayoutPanel1
             // 

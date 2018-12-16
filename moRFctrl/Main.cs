@@ -32,6 +32,8 @@ namespace moRFctrl
             toolStripStatusLabel.Text = "Initialising";
 
             textFrequency.SelectionStart = textFrequency.TextLength;
+
+            DisableUI();
         }
 
         /// <summary>
@@ -79,7 +81,7 @@ namespace moRFctrl
                 UInt64 step = (UInt64)numStepSize.Value;
                 double dwell = (double)numDwellTime.Value;
 
-                DisableSweepUI();
+                DisableUI();
 
                 // Start new sweep
                 Program.SweepThread = new Thread(() => Program.SweepThreadStart(start, stop, step, dwell));
@@ -90,19 +92,19 @@ namespace moRFctrl
                 StatusMessage = "Sweep stopped";
                 Program.SweepThread.Abort();
 
-                EnableSweepUI();
+                EnableUI();
             }
         }
 
         /// <summary>
-        /// Enable sweep UI elements
+        /// Enable UI elements
         /// </summary>
-        public void EnableSweepUI()
+        public void EnableUI()
         {
             if (textFrequency.InvokeRequired)
             {
                 textFrequency.BeginInvoke(new MethodInvoker(delegate {
-                    EnableSweepUI();
+                    EnableUI();
                 }));
             }
             else
@@ -133,14 +135,14 @@ namespace moRFctrl
         }
 
         /// <summary>
-        /// Disable sweep UI elements
+        /// Disable UI elements
         /// </summary>
-        public void DisableSweepUI()
+        public void DisableUI()
         {
             if (textFrequency.InvokeRequired)
             {
                 textFrequency.BeginInvoke(new MethodInvoker(delegate {
-                    DisableSweepUI();
+                    DisableUI();
                 }));
             }
             else

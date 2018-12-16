@@ -65,6 +65,7 @@ namespace moRFctrl
                 moRFeusStream = hidStream;
                 Console.WriteLine("Connected to moRFeus");
                 Program.MainClass.StatusMessage = "Connected to moRFeus";
+                Program.MainClass.EnableUI();
                 moRFeusStream.ReadTimeout = Timeout.Infinite;
 
 
