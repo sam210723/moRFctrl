@@ -253,7 +253,7 @@
             this.numStepSize.TabIndex = 8;
             this.numStepSize.ThousandsSeparator = true;
             this.numStepSize.Value = new decimal(new int[] {
-            1000000,
+            10000000,
             0,
             0,
             0});
@@ -377,7 +377,7 @@
             this.numDwellTime.TabIndex = 9;
             this.numDwellTime.ThousandsSeparator = true;
             this.numDwellTime.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});

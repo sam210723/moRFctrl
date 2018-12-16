@@ -89,7 +89,7 @@ namespace moRFctrl
             }
             else  // Stop current sweep
             {
-                StatusMessage = "Sweep stopped";
+                StatusMessage = "Step sequence stopped";
                 Program.SweepThread.Abort();
 
                 EnableUI();

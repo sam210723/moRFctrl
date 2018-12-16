@@ -46,37 +46,45 @@ namespace moRFctrl
             Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(start, stop, step, dwell));
 
 
-            // Do sweep
-            // TODO: Comments
+            //Step sequence globals
             Program.MainClass.StatusMessage = "Starting step sequence";
             UInt64 bandwidth = stop - start;
             UInt64 steps = bandwidth / step;
             UInt64 i = 0;
             UInt64 newFrequency = 0;
+
+            // Step loop
             while (newFrequency < stop)
             {
+                // Wait for specified dwell time
                 Thread.Sleep((int)(dwell * 1000));
 
+                //Calculate next frequency in sequence
                 newFrequency = start + (step * i);
+
+                // Cap step frequencies to 5.4 GHz
                 if (newFrequency > 5400000000)
                 {
                     newFrequency = 5400000000;
                 }
+
+                // Update moRFeus generator with next step in sequence
                 moRFeus.SetFrequency(newFrequency);
                 
+                // If GQRX connection is active, tune SDR moRFeus frequency
                 if (Program.GQRXClass.IsConnected)
                 {
                     Program.GQRXClass.SetFrequency(newFrequency);
                 }
 
-
+                // Report remaining time
                 Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(newFrequency, stop, step, dwell));
                 
                 // Cap progress bar to 100
                 if ((int) Math.Round((double)i / steps * 100) > 100) {
                     Program.MainClass.SweepProgress = 100;
                 }
-                else
+                else  // Set sequence progress value
                 {
                     Program.MainClass.SweepProgress = (int) Math.Round((double)i / steps * 100);
                 }
@@ -84,6 +92,7 @@ namespace moRFctrl
                 i += 1;
             }
 
+            // Reset UI to pre-sweep state
             Program.MainClass.SweepProgress = 100;
             Program.MainClass.StatusMessage = "Step sequence finished";
             Program.MainClass.EnableUI();

@@ -53,7 +53,7 @@ namespace moRFctrl
         /// </summary>
         private void vksdrLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://vksdr.com/moRFctrl");
+            System.Diagnostics.Process.Start("https://vksdr.com/morfctrl");
         }
 
         /// <summary>
