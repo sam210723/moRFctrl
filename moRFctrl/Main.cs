@@ -386,6 +386,15 @@ namespace moRFctrl
         /// </summary>
         private void textFrequency_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Only allow digits to be entered
+            if (!char.IsDigit(e.KeyChar))
+            {
+                if (e.KeyChar != 8)  // Special case for backspace
+                {
+                    e.Handled = true;
+                }
+            }
+
             if (e.KeyChar == (char)13 && textFrequency.Text != "")
             {
                 // Frequency within moRFeus range
