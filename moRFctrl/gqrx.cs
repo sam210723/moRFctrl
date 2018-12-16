@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -16,11 +17,6 @@ namespace moRFctrl
         private TcpClient client;
         private string host_ = "127.0.0.1";
         private int port = 7356;
-
-        public gqrx()
-        {
-            
-        }
 
         /// <summary>
         /// Open socket to Gqrx
@@ -91,21 +87,17 @@ namespace moRFctrl
             }
         }
 
-        public int GetStrength()
+        /// <summary>
+        /// Get carrier strength in dBFS
+        /// </summary>
+        /// <returns>Carrier strength as string</returns>
+        public string GetStrength()
         {
-            if (IsConnected)
-            {
-                //TODO: Get signal strength and dump to CSV + UI
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
+            return Get("l");
         }
 
         /// <summary>
-        /// Send data out TCP socket
+        /// Set Gqrx parameter
         /// </summary>
         private void Send(string data)
         {
@@ -128,6 +120,29 @@ namespace moRFctrl
                     Program.MainClass.EnableUI();
                     Program.MainClass.DoSweep();  // Stop the current sequence
                 }
+            }
+        }
+
+        /// <summary>
+        /// Get Gqrx parameter
+        /// </summary>
+        private string Get(string data)
+        {
+            if (IsConnected)
+            {
+                Send(data);
+
+                Byte[] recv = new Byte[64];
+                String responseData = "";
+
+                Int32 bytes = client.GetStream().Read(recv, 0, recv.Length);
+                responseData = System.Text.Encoding.ASCII.GetString(recv, 0, bytes);
+
+                return responseData;
+            }
+            else
+            {
+                return String.Empty;
             }
         }
 

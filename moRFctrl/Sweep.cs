@@ -79,9 +79,8 @@ namespace moRFctrl
                     Thread.Sleep((int)(dwell * 1000) - 50);
 
                     // Get carrier strength
-                    double snr = Program.GQRXClass.GetStrength();
-                    Console.WriteLine("Strength: " + snr.ToString());
-
+                    string snr = Program.GQRXClass.GetStrength();
+                    Console.WriteLine("Strength: " + snr);
                 }
 
                 // Report remaining time
