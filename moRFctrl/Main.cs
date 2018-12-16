@@ -71,7 +71,7 @@ namespace moRFctrl
         /// <summary>
         /// Begin frequency sweep
         /// </summary>
-        private void DoSweep()
+        public void DoSweep()
         {
             // Start new sweep
             if (Program.SweepThread == null)

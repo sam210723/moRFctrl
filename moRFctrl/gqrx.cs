@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace moRFctrl
 {
     /// <summary>
-    /// Handles communication with GQRX
+    /// Handles communication with Gqrx
     /// </summary>
     class gqrx
     {
@@ -23,16 +23,15 @@ namespace moRFctrl
         }
 
         /// <summary>
-        /// Open socket to GQRX
+        /// Open socket to Gqrx
         /// </summary>
         private void Connect()
         {
-            Console.WriteLine(string.Format("Connecting to GQRX ({0}:{1})", host, port));
+            Console.WriteLine(string.Format("Connecting to Gqrx ({0}:{1})", host, port));
 
+            // Open TCP socket to Gqrx remote control
             client = new TcpClient();
             client.BeginConnect(host, port, new AsyncCallback(Connected), null);
-
-            //TODO: Handle disconnect
         }
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace moRFctrl
         /// </summary>
         private void Connected(IAsyncResult ar)
         {
-            Console.WriteLine(string.Format("Connected to GQRX ({0}:{1})", host, port));
+            Console.WriteLine(string.Format("Connected to Gqrx ({0}:{1})", host, port));
 
             // Initial config
             //SetDemod("AM");
@@ -106,7 +105,19 @@ namespace moRFctrl
                 ASCIIEncoding asciiEnc = new ASCIIEncoding();
 
                 byte[] dataBytes = asciiEnc.GetBytes(data + Environment.NewLine);
-                sendStrm.Write(dataBytes, 0, dataBytes.Length);
+
+                try
+                {
+                    sendStrm.Write(dataBytes, 0, dataBytes.Length);
+                }
+                catch (IOException e)
+                {
+                    client.Close();
+                    client.Dispose();
+                    System.Windows.Forms.MessageBox.Show("Lost connection to Gqrx", "Gqrx connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    Program.MainClass.EnableUI();
+                    Program.MainClass.DoSweep();  // Stop the current sequence
+                }
             }
         }
 

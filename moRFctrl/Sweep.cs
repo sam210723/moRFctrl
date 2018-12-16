@@ -24,7 +24,7 @@ namespace moRFctrl
 
             // Initial GQRX config
             //TODO: Handle sweep after initial sweep + connection
-            Program.MainClass.StatusMessage = "Connecting to GQRX...";
+            Program.MainClass.StatusMessage = "Connecting to Gqrx...";
             if (Program.GQRXThread.ThreadState != ThreadState.Running)
             {
                 Program.GQRXThread.Start();
@@ -33,11 +33,11 @@ namespace moRFctrl
 
             if (Program.GQRXClass.IsConnected)
             {
-                Program.MainClass.StatusMessage = "GQRX connection ready";
+                Program.MainClass.StatusMessage = "Gqrx connection ready";
             }
             else
             {
-                Program.MainClass.StatusMessage = "GQRX connection failed";
+                Program.MainClass.StatusMessage = "Gqrx connection failed";
             }
             Thread.Sleep(1000);
 
