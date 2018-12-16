@@ -23,7 +23,6 @@ namespace moRFctrl
             moRFeus.GetFrequency();
 
             // Initial Gqrx config
-            //TODO: Handle sweep after initial sweep + connection
             Program.MainClass.StatusMessage = "Connecting to Gqrx...";
             if (Program.GQRXClass.IsConnected != true)
             {
@@ -56,8 +55,8 @@ namespace moRFctrl
             // Step loop
             while (newFrequency < stop)
             {
-                // Wait for specified dwell time
-                Thread.Sleep((int)(dwell * 1000));
+                // Short delay between SNR reading and frequency change
+                Thread.Sleep((int)(50));
 
                 //Calculate next frequency in sequence
                 newFrequency = start + (step * i);
@@ -71,10 +70,18 @@ namespace moRFctrl
                 // Update moRFeus generator with next step in sequence
                 moRFeus.SetFrequency(newFrequency);
                 
-                // If GQRX connection is active, tune SDR moRFeus frequency
+                // If Gqrx connection is active, tune SDR to moRFeus frequency
                 if (Program.GQRXClass.IsConnected)
                 {
                     Program.GQRXClass.SetFrequency(newFrequency);
+
+                    // Wait for specified dwell time
+                    Thread.Sleep((int)(dwell * 1000) - 50);
+
+                    // Get carrier strength
+                    double snr = Program.GQRXClass.GetStrength();
+                    Console.WriteLine("Strength: " + snr.ToString());
+
                 }
 
                 // Report remaining time
