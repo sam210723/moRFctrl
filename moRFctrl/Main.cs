@@ -34,6 +34,8 @@ namespace moRFctrl
             textFrequency.SelectionStart = textFrequency.TextLength;
 
             DisableUI();
+            btnSweep.Text = "Start";
+            btnSweep.Enabled = false;
         }
 
         /// <summary>
