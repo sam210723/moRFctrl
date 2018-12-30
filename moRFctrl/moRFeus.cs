@@ -164,9 +164,9 @@ namespace moRFctrl
         /// <param name="r">Input report</param>
         public static void ParseReport(byte[] r)
         {
-            Console.WriteLine("\nFrom HID:");
-            Console.WriteLine("Raw: " + BitConverter.ToString(r).Replace("-", string.Empty));
-            Console.WriteLine("Length: " + r.Length);
+            //Console.WriteLine("\nFrom HID:");
+            //Console.WriteLine("Raw: " + BitConverter.ToString(r).Replace("-", string.Empty));
+            //Console.WriteLine("Length: " + r.Length);
 
             byte type = r[1];
             byte param = r[2];
@@ -175,11 +175,11 @@ namespace moRFctrl
 
             if (type == typeGet[1])
             {
-                Console.WriteLine("Report Type: GET");
+                //Console.WriteLine("Report Type: GET");
             }
             else if (type == typeSet[1])
             {
-                Console.WriteLine("Report Type: SET");
+                //Console.WriteLine("Report Type: SET");
 
                 // Only parse set report for frequency
                 if (param != paramFreq[0])
@@ -190,25 +190,26 @@ namespace moRFctrl
 
             if (param == paramFreq[0])
             {
-                Console.WriteLine("Parameter: FREQUENCY");
+                //Console.WriteLine("Parameter: FREQUENCY");
 
                 Program.MainClass.Frequency = BitConverter.ToUInt64(val.Reverse().ToArray(), 0).ToString();
+                // Set class frequency global
             }
             else if (param == paramFunc[0])
             {
-                Console.WriteLine("Parameter: FUNCTION");
+                //Console.WriteLine("Parameter: FUNCTION");
 
                 Program.MainClass.Function = BitConverter.ToInt16(val.Reverse().ToArray(), 0);
             }
             else if (param == paramMixI[0])
             {
-                Console.WriteLine("Parameter: MIXER CURRENT");
+                //Console.WriteLine("Parameter: MIXER CURRENT");
 
                 Program.MainClass.MixerCurrent = BitConverter.ToInt16(val.Reverse().ToArray(), 0);
             }
             else if (param == paramBias[0])
             {
-                Console.WriteLine("Parameter: BIAS TEE");
+                //Console.WriteLine("Parameter: BIAS TEE");
 
                 if (BitConverter.ToInt16(val.Reverse().ToArray(), 0) == BIAS_OFF)
                 {
@@ -220,7 +221,7 @@ namespace moRFctrl
                 }
             }
 
-            Console.WriteLine("Value: " + BitConverter.ToString(val).Replace("-", string.Empty));
+            //Console.WriteLine("Value: " + BitConverter.ToString(val).Replace("-", string.Empty));
         }
 
         /// <summary>
@@ -236,9 +237,9 @@ namespace moRFctrl
             Buffer.BlockCopy(val, 0, cmd, type.Length + param.Length, val.Length);
             Buffer.BlockCopy(pad, 0, cmd, type.Length + param.Length + val.Length, pad.Length);
 
-            Console.WriteLine("\nTo HID:");
-            Console.WriteLine("Raw: " + BitConverter.ToString(cmd).Replace("-", string.Empty));
-            Console.WriteLine("Length: " + cmd.Length);
+            //Console.WriteLine("\nTo HID:");
+            //Console.WriteLine("Raw: " + BitConverter.ToString(cmd).Replace("-", string.Empty));
+            //Console.WriteLine("Length: " + cmd.Length);
             Program.HIDClass.WriteHIDReport(cmd);
         }
     }
