@@ -141,14 +141,18 @@ namespace moRFctrl
         /// </summary>
         private void Disconnected(object sender, EventArgs e)
         {
-            moRFeusOpen = false;
-            moRFeusDetected = false;
-            Program.MainClass.StatusMessage = "moRFeus disconnected";
-            Tools.Debug("\nLost connection to moRFeus");
-
             // Only recoonect on IOException in WriteHIDReport
             if (sender is null)
             {
+                moRFeusOpen = false;
+                moRFeusDetected = false;
+
+                Program.MainClass.StatusMessage = "Lost connection to moRFeus";
+                Tools.Debug("\nLost connection to moRFeus");
+
+                string msg = "Lost connection to moRFeus\nWill attempt to reconect";
+                System.Windows.Forms.MessageBox.Show(msg, "moRFeus connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+
                 // Determine if moRFeus sill present
                 Thread.Sleep(1000);
                 Tools.Debug("Re-detecting moRFeus...");
@@ -158,7 +162,7 @@ namespace moRFctrl
                 // Indicate connection status
                 if (moRFeusDevice is null)
                 {
-                    Program.MainClass.StatusMessage = "moRFeus disconnected, reconnect failed";
+                    System.Windows.Forms.MessageBox.Show("Failed to reconnect to moRFeus", "moRFeus connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     Tools.Debug("No moRFeus found, re-detect failed\n");
                 }
                 else
