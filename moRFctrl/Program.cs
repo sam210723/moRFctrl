@@ -84,7 +84,9 @@ namespace moRFctrl
                 }
             }
 
-            Console.WriteLine("Application exiting with code {0}", code);
+            Tools.Debug("Application exiting with code " + code.ToString());
+
+            // Abort threads (if running)
             HIDThread.Abort();
             SweepThread?.Abort();
             GQRXThread?.Abort();
