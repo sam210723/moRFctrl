@@ -20,7 +20,7 @@ namespace moRFctrl
 
         // Globals
         static bool confirmExit = false;
-
+        public static bool debugOutput = true;
 
         /// <summary>
         /// The main entry point for the application.
