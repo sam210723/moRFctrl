@@ -1,5 +1,6 @@
 ﻿using HidSharp;
 using HidSharp.Reports;
+using HidSharp.Reports.Input;
 using System;
 using System.Linq;
 using System.Threading;
@@ -12,17 +13,48 @@ namespace moRFctrl
     /// </summary>
     class HID
     {
+        // moRFeus IDs
+        readonly int vid = 0x10C4;
+        readonly int pid = 0xEAC9;
+
         DeviceList devList;
         HidDevice[] hidList;
-        bool _moRFeusDetected = false;
-        bool _moRFeusOpen = false;
+
         HidDevice moRFeusDevice;
         HidStream moRFeusStream;
 
+        byte[] reportBuffer;
+        HidDeviceInputReceiver reportReceiver;
+
         public HID()
         {
-            Console.WriteLine("\nDetecting HIDs");
+            Tools.Debug("\nDetecting HIDs");
+            moRFeusDevice = DetectHID(vid, pid);
 
+            // Indicate connection status
+            if (moRFeusDevice is null)
+            {
+                Program.MainClass.StatusMessage = "No moRFeus found";
+                Tools.Debug("No moRFeus found\n");
+            }
+            else
+            {
+                Program.MainClass.StatusMessage = "Found moRFeus";
+                Tools.Debug("Found moRFeus: " + moRFeusDevice.DevicePath.ToString());
+                moRFeusDetected = true;
+
+                ConfigDevice();
+            }
+        }
+
+        /// <summary>
+        /// Detect HID with given Vendor and Product IDs
+        /// </summary>
+        /// <param name="vid">Vendor ID</param>
+        /// <param name="pid">Product ID</param>
+        /// <returns>HIDSharp.HidDevice or null</returns>
+        private HidDevice DetectHID(int vid, int pid)
+        {
             // Get list of HIDs
             devList = DeviceList.Local;
             hidList = devList.GetHidDevices().ToArray();
@@ -30,28 +62,14 @@ namespace moRFctrl
             // Loop through HID list
             foreach (HidDevice dev in hidList)
             {
-                // Check for moRFeus IDs
-                if (dev.VendorID == 4292 && dev.ProductID == 60105)
+                // Check for HID IDs
+                if (dev.VendorID == vid && dev.ProductID == pid)
                 {
-                    moRFeusDetected = true;
-                    moRFeusDevice = dev;
+                    return dev;
                 }
             }
 
-            // Indicate connection status
-            if (moRFeusDetected)
-            {
-                Program.MainClass.StatusMessage = "Found moRFeus";
-                Console.WriteLine("Found moRFeus: ");
-                Console.WriteLine(moRFeusDevice.DevicePath);
-
-                ConfigDevice();
-            }
-            else
-            {
-                Program.MainClass.StatusMessage = "No moRFeus found";
-                Console.WriteLine("No moRFeus found\n");
-            }
+            return null;
         }
 
         /// <summary>
@@ -59,35 +77,44 @@ namespace moRFctrl
         /// </summary>
         private void ConfigDevice()
         {
-            HidStream hidStream;
-            if (moRFeusDevice.TryOpen(out hidStream))
+            // Report stream opened
+            if (moRFeusDevice.TryOpen(out moRFeusStream))
             {
-                moRFeusStream = hidStream;
-                Console.WriteLine("Connected to moRFeus");
-                Program.MainClass.StatusMessage = "Connected to moRFeus";
-                Program.MainClass.EnableUI();
                 moRFeusStream.ReadTimeout = Timeout.Infinite;
 
-
-                byte[] inputReportBuffer = new byte[moRFeusDevice.GetMaxInputReportLength()];
+                // HIDSharp setup
+                reportBuffer = new byte[moRFeusDevice.GetMaxInputReportLength()];
                 ReportDescriptor reportDescriptor = moRFeusDevice.GetReportDescriptor();
-                HidSharp.Reports.Input.HidDeviceInputReceiver inputReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
+                reportReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
 
-                inputReceiver.Received += (sender, e) =>
-                {
-                    Report report;
-                    while (inputReceiver.TryRead(inputReportBuffer, 0, out report))
-                    {
-                        moRFeus.ParseReport(inputReportBuffer);
-                    }
-                };
-                inputReceiver.Start(hidStream);
+                // Receive event handling
+                reportReceiver.Received += ReportReceived;
+                reportReceiver.Start(moRFeusStream);
                 
+                // Disconnect event handling
                 moRFeusStream.Closed += new EventHandler(Disconnected);
+
+                // Indicate successful connection
+                Tools.Debug("Connected to moRFeus");
+                Program.MainClass.StatusMessage = "Connected to moRFeus";
+                Program.MainClass.EnableUI();
                 moRFeusOpen = true;
 
                 // Initial polling of device values
                 Task.Delay(10).ContinueWith(t => Program.MainClass.PollDevice());
+            }
+        }
+
+        /// <summary>
+        /// Handle report received from HID
+        /// </summary>
+        private void ReportReceived(object sender, EventArgs e)
+        {
+            // Read report into buffer
+            while (reportReceiver.TryRead(reportBuffer, 0, out Report report))
+            {
+                // Parse report
+                moRFeus.ParseReport(reportBuffer);
             }
         }
 
@@ -115,41 +142,46 @@ namespace moRFctrl
         private void Disconnected(object sender, EventArgs e)
         {
             moRFeusOpen = false;
-            Program.MainClass.StatusMessage = "Lost connection to moRFeus";
+            moRFeusDetected = false;
+            Program.MainClass.StatusMessage = "moRFeus disconnected";
+            Tools.Debug("\nLost connection to moRFeus");
+
+            // Only recoonect on IOException in WriteHIDReport
+            if (sender is null)
+            {
+                // Determine if moRFeus sill present
+                Thread.Sleep(1000);
+                Tools.Debug("Re-detecting moRFeus...");
+                moRFeusDevice = null;
+                moRFeusDevice = DetectHID(vid, pid);
+
+                // Indicate connection status
+                if (moRFeusDevice is null)
+                {
+                    Program.MainClass.StatusMessage = "moRFeus disconnected, reconnect failed";
+                    Tools.Debug("No moRFeus found, re-detect failed\n");
+                }
+                else
+                {
+                    Program.MainClass.StatusMessage = "Found moRFeus";
+                    Tools.Debug("Found moRFeus: " + moRFeusDevice.DevicePath.ToString());
+                    moRFeusDetected = true;
+
+                    ConfigDevice();
+                }
+            }
         }
 
         #region Properties
         /// <summary>
         /// Is moRFeus device present
         /// </summary>
-        public bool moRFeusDetected
-        {
-            get
-            {
-                return _moRFeusDetected;
-            }
+        public bool moRFeusDetected { get; set; } = false;
 
-            set
-            {
-                _moRFeusDetected = value;
-            }
-        }
-        
         /// <summary>
         /// Is moRFeus HID stream open
         /// </summary>
-        public bool moRFeusOpen
-        {
-            get
-            {
-                return _moRFeusOpen;
-            }
-
-            set
-            {
-                _moRFeusOpen = value;
-            }
-        }
+        public bool moRFeusOpen { get; set; } = false;
         #endregion
     }
 }
