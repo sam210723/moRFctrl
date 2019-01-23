@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace moRFctrl
 {
@@ -14,21 +10,25 @@ namespace moRFctrl
     /// </summary>
     class gqrx
     {
-        private TcpClient client;
-        private string host_ = "127.0.0.1";
-        private int port = 7356;
+        TcpClient tcpClient = new TcpClient();
+        Stream tcpStream;
+        ASCIIEncoding asciiEnc = new ASCIIEncoding();
+
+        readonly string CMD_FREQUENCY = "F";
+        readonly string CMD_DEMODULATOR = "M";
+        readonly string CMD_STRENGTH = "l";
 
         /// <summary>
         /// Open socket to Gqrx
         /// </summary>
         public void Connect(string host)
         {
-            host_ = host;
-            Console.WriteLine(string.Format("Connecting to Gqrx ({0}:{1})", host_, port));
+            Host = host;
+            Port = 7356;
+            Tools.Debug(string.Format("Connecting to Gqrx ({0}:{1})", Host, Port));
 
             // Open TCP socket to Gqrx remote control
-            client = new TcpClient();
-            client.BeginConnect(host_, port, new AsyncCallback(Connected), null);
+            tcpClient.BeginConnect(Host, Port, new AsyncCallback(Connected), null);
         }
 
         /// <summary>
@@ -36,19 +36,21 @@ namespace moRFctrl
         /// </summary>
         public void Disconnect()
         {
-            client.Close();
-            client.Dispose();
+            tcpClient.Close();
+            tcpClient.Dispose();
         }
 
         /// <summary>
-        /// On successful TcpClient connection
+        /// On successful TCP connection
         /// </summary>
         private void Connected(IAsyncResult ar)
         {
-            Console.WriteLine(string.Format("Connected to Gqrx ({0}:{1})", host_, port));
+            Tools.Debug(string.Format("Connected to Gqrx ({0}:{1})", Host, Port));
 
-            // Initial config
-            //SetDemod("AM");
+            tcpStream = tcpClient.GetStream();
+
+            // Initial Gqrx config
+            //SetDemod("CW");
         }
 
         /// <summary>
@@ -56,17 +58,9 @@ namespace moRFctrl
         /// </summary>
         /// <param name="freq">Frequency in Hz</param>
         /// <returns>Command result</returns>
-        public bool SetFrequency(UInt64 freq)
+        public void SetFrequency(UInt64 freq)
         {
-            if (IsConnected)
-            {
-                Send("F " + freq.ToString());
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Send(CMD_FREQUENCY, freq.ToString());
         }
 
         /// <summary>
@@ -74,17 +68,9 @@ namespace moRFctrl
         /// </summary>
         /// <param name="demod">Demodulator type string</param>
         /// <returns>Command result</returns>
-        public bool SetDemod(string demod)
+        public void SetDemod(string demod)
         {
-            if (IsConnected)
-            {
-                Send("M " + demod);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Send(CMD_DEMODULATOR, demod);
         }
 
         /// <summary>
@@ -93,32 +79,32 @@ namespace moRFctrl
         /// <returns>Carrier strength as string</returns>
         public string GetStrength()
         {
-            return Get("l");
+            return Get(CMD_STRENGTH);
         }
 
         /// <summary>
         /// Set Gqrx parameter
         /// </summary>
-        private void Send(string data)
+        private void Send(string cmd, string data)
         {
             if (IsConnected)
             {
-                Stream sendStrm = client.GetStream();
-                ASCIIEncoding asciiEnc = new ASCIIEncoding();
-
-                byte[] dataBytes = asciiEnc.GetBytes(data + Environment.NewLine);
+                byte[] dataBytes = asciiEnc.GetBytes(cmd + " " + data + Environment.NewLine);
 
                 try
                 {
-                    sendStrm.Write(dataBytes, 0, dataBytes.Length);
+                    tcpStream.Write(dataBytes, 0, dataBytes.Length);
                 }
                 catch (IOException e)
                 {
-                    client.Close();
-                    client.Dispose();
+                    tcpClient.Close();
+                    tcpClient.Dispose();
+
                     System.Windows.Forms.MessageBox.Show("Lost connection to Gqrx", "Gqrx connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+
+                    // Stop the current sequence
+                    Program.MainClass.DoSweep();
                     Program.MainClass.EnableUI();
-                    Program.MainClass.DoSweep();  // Stop the current sequence
                 }
             }
         }
@@ -126,23 +112,23 @@ namespace moRFctrl
         /// <summary>
         /// Get Gqrx parameter
         /// </summary>
-        private string Get(string data)
+        private string Get(string cmd)
         {
             if (IsConnected)
             {
-                Send(data);
+                Send(cmd, null);
 
-                Byte[] recv = new Byte[64];
-                String responseData = "";
+                byte[] recBuf = new byte[64];
+                string responseData = "";
 
-                Int32 bytes = client.GetStream().Read(recv, 0, recv.Length);
-                responseData = System.Text.Encoding.ASCII.GetString(recv, 0, bytes);
+                int bytes = tcpClient.GetStream().Read(recBuf, 0, recBuf.Length);
+                responseData = Encoding.ASCII.GetString(recBuf, 0, bytes);
 
                 return responseData;
             }
             else
             {
-                return String.Empty;
+                return string.Empty;
             }
         }
 
@@ -156,7 +142,7 @@ namespace moRFctrl
             {
                 try
                 {
-                    return client.Connected;
+                    return tcpClient.Connected;
                 }
                 catch (NullReferenceException e)
                 {
@@ -164,6 +150,16 @@ namespace moRFctrl
                 }
             }
         }
+
+        /// <summary>
+        /// Gqrx host IP address
+        /// </summary>
+        public string Host { get; private set; }
+
+        /// <summary>
+        /// Gqrx remote control port
+        /// </summary>
+        public int Port { get; private set; }
         #endregion
     }
 }
