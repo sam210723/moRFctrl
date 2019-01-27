@@ -30,6 +30,8 @@
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,15 +81,28 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem,
+            this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -197,6 +212,7 @@
             this.groupSweep.Controls.Add(this.tableLayoutPanel1);
             this.groupSweep.Controls.Add(this.btnSweep);
             this.groupSweep.Controls.Add(this.progressSweep);
+            this.groupSweep.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupSweep.ForeColor = System.Drawing.Color.White;
             this.groupSweep.Location = new System.Drawing.Point(12, 138);
             this.groupSweep.Name = "groupSweep";
@@ -272,6 +288,7 @@
             // labelSweepStart
             // 
             this.labelSweepStart.AutoSize = true;
+            this.labelSweepStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSweepStart.Location = new System.Drawing.Point(3, 0);
             this.labelSweepStart.Name = "labelSweepStart";
             this.labelSweepStart.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -389,9 +406,9 @@
             this.labelSweepDwell.Location = new System.Drawing.Point(3, 75);
             this.labelSweepDwell.Name = "labelSweepDwell";
             this.labelSweepDwell.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.labelSweepDwell.Size = new System.Drawing.Size(73, 18);
+            this.labelSweepDwell.Size = new System.Drawing.Size(85, 18);
             this.labelSweepDwell.TabIndex = 10;
-            this.labelSweepDwell.Text = "Dwell Time (s)";
+            this.labelSweepDwell.Text = "Dwell Time (sec)";
             // 
             // btnSweep
             // 
@@ -492,6 +509,8 @@
         private System.Windows.Forms.Label labelSweepStop;
         private System.Windows.Forms.NumericUpDown numDwellTime;
         private System.Windows.Forms.Label labelSweepDwell;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
