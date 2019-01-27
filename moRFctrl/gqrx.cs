@@ -10,7 +10,7 @@ namespace moRFctrl
     /// </summary>
     class gqrx
     {
-        TcpClient tcpClient = new TcpClient();
+        TcpClient tcpClient;
         Stream tcpStream;
         ASCIIEncoding asciiEnc = new ASCIIEncoding();
 
@@ -28,6 +28,7 @@ namespace moRFctrl
             Tools.Debug(string.Format("Connecting to Gqrx ({0}:{1})", Host, Port));
 
             // Open TCP socket to Gqrx remote control
+            tcpClient = new TcpClient();
             tcpClient.BeginConnect(Host, Port, new AsyncCallback(Connected), null);
         }
 
