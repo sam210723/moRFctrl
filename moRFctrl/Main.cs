@@ -82,6 +82,7 @@ namespace moRFctrl
             double dwell = (double)numDwellTime.Value;
 
             DisableSweepUI();
+            SweepProgress = 0;
 
             // Start new sweep
             Program.SweepThread = new Thread(() => Program.SweepThreadStart(start, stop, step, dwell));
@@ -97,6 +98,7 @@ namespace moRFctrl
             Program.GQRXClass.Disconnect();
 
             EnableSweepUI();
+            SweepProgress = 0;
         }
 
         #region UI
@@ -203,7 +205,6 @@ namespace moRFctrl
                 labelSweepStep.ForeColor = Color.White;
                 numDwellTime.Enabled = true;
                 labelSweepDwell.ForeColor = Color.White;
-                SweepProgress = 0;
                 Program.SweepThread = null;
                 btnSweep.Text = "Start";
             }

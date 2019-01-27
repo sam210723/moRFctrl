@@ -141,6 +141,8 @@ namespace moRFctrl
         /// <returns>Report byte buffer</returns>
         public byte[] ReceiveHIDReport()
         {
+            //TODO: Fix fall-behind bug
+
             // Wait for report to be available, then read into buffer
             while (!reportReceiver.TryRead(reportBuffer, 0, out Report report))
             {

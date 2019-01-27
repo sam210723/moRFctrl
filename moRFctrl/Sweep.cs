@@ -4,7 +4,7 @@ using System.Threading;
 namespace moRFctrl
 {
     /// <summary>
-    /// Controls frequency generator sweep
+    /// Frequency sweep generator
     /// </summary>
     class Sweep
     {
@@ -15,7 +15,7 @@ namespace moRFctrl
         /// <param name="stop">Stop frequencu (Hz)</param>
         /// <param name="step">Step size (Hz)</param>
         /// <param name="dwell">Dwell time (s)</param>
-        public Sweep(UInt64 start, UInt64 stop, UInt64 step, double dwell)
+        public Sweep(ulong start, ulong stop, ulong step, double dwell)
         {
             // Initial moRFeus config
             moRFeus.SetFunction(moRFeus.FUNC_GENERATOR);
@@ -28,7 +28,7 @@ namespace moRFctrl
             {
                 Program.GQRXClass.Connect("127.0.0.1");
             }
-            Thread.Sleep(500);
+            Thread.Sleep(250);
 
             if (Program.GQRXClass.IsConnected)
             {
@@ -37,8 +37,10 @@ namespace moRFctrl
             else
             {
                 Program.MainClass.StatusMessage = "Gqrx connection failed";
+                Program.GQRXClass.Disconnected();
+                return;
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(250);
 
             // Initial UI config
             Program.MainClass.SweepProgress = 0;
@@ -47,15 +49,16 @@ namespace moRFctrl
 
             //Step sequence globals
             //Program.MainClass.StatusMessage = "Starting step sequence";
-            UInt64 bandwidth = stop - start;
-            UInt64 steps = bandwidth / step;
-            UInt64 i = 0;
-            UInt64 newFrequency = 0;
+            ulong bandwidth = stop - start;
+            ulong steps = bandwidth / step;
+            ulong i = 0;
+            ulong newFrequency = 0;
 
             // Step loop
             while (newFrequency < stop)
             {
                 // Short delay between SNR reading and frequency change
+                // Without this Gqrx will fall behind
                 Thread.Sleep((int)(50));
 
                 //Calculate next frequency in sequence
@@ -67,18 +70,28 @@ namespace moRFctrl
                     newFrequency = 5400000000;
                 }
 
+                // Cap frequency to stop frequency
+                if (newFrequency > stop)
+                {
+                    newFrequency = stop;
+                }
+
                 // Update moRFeus generator with next step in sequence
                 moRFeus.SetFrequency(newFrequency);
-                
+                Program.MainClass.Frequency = newFrequency.ToString();
+
                 // If Gqrx connection is active, tune SDR to moRFeus frequency
                 if (Program.GQRXClass.IsConnected)
                 {
                     Program.GQRXClass.SetFrequency(newFrequency);
+                }
 
-                    // Wait for specified dwell time
-                    Thread.Sleep((int)(dwell * 1000) - 50);
+                // Wait for specified dwell time
+                Thread.Sleep((int)(dwell * 1000) - 50);
 
-                    // Get carrier strength
+                // If Gqrx connection is active, get carrier level
+                if (Program.GQRXClass.IsConnected)
+                {
                     string snr = Program.GQRXClass.GetStrength();
                     Console.WriteLine("Strength: " + snr);
                 }
@@ -112,10 +125,10 @@ namespace moRFctrl
         /// <param name="step">Step size (Hz)</param>
         /// <param name="dwell">Dwell time (s)</param>
         /// <returns>Sweep time in seconds</returns>
-        public static double Time(UInt64 start, UInt64 stop, UInt64 step, double dwell)
+        public static double Time(ulong start, ulong stop, ulong step, double dwell)
         {
-            UInt64 bandwidth = stop - start;
-            UInt64 steps = bandwidth / step;
+            ulong bandwidth = stop - start;
+            ulong steps = bandwidth / step;
             double span = dwell * steps;
 
             return span;
