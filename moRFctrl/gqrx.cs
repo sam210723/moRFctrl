@@ -47,12 +47,33 @@ namespace moRFctrl
         /// </summary>
         private void Connected(IAsyncResult ar)
         {
-            Tools.Debug(string.Format("Connected to Gqrx ({0}:{1})", Host, Port));
+            try
+            {
+                tcpStream = tcpClient.GetStream();
+            }
+            catch (ObjectDisposedException e)
+            {
+                return;
+            }
 
-            tcpStream = tcpClient.GetStream();
+            Tools.Debug(string.Format("Connected to Gqrx ({0}:{1})", Host, Port));
 
             // Initial Gqrx config
             //SetDemod("CW");
+        }
+
+        /// <summary>
+        /// Handle unexpected disconnect
+        /// </summary>
+        public void Disconnected()
+        {
+            tcpClient.Close();
+            tcpClient.Dispose();
+            //tcpClient = null;
+
+            System.Windows.Forms.MessageBox.Show("Lost connection to Gqrx", "Gqrx connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            Program.MainClass.EnableSweepUI();
+            Program.MainClass.StopSweep();
         }
         #endregion
 
@@ -90,15 +111,7 @@ namespace moRFctrl
                 }
                 catch (IOException e)
                 {
-                    tcpClient.Close();
-                    tcpClient.Dispose();
-
-                    System.Windows.Forms.MessageBox.Show("Lost connection to Gqrx", "Gqrx connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-
-                    // Stop the current sequence
-                    //TODO: Refactor
-                    Program.MainClass.DoSweep();
-                    Program.MainClass.EnableSweepUI();
+                    Disconnected();
                 }
             }
         }
@@ -126,8 +139,15 @@ namespace moRFctrl
                 byte[] recBuf = new byte[64];
                 string responseData = "";
 
-                int bytes = tcpClient.GetStream().Read(recBuf, 0, recBuf.Length);
-                responseData = Encoding.ASCII.GetString(recBuf, 0, bytes);
+                try
+                {
+                    int bytes = tcpClient.GetStream().Read(recBuf, 0, recBuf.Length);
+                    responseData = Encoding.ASCII.GetString(recBuf, 0, bytes);
+                }
+                catch (IOException e)
+                {
+                    Disconnected();
+                }
 
                 return responseData;
             }
