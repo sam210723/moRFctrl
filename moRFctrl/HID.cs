@@ -88,7 +88,7 @@ namespace moRFctrl
                 reportReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
 
                 // Receive event handling
-                reportReceiver.Received += ReportReceived;
+                //reportReceiver.Received += ReportReceived;
                 reportReceiver.Start(moRFeusStream);
                 
                 // Disconnect event handling
@@ -113,7 +113,6 @@ namespace moRFctrl
             // Read report into buffer
             while (reportReceiver.TryRead(reportBuffer, 0, out Report report))
             {
-                // Parse report
                 moRFeus.ParseReport(reportBuffer);
             }
         }
@@ -134,6 +133,22 @@ namespace moRFctrl
                     Disconnected(null, null);
                 }
             }
+        }
+
+        /// <summary>
+        /// Receive HID report from device
+        /// </summary>
+        /// <returns>Report byte buffer</returns>
+        public byte[] ReceiveHIDReport()
+        {
+            // Wait for report to be available, then read into buffer
+            while (!reportReceiver.TryRead(reportBuffer, 0, out Report report))
+            {
+                Thread.Sleep(10);
+            }
+
+            // Return report buffer
+            return reportBuffer;
         }
 
         /// <summary>
