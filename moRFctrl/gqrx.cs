@@ -18,6 +18,7 @@ namespace moRFctrl
         readonly string CMD_DEMODULATOR = "M";
         readonly string CMD_STRENGTH = "l";
 
+        #region Socket
         /// <summary>
         /// Open socket to Gqrx
         /// </summary>
@@ -53,13 +54,14 @@ namespace moRFctrl
             // Initial Gqrx config
             //SetDemod("CW");
         }
+        #endregion
 
+        #region Set
         /// <summary>
         /// Set demodulator frequency
         /// </summary>
         /// <param name="freq">Frequency in Hz</param>
-        /// <returns>Command result</returns>
-        public void SetFrequency(UInt64 freq)
+        public void SetFrequency(ulong freq)
         {
             Send(CMD_FREQUENCY, freq.ToString());
         }
@@ -68,19 +70,9 @@ namespace moRFctrl
         /// Set demodulator mode
         /// </summary>
         /// <param name="demod">Demodulator type string</param>
-        /// <returns>Command result</returns>
         public void SetDemod(string demod)
         {
             Send(CMD_DEMODULATOR, demod);
-        }
-
-        /// <summary>
-        /// Get carrier strength in dBFS
-        /// </summary>
-        /// <returns>Carrier strength as string</returns>
-        public string GetStrength()
-        {
-            return Get(CMD_STRENGTH);
         }
 
         /// <summary>
@@ -104,10 +96,22 @@ namespace moRFctrl
                     System.Windows.Forms.MessageBox.Show("Lost connection to Gqrx", "Gqrx connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
 
                     // Stop the current sequence
+                    //TODO: Refactor
                     Program.MainClass.DoSweep();
                     Program.MainClass.EnableUI();
                 }
             }
+        }
+        #endregion
+
+        #region Get
+        /// <summary>
+        /// Get carrier strength in dBFS
+        /// </summary>
+        /// <returns>Carrier strength as string</returns>
+        public string GetStrength()
+        {
+            return Get(CMD_STRENGTH);
         }
 
         /// <summary>
@@ -129,9 +133,10 @@ namespace moRFctrl
             }
             else
             {
-                return string.Empty;
+                return "DISCONNECTED";
             }
         }
+        #endregion
 
         #region Properties
         /// <summary>
