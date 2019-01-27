@@ -72,34 +72,34 @@ namespace moRFctrl
         }
 
         /// <summary>
-        /// Begin frequency sweep
+        /// Start frequency sweep
         /// </summary>
-        public void DoSweep()
+        public void StartSweep()
         {
+            ulong start = (ulong)numStartFreq.Value;
+            ulong stop = (ulong)numStopFreq.Value;
+            ulong step = (ulong)numStepSize.Value;
+            double dwell = (double)numDwellTime.Value;
+
+            DisableSweepUI();
+
             // Start new sweep
-            if (Program.SweepThread == null)
-            {
-                ulong start = (ulong)numStartFreq.Value;
-                ulong stop = (ulong)numStopFreq.Value;
-                ulong step = (ulong)numStepSize.Value;
-                double dwell = (double)numDwellTime.Value;
-
-                DisableSweepUI();
-
-                // Start new sweep
-                Program.SweepThread = new Thread(() => Program.SweepThreadStart(start, stop, step, dwell));
-                Program.SweepThread.Start();
-            }
-            else  // Stop current sweep
-            {
-                StatusMessage = "Step sequence stopped";
-                Program.SweepThread.Abort();
-                Program.GQRXClass.Disconnect();
-
-                EnableSweepUI();
-            }
+            Program.SweepThread = new Thread(() => Program.SweepThreadStart(start, stop, step, dwell));
+            Program.SweepThread.Start();
         }
 
+        /// <summary>
+        /// Stop frequency sweep
+        /// </summary>
+        public void StopSweep()
+        {
+            Program.SweepThread.Abort();
+            Program.GQRXClass.Disconnect();
+
+            EnableSweepUI();
+        }
+
+        #region UI
         /// <summary>
         /// Enable UI elements
         /// </summary>
@@ -136,53 +136,79 @@ namespace moRFctrl
             }
         }
 
+        /// <summary>
+        /// Disable sweep UI elements
+        /// </summary>
         public void DisableSweepUI()
         {
-            textFrequency.Enabled = false;
-            trackMixerI.Enabled = false;
-            labelMixerI.ForeColor = Color.DarkSlateGray;
-            checkBiasTee.AutoCheck = false;
-            checkBiasTee.ForeColor = Color.DarkSlateGray;
-            radioFunctionMixer.AutoCheck = false;
-            radioFunctionMixer.ForeColor = Color.DarkSlateGray;
-            radioFunctionGenerator.AutoCheck = false;
-            radioFunctionGenerator.ForeColor = Color.DarkSlateGray;
-            btnSweep.Text = "Stop";
-            numStartFreq.Enabled = false;
-            labelSweepStart.ForeColor = Color.DarkSlateGray;
-            numStopFreq.Enabled = false;
-            labelSweepStop.ForeColor = Color.DarkSlateGray;
-            numStepSize.Enabled = false;
-            labelSweepStep.ForeColor = Color.DarkSlateGray;
-            numDwellTime.Enabled = false;
-            labelSweepDwell.ForeColor = Color.DarkSlateGray;
-            btnSweep.Text = "Stop";
+            if (textFrequency.InvokeRequired)
+            {
+                textFrequency.BeginInvoke(new MethodInvoker(delegate
+                {
+                    DisableSweepUI();
+                }));
+            }
+            else
+            {
+                textFrequency.Enabled = false;
+                trackMixerI.Enabled = false;
+                labelMixerI.ForeColor = Color.DarkSlateGray;
+                checkBiasTee.AutoCheck = false;
+                checkBiasTee.ForeColor = Color.DarkSlateGray;
+                radioFunctionMixer.AutoCheck = false;
+                radioFunctionMixer.ForeColor = Color.DarkSlateGray;
+                radioFunctionGenerator.AutoCheck = false;
+                radioFunctionGenerator.ForeColor = Color.DarkSlateGray;
+                btnSweep.Text = "Stop";
+                numStartFreq.Enabled = false;
+                labelSweepStart.ForeColor = Color.DarkSlateGray;
+                numStopFreq.Enabled = false;
+                labelSweepStop.ForeColor = Color.DarkSlateGray;
+                numStepSize.Enabled = false;
+                labelSweepStep.ForeColor = Color.DarkSlateGray;
+                numDwellTime.Enabled = false;
+                labelSweepDwell.ForeColor = Color.DarkSlateGray;
+                btnSweep.Text = "Stop";
+            }
         }
 
+        /// <summary>
+        /// Enable sweep UI elements
+        /// </summary>
         public void EnableSweepUI()
         {
-            textFrequency.Enabled = true;
-            trackMixerI.Enabled = true;
-            labelMixerI.ForeColor = Color.White;
-            checkBiasTee.AutoCheck = true;
-            checkBiasTee.ForeColor = Color.White;
-            radioFunctionMixer.AutoCheck = true;
-            radioFunctionMixer.ForeColor = Color.White;
-            radioFunctionGenerator.AutoCheck = true;
-            radioFunctionGenerator.ForeColor = Color.White;
-            btnSweep.Text = "Start";
-            numStartFreq.Enabled = true;
-            labelSweepStart.ForeColor = Color.White;
-            numStopFreq.Enabled = true;
-            labelSweepStop.ForeColor = Color.White;
-            numStepSize.Enabled = true;
-            labelSweepStep.ForeColor = Color.White;
-            numDwellTime.Enabled = true;
-            labelSweepDwell.ForeColor = Color.White;
-            SweepProgress = 0;
-            Program.SweepThread = null;
-            btnSweep.Text = "Start";
+            if (textFrequency.InvokeRequired)
+            {
+                textFrequency.BeginInvoke(new MethodInvoker(delegate {
+                    EnableSweepUI();
+                }));
+            }
+            else
+            {
+                textFrequency.Enabled = true;
+                trackMixerI.Enabled = true;
+                labelMixerI.ForeColor = Color.White;
+                checkBiasTee.AutoCheck = true;
+                checkBiasTee.ForeColor = Color.White;
+                radioFunctionMixer.AutoCheck = true;
+                radioFunctionMixer.ForeColor = Color.White;
+                radioFunctionGenerator.AutoCheck = true;
+                radioFunctionGenerator.ForeColor = Color.White;
+                btnSweep.Text = "Start";
+                numStartFreq.Enabled = true;
+                labelSweepStart.ForeColor = Color.White;
+                numStopFreq.Enabled = true;
+                labelSweepStop.ForeColor = Color.White;
+                numStepSize.Enabled = true;
+                labelSweepStep.ForeColor = Color.White;
+                numDwellTime.Enabled = true;
+                labelSweepDwell.ForeColor = Color.White;
+                SweepProgress = 0;
+                Program.SweepThread = null;
+                btnSweep.Text = "Start";
+            }
         }
+        #endregion
 
         #region Properties
         /// <summary>
@@ -483,7 +509,15 @@ namespace moRFctrl
         /// </summary>
         private void btnSweep_Click(object sender, EventArgs e)
         {
-            DoSweep();
+            if (Program.SweepThread == null)
+            {
+                StartSweep();
+            }
+            else
+            {
+                StatusMessage = "Step sequence stopped";
+                StopSweep();
+            }
         }
 
         /// <summary>
