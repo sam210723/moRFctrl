@@ -11,5 +11,8 @@
     <Setting Name="confirm_exit" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="sweep_output_file" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sweep.csv</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

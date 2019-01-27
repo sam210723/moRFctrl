@@ -66,6 +66,8 @@
             this.numGqrxPort = new System.Windows.Forms.NumericUpDown();
             this.btnLoadDefaults = new System.Windows.Forms.Button();
             this.sweepFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.label4 = new System.Windows.Forms.Label();
+            this.linkSweepOutFile = new System.Windows.Forms.LinkLabel();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
@@ -481,6 +483,8 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.label4, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.linkSweepOutFile, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.numGqrxPort, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
@@ -584,6 +588,31 @@
             this.btnLoadDefaults.UseVisualStyleBackColor = false;
             this.btnLoadDefaults.Click += new System.EventHandler(this.btnLoadDefaults_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(3, 50);
+            this.label4.Name = "label4";
+            this.label4.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label4.Size = new System.Drawing.Size(89, 18);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Sweep output file";
+            // 
+            // linkSweepOutFile
+            // 
+            this.linkSweepOutFile.AutoSize = true;
+            this.linkSweepOutFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkSweepOutFile.LinkColor = System.Drawing.Color.DeepSkyBlue;
+            this.linkSweepOutFile.Location = new System.Drawing.Point(116, 50);
+            this.linkSweepOutFile.Name = "linkSweepOutFile";
+            this.linkSweepOutFile.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.linkSweepOutFile.Size = new System.Drawing.Size(58, 18);
+            this.linkSweepOutFile.TabIndex = 18;
+            this.linkSweepOutFile.TabStop = true;
+            this.linkSweepOutFile.Text = "sweep.csv";
+            this.linkSweepOutFile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSweepOutFile_LinkClicked);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,6 +700,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnLoadDefaults;
         private System.Windows.Forms.SaveFileDialog sweepFileDialog;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.LinkLabel linkSweepOutFile;
     }
 }
 

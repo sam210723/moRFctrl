@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -130,6 +131,9 @@ namespace moRFctrl
             }
 
             checkConfirmExit.Checked = Properties.Settings.Default.confirm_exit;
+
+            // CSV filename
+            linkSweepOutFile.Text = Path.GetFileName(Properties.Settings.Default.sweep_output_file);
         }
 
         #region UI
@@ -620,17 +624,17 @@ namespace moRFctrl
             }
             else
             {
-                textGqrxIP.Text = "INVALID";
+                textGqrxIP.Text = "INVALID IP";
             }
 
             Properties.Settings.Default.gqrx_port = (int) numGqrxPort.Value;
             Properties.Settings.Default.confirm_exit = checkConfirmExit.Checked;
+            Properties.Settings.Default.sweep_output_file = linkSweepOutFile.Text;
 
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             StatusMessage = "Settings saved";
         }
-        #endregion
 
         /// <summary>
         /// Load default settings into UI
@@ -642,9 +646,42 @@ namespace moRFctrl
                 return;
             }
 
+            // Default settings
             textGqrxIP.Text = "127.0.0.1";
             numGqrxPort.Value = 7356;
             checkConfirmExit.Checked = true;
+            linkSweepOutFile.Text = "sweep.csv";
         }
+
+        private void linkSweepOutFile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            sweepFileDialog.Title = "Save CSV file...";
+            sweepFileDialog.AddExtension = true;
+            sweepFileDialog.CheckFileExists = false;
+            sweepFileDialog.CheckPathExists = true;
+            sweepFileDialog.DefaultExt = ".csv";
+            Tools.Debug("FROM SETTINGS: " + Properties.Settings.Default.sweep_output_file);  // TODO: Link Label saving bug
+            sweepFileDialog.FileName = Path.GetFileName(Properties.Settings.Default.sweep_output_file);
+            sweepFileDialog.Filter = "CSV file (*.csv)|*.csv|All files (*.*)|*.*";
+            sweepFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            sweepFileDialog.InitialDirectory = Path.GetDirectoryName(Properties.Settings.Default.sweep_output_file);
+            sweepFileDialog.OverwritePrompt = true;
+            sweepFileDialog.ValidateNames = true;
+
+            sweepFileDialog.ShowDialog();
+
+            string path = Path.GetDirectoryName(sweepFileDialog.FileName);
+            string filename = Path.GetFileNameWithoutExtension(sweepFileDialog.FileName);
+            string ext = Path.GetExtension(sweepFileDialog.FileName);
+
+            Tools.Debug("TO SETTINGS: " + sweepFileDialog.FileName);
+            Properties.Settings.Default.sweep_output_file = sweepFileDialog.FileName;
+
+            linkSweepOutFile.Text = Path.GetFileName(sweepFileDialog.FileName);
+
+            // Save settings
+            btnSaveSettings_Click(null, null);
+        }
+        #endregion
     }
 }

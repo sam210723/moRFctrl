@@ -58,5 +58,17 @@ namespace moRFctrl.Properties {
                 this["confirm_exit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("sweep.csv")]
+        public string sweep_output_file {
+            get {
+                return ((string)(this["sweep_output_file"]));
+            }
+            set {
+                this["sweep_output_file"] = value;
+            }
+        }
     }
 }
