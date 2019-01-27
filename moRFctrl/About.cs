@@ -74,17 +74,15 @@ namespace moRFctrl
                 }
                 catch (HttpRequestException e)
                 {
-                    Console.WriteLine("Update check exception: " + e.Message);
+                    Tools.Debug("Update check exception: " + e.Message);
                     updateLabel.Text = "Update check failed";
                     return;
                 }
-
-                Console.WriteLine(ghJSONRes);///
             }
 
             string tagName = ghJSONRes.Substring(ghJSONRes.IndexOf("\"tag_name\":\"") + 12);
             tagName = tagName.Substring(0, tagName.IndexOf("\",\"target_commitish\":"));
-            Console.WriteLine("Tag Name: " + tagName);
+            Tools.Debug("Tag Name: " + tagName);
 
             string releaseName = ghJSONRes.Substring(ghJSONRes.IndexOf("\"name\":\"") + 8);
             releaseName = releaseName.Substring(0, releaseName.IndexOf("\",\"draft\":"));
@@ -99,6 +97,7 @@ namespace moRFctrl
             int build = v.Build;
             int rev = v.Revision;
 
+            // If local assmbly version does not match latest GitHub release tag
             if (tagName != $"v{maj}.{min}.{build}")
             {
                 updateBtn.Text = "Download update (" + tagName + ")";
