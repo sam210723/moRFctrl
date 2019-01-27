@@ -18,15 +18,17 @@ namespace moRFctrl
         readonly string CMD_DEMODULATOR = "M";
         readonly string CMD_STRENGTH = "l";
 
+        string gqrxAddress = string.Format(" ({0}:{1})", Properties.Settings.Default.gqrx_host, Properties.Settings.Default.gqrx_port);
+
         #region Socket
         /// <summary>
         /// Open socket to Gqrx
         /// </summary>
-        public void Connect(string host)
+        public void Connect(string host, int port)
         {
             Host = host;
-            Port = 7356;
-            Tools.Debug(string.Format("Connecting to Gqrx ({0}:{1})", Host, Port));
+            Port = port;
+            Tools.Debug("Connecting to Gqrx" + gqrxAddress);
 
             // Open TCP socket to Gqrx remote control
             tcpClient = new TcpClient();
@@ -71,7 +73,7 @@ namespace moRFctrl
             tcpClient.Dispose();
             //tcpClient = null;
 
-            System.Windows.Forms.MessageBox.Show("Lost connection to Gqrx", "Gqrx connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            System.Windows.Forms.MessageBox.Show("Unable to connect to Gqrx" + gqrxAddress, "Gqrx connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             Program.MainClass.EnableSweepUI();
             Program.MainClass.StopSweep();
         }

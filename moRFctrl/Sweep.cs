@@ -8,6 +8,8 @@ namespace moRFctrl
     /// </summary>
     class Sweep
     {
+        string gqrxAddress = string.Format(" ({0}:{1})", Properties.Settings.Default.gqrx_host, Properties.Settings.Default.gqrx_port);
+
         /// <summary>
         /// Begin frequency sweep
         /// </summary>
@@ -23,10 +25,10 @@ namespace moRFctrl
             moRFeus.GetFrequency();
 
             // Initial Gqrx config
-            Program.MainClass.StatusMessage = "Connecting to Gqrx...";
+            Program.MainClass.StatusMessage = "Connecting to Gqrx " + gqrxAddress + "...";
             if (Program.GQRXClass.IsConnected != true)
             {
-                Program.GQRXClass.Connect("127.0.0.1");
+                Program.GQRXClass.Connect(Properties.Settings.Default.gqrx_host, Properties.Settings.Default.gqrx_port);
             }
             Thread.Sleep(250);
 
@@ -36,7 +38,7 @@ namespace moRFctrl
             }
             else
             {
-                Program.MainClass.StatusMessage = "Gqrx connection failed";
+                Program.MainClass.StatusMessage = "Gqrx connection failed" + gqrxAddress;
                 Program.GQRXClass.Disconnected();
                 return;
             }

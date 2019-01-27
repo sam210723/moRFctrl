@@ -30,8 +30,6 @@
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +41,6 @@
             this.trackMixerI = new System.Windows.Forms.TrackBar();
             this.labelMixerI = new System.Windows.Forms.Label();
             this.checkBiasTee = new System.Windows.Forms.CheckBox();
-            this.groupSweep = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.numStepSize = new System.Windows.Forms.NumericUpDown();
             this.labelSweepStep = new System.Windows.Forms.Label();
@@ -56,15 +53,32 @@
             this.btnSweep = new System.Windows.Forms.Button();
             this.progressSweep = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabSweep = new System.Windows.Forms.TabPage();
+            this.tabPresets = new System.Windows.Forms.TabPage();
+            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textGqrxIP = new System.Windows.Forms.TextBox();
+            this.btnSaveSettings = new System.Windows.Forms.Button();
+            this.checkConfirmExit = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numGqrxPort = new System.Windows.Forms.NumericUpDown();
+            this.btnLoadDefaults = new System.Windows.Forms.Button();
+            this.sweepFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
-            this.groupSweep.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numStepSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStartFreq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStopFreq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDwellTime)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabSweep.SuspendLayout();
+            this.tabSettings.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numGqrxPort)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -81,28 +95,15 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem,
-            this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
-            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -125,7 +126,7 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 300);
+            this.statusStrip.Location = new System.Drawing.Point(0, 304);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(262, 22);
             this.statusStrip.SizingGrip = false;
@@ -207,20 +208,6 @@
             this.checkBiasTee.UseVisualStyleBackColor = true;
             this.checkBiasTee.CheckedChanged += new System.EventHandler(this.checkBiasTee_CheckedChanged);
             // 
-            // groupSweep
-            // 
-            this.groupSweep.Controls.Add(this.tableLayoutPanel1);
-            this.groupSweep.Controls.Add(this.btnSweep);
-            this.groupSweep.Controls.Add(this.progressSweep);
-            this.groupSweep.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupSweep.ForeColor = System.Drawing.Color.White;
-            this.groupSweep.Location = new System.Drawing.Point(12, 138);
-            this.groupSweep.Name = "groupSweep";
-            this.groupSweep.Size = new System.Drawing.Size(238, 150);
-            this.groupSweep.TabIndex = 8;
-            this.groupSweep.TabStop = false;
-            this.groupSweep.Text = "Step Generator";
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -234,7 +221,7 @@
             this.tableLayoutPanel1.Controls.Add(this.labelSweepStop, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.numDwellTime, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.labelSweepDwell, 0, 3);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 17);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -413,7 +400,7 @@
             // btnSweep
             // 
             this.btnSweep.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnSweep.Location = new System.Drawing.Point(157, 121);
+            this.btnSweep.Location = new System.Drawing.Point(152, 107);
             this.btnSweep.Name = "btnSweep";
             this.btnSweep.Size = new System.Drawing.Size(75, 23);
             this.btnSweep.TabIndex = 1;
@@ -423,9 +410,9 @@
             // 
             // progressSweep
             // 
-            this.progressSweep.Location = new System.Drawing.Point(6, 122);
+            this.progressSweep.Location = new System.Drawing.Point(4, 108);
             this.progressSweep.Name = "progressSweep";
-            this.progressSweep.Size = new System.Drawing.Size(147, 21);
+            this.progressSweep.Size = new System.Drawing.Size(145, 21);
             this.progressSweep.TabIndex = 0;
             // 
             // label2
@@ -439,16 +426,174 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Hz";
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabSweep);
+            this.tabControl1.Controls.Add(this.tabPresets);
+            this.tabControl1.Controls.Add(this.tabSettings);
+            this.tabControl1.Location = new System.Drawing.Point(12, 134);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(238, 159);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabSweep
+            // 
+            this.tabSweep.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.tabSweep.Controls.Add(this.tableLayoutPanel1);
+            this.tabSweep.Controls.Add(this.btnSweep);
+            this.tabSweep.Controls.Add(this.progressSweep);
+            this.tabSweep.ForeColor = System.Drawing.Color.White;
+            this.tabSweep.Location = new System.Drawing.Point(4, 22);
+            this.tabSweep.Name = "tabSweep";
+            this.tabSweep.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSweep.Size = new System.Drawing.Size(230, 133);
+            this.tabSweep.TabIndex = 0;
+            this.tabSweep.Text = "Sweep";
+            // 
+            // tabPresets
+            // 
+            this.tabPresets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.tabPresets.ForeColor = System.Drawing.Color.White;
+            this.tabPresets.Location = new System.Drawing.Point(4, 22);
+            this.tabPresets.Name = "tabPresets";
+            this.tabPresets.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPresets.Size = new System.Drawing.Size(230, 133);
+            this.tabPresets.TabIndex = 1;
+            this.tabPresets.Text = "Presets";
+            // 
+            // tabSettings
+            // 
+            this.tabSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.tabSettings.Controls.Add(this.btnLoadDefaults);
+            this.tabSettings.Controls.Add(this.btnSaveSettings);
+            this.tabSettings.Controls.Add(this.tableLayoutPanel2);
+            this.tabSettings.ForeColor = System.Drawing.Color.White;
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSettings.Size = new System.Drawing.Size(230, 133);
+            this.tabSettings.TabIndex = 2;
+            this.tabSettings.Text = "Settings";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.numGqrxPort, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textGqrxIP, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.checkConfirmExit, 0, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(1, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(226, 100);
+            this.tableLayoutPanel2.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label3.Size = new System.Drawing.Size(82, 18);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Gqrx IP address";
+            // 
+            // textGqrxIP
+            // 
+            this.textGqrxIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.textGqrxIP.ForeColor = System.Drawing.Color.White;
+            this.textGqrxIP.Location = new System.Drawing.Point(116, 3);
+            this.textGqrxIP.Name = "textGqrxIP";
+            this.textGqrxIP.Size = new System.Drawing.Size(107, 20);
+            this.textGqrxIP.TabIndex = 11;
+            // 
+            // btnSaveSettings
+            // 
+            this.btnSaveSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.btnSaveSettings.Location = new System.Drawing.Point(117, 107);
+            this.btnSaveSettings.Name = "btnSaveSettings";
+            this.btnSaveSettings.Size = new System.Drawing.Size(110, 23);
+            this.btnSaveSettings.TabIndex = 6;
+            this.btnSaveSettings.Text = "Save Settings";
+            this.btnSaveSettings.UseVisualStyleBackColor = false;
+            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+            // 
+            // checkConfirmExit
+            // 
+            this.checkConfirmExit.AutoSize = true;
+            this.checkConfirmExit.Location = new System.Drawing.Point(3, 78);
+            this.checkConfirmExit.Name = "checkConfirmExit";
+            this.checkConfirmExit.Padding = new System.Windows.Forms.Padding(2, 3, 0, 0);
+            this.checkConfirmExit.Size = new System.Drawing.Size(105, 19);
+            this.checkConfirmExit.TabIndex = 12;
+            this.checkConfirmExit.Text = "Exit confirmation";
+            this.checkConfirmExit.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 25);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Size = new System.Drawing.Size(74, 18);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Gqrx TCP port";
+            // 
+            // numGqrxPort
+            // 
+            this.numGqrxPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.numGqrxPort.ForeColor = System.Drawing.Color.White;
+            this.numGqrxPort.Location = new System.Drawing.Point(116, 28);
+            this.numGqrxPort.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.numGqrxPort.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numGqrxPort.Name = "numGqrxPort";
+            this.numGqrxPort.Size = new System.Drawing.Size(107, 20);
+            this.numGqrxPort.TabIndex = 14;
+            this.numGqrxPort.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // btnLoadDefaults
+            // 
+            this.btnLoadDefaults.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.btnLoadDefaults.Location = new System.Drawing.Point(3, 107);
+            this.btnLoadDefaults.Name = "btnLoadDefaults";
+            this.btnLoadDefaults.Size = new System.Drawing.Size(110, 23);
+            this.btnLoadDefaults.TabIndex = 7;
+            this.btnLoadDefaults.Text = "Load Defaults";
+            this.btnLoadDefaults.UseVisualStyleBackColor = false;
+            this.btnLoadDefaults.Click += new System.EventHandler(this.btnLoadDefaults_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(262, 322);
+            this.ClientSize = new System.Drawing.Size(262, 326);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.radioFunctionMixer);
             this.Controls.Add(this.radioFunctionGenerator);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.groupSweep);
             this.Controls.Add(this.checkBiasTee);
             this.Controls.Add(this.labelMixerI);
             this.Controls.Add(this.trackMixerI);
@@ -469,13 +614,18 @@
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).EndInit();
-            this.groupSweep.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numStepSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStartFreq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStopFreq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDwellTime)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabSweep.ResumeLayout(false);
+            this.tabSettings.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numGqrxPort)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -496,7 +646,6 @@
         private System.Windows.Forms.TrackBar trackMixerI;
         private System.Windows.Forms.Label labelMixerI;
         private System.Windows.Forms.CheckBox checkBiasTee;
-        private System.Windows.Forms.GroupBox groupSweep;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ProgressBar progressSweep;
         private System.Windows.Forms.Button btnSweep;
@@ -509,8 +658,19 @@
         private System.Windows.Forms.Label labelSweepStop;
         private System.Windows.Forms.NumericUpDown numDwellTime;
         private System.Windows.Forms.Label labelSweepDwell;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabSweep;
+        private System.Windows.Forms.TabPage tabPresets;
+        private System.Windows.Forms.TabPage tabSettings;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textGqrxIP;
+        private System.Windows.Forms.Button btnSaveSettings;
+        private System.Windows.Forms.CheckBox checkConfirmExit;
+        private System.Windows.Forms.NumericUpDown numGqrxPort;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnLoadDefaults;
+        private System.Windows.Forms.SaveFileDialog sweepFileDialog;
     }
 }
 

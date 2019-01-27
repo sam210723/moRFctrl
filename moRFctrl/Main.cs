@@ -33,6 +33,8 @@ namespace moRFctrl
 
             textFrequency.SelectionStart = textFrequency.TextLength;
 
+            GetSettings();
+
             // Disable UI until moRFeus is detected
             DisableUI();
         }
@@ -99,6 +101,35 @@ namespace moRFctrl
 
             EnableSweepUI();
             SweepProgress = 0;
+        }
+
+        /// <summary>
+        /// Populate settings UI with values from file
+        /// </summary>
+        void GetSettings()
+        {
+            if (Tools.ValidateIPv4(Properties.Settings.Default.gqrx_host))
+            {
+                textGqrxIP.Text = Properties.Settings.Default.gqrx_host;
+            }
+            else
+            {
+                Tools.Debug("Bad Gqrx IP in settings file");
+                textGqrxIP.Text = "INVALID";
+            }
+
+            int parsetemp;
+            if (int.TryParse(Properties.Settings.Default.gqrx_port.ToString(), out parsetemp))
+            {
+                numGqrxPort.Value = Properties.Settings.Default.gqrx_port;
+            }
+            else
+            {
+                // Default port
+                numGqrxPort.Value = 7356;
+            }
+
+            checkConfirmExit.Checked = Properties.Settings.Default.confirm_exit;
         }
 
         #region UI
@@ -577,6 +608,43 @@ namespace moRFctrl
             About aboutDialog = new About();
             aboutDialog.ShowDialog();
         }
+
+        /// <summary>
+        /// Save settings to file
+        /// </summary>
+        private void btnSaveSettings_Click(object sender, EventArgs e)
+        {
+            if (Tools.ValidateIPv4(textGqrxIP.Text))
+            {
+                Properties.Settings.Default.gqrx_host = textGqrxIP.Text;
+            }
+            else
+            {
+                textGqrxIP.Text = "INVALID";
+            }
+
+            Properties.Settings.Default.gqrx_port = (int) numGqrxPort.Value;
+            Properties.Settings.Default.confirm_exit = checkConfirmExit.Checked;
+
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
+            StatusMessage = "Settings saved";
+        }
         #endregion
+
+        /// <summary>
+        /// Load default settings into UI
+        /// </summary>
+        private void btnLoadDefaults_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to load default settings?\nAll current settings will be lost.", "Load Default Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+
+            textGqrxIP.Text = "127.0.0.1";
+            numGqrxPort.Value = 7356;
+            checkConfirmExit.Checked = true;
+        }
     }
 }

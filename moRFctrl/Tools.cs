@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace moRFctrl
 {
@@ -24,6 +25,24 @@ namespace moRFctrl
             {
                 Console.WriteLine(s);
             }
+        }
+
+        public static bool ValidateIPv4(string ip)
+        {
+            if (String.IsNullOrWhiteSpace(ip))
+            {
+                return false;
+            }
+
+            string[] splitValues = ip.Split('.');
+            if (splitValues.Length != 4)
+            {
+                return false;
+            }
+
+            byte tempForParsing;
+
+            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
     }
 }

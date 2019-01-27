@@ -19,8 +19,8 @@ namespace moRFctrl
         public static Thread GQRXThread;
 
         // Globals
-        static bool confirmExit = false;
         public static bool debugOutput = true;
+        static bool isExiting = false;
 
         /// <summary>
         /// The main entry point for the application.
@@ -69,7 +69,7 @@ namespace moRFctrl
         public static void CleanExit(int code, FormClosingEventArgs e)
         {
             // Check exit confirmation is enabled
-            if (confirmExit)
+            if (Properties.Settings.Default.confirm_exit && !isExiting)
             {
                 // Confirm the user wants to exit
                 if (MessageBox.Show("Do you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
@@ -83,6 +83,9 @@ namespace moRFctrl
                     return;
                 }
             }
+
+            // Stop second confirmation
+            isExiting = true;
 
             Tools.Debug("Application exiting with code " + code.ToString());
 
