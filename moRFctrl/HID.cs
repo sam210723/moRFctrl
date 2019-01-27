@@ -179,6 +179,7 @@ namespace moRFctrl
                 {
                     System.Windows.Forms.MessageBox.Show("Failed to reconnect to moRFeus", "moRFeus connection", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     Tools.Debug("No moRFeus found, re-detect failed\n");
+                    Program.MainClass.DisableUI();
                 }
                 else
                 {

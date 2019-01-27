@@ -98,7 +98,7 @@ namespace moRFctrl
                     // Stop the current sequence
                     //TODO: Refactor
                     Program.MainClass.DoSweep();
-                    Program.MainClass.EnableUI();
+                    Program.MainClass.EnableSweepUI();
                 }
             }
         }

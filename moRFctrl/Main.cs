@@ -33,19 +33,20 @@ namespace moRFctrl
 
             textFrequency.SelectionStart = textFrequency.TextLength;
 
+            // Disable UI until moRFeus is detected
             DisableUI();
-            btnSweep.Text = "Start";
-            btnSweep.Enabled = false;
         }
 
         /// <summary>
         /// Get initial state of the device and update UI elements
         /// </summary>
         public void PollDevice() {
-            moRFeus.GetBiasTee();
-            moRFeus.GetMixerCurrent();
-            moRFeus.GetFunction();
-            moRFeus.GetFrequency();
+            moRFeusState state = moRFeus.GetAll();
+
+            Frequency = state.Frequency.ToString();
+            Function = state.Function;
+            MixerCurrent = state.MixerCurrent;
+            BiasTee = state.BiasTee;
         }
 
         /// <summary>
@@ -53,9 +54,9 @@ namespace moRFctrl
         /// </summary>
         private void GetSweepTime()
         {
-            UInt64 start = (UInt64)numStartFreq.Value;
-            UInt64 stop = (UInt64)numStopFreq.Value;
-            UInt64 step = (UInt64)numStepSize.Value;
+            ulong start = (ulong)numStartFreq.Value;
+            ulong stop = (ulong)numStopFreq.Value;
+            ulong step = (ulong)numStepSize.Value;
             double dwell = (double)numDwellTime.Value;
 
             // Keep stop bigger than start
@@ -78,12 +79,12 @@ namespace moRFctrl
             // Start new sweep
             if (Program.SweepThread == null)
             {
-                UInt64 start = (UInt64)numStartFreq.Value;
-                UInt64 stop = (UInt64)numStopFreq.Value;
-                UInt64 step = (UInt64)numStepSize.Value;
+                ulong start = (ulong)numStartFreq.Value;
+                ulong stop = (ulong)numStopFreq.Value;
+                ulong step = (ulong)numStepSize.Value;
                 double dwell = (double)numDwellTime.Value;
 
-                DisableUI();
+                DisableSweepUI();
 
                 // Start new sweep
                 Program.SweepThread = new Thread(() => Program.SweepThreadStart(start, stop, step, dwell));
@@ -95,7 +96,7 @@ namespace moRFctrl
                 Program.SweepThread.Abort();
                 Program.GQRXClass.Disconnect();
 
-                EnableUI();
+                EnableSweepUI();
             }
         }
 
@@ -112,28 +113,8 @@ namespace moRFctrl
             }
             else
             {
-                // Enable UI elements
-                textFrequency.Enabled = true;
-                trackMixerI.Enabled = true;
-                labelMixerI.ForeColor = Color.White;
-                checkBiasTee.AutoCheck = true;
-                checkBiasTee.ForeColor = Color.White;
-                radioFunctionMixer.AutoCheck = true;
-                radioFunctionMixer.ForeColor = Color.White;
-                radioFunctionGenerator.AutoCheck = true;
-                radioFunctionGenerator.ForeColor = Color.White;
-                btnSweep.Text = "Start";
-                numStartFreq.Enabled = true;
-                labelSweepStart.ForeColor = Color.White;
-                numStopFreq.Enabled = true;
-                labelSweepStop.ForeColor = Color.White;
-                numStepSize.Enabled = true;
-                labelSweepStep.ForeColor = Color.White;
-                numDwellTime.Enabled = true;
-                labelSweepDwell.ForeColor = Color.White;
-                SweepProgress = 0;
-
-                Program.SweepThread = null;
+                EnableSweepUI();
+                btnSweep.Enabled = true;
             }
         }
 
@@ -150,26 +131,57 @@ namespace moRFctrl
             }
             else
             {
-                // Disable UI elements
-                textFrequency.Enabled = false;
-                trackMixerI.Enabled = false;
-                labelMixerI.ForeColor = Color.DarkSlateGray;
-                checkBiasTee.AutoCheck = false;
-                checkBiasTee.ForeColor = Color.DarkSlateGray;
-                radioFunctionMixer.AutoCheck = false;
-                radioFunctionMixer.ForeColor = Color.DarkSlateGray;
-                radioFunctionGenerator.AutoCheck = false;
-                radioFunctionGenerator.ForeColor = Color.DarkSlateGray;
-                btnSweep.Text = "Stop";
-                numStartFreq.Enabled = false;
-                labelSweepStart.ForeColor = Color.DarkSlateGray;
-                numStopFreq.Enabled = false;
-                labelSweepStop.ForeColor = Color.DarkSlateGray;
-                numStepSize.Enabled = false;
-                labelSweepStep.ForeColor = Color.DarkSlateGray;
-                numDwellTime.Enabled = false;
-                labelSweepDwell.ForeColor = Color.DarkSlateGray;
+                DisableSweepUI();
+                btnSweep.Enabled = false;
             }
+        }
+
+        public void DisableSweepUI()
+        {
+            textFrequency.Enabled = false;
+            trackMixerI.Enabled = false;
+            labelMixerI.ForeColor = Color.DarkSlateGray;
+            checkBiasTee.AutoCheck = false;
+            checkBiasTee.ForeColor = Color.DarkSlateGray;
+            radioFunctionMixer.AutoCheck = false;
+            radioFunctionMixer.ForeColor = Color.DarkSlateGray;
+            radioFunctionGenerator.AutoCheck = false;
+            radioFunctionGenerator.ForeColor = Color.DarkSlateGray;
+            btnSweep.Text = "Stop";
+            numStartFreq.Enabled = false;
+            labelSweepStart.ForeColor = Color.DarkSlateGray;
+            numStopFreq.Enabled = false;
+            labelSweepStop.ForeColor = Color.DarkSlateGray;
+            numStepSize.Enabled = false;
+            labelSweepStep.ForeColor = Color.DarkSlateGray;
+            numDwellTime.Enabled = false;
+            labelSweepDwell.ForeColor = Color.DarkSlateGray;
+            btnSweep.Text = "Stop";
+        }
+
+        public void EnableSweepUI()
+        {
+            textFrequency.Enabled = true;
+            trackMixerI.Enabled = true;
+            labelMixerI.ForeColor = Color.White;
+            checkBiasTee.AutoCheck = true;
+            checkBiasTee.ForeColor = Color.White;
+            radioFunctionMixer.AutoCheck = true;
+            radioFunctionMixer.ForeColor = Color.White;
+            radioFunctionGenerator.AutoCheck = true;
+            radioFunctionGenerator.ForeColor = Color.White;
+            btnSweep.Text = "Start";
+            numStartFreq.Enabled = true;
+            labelSweepStart.ForeColor = Color.White;
+            numStopFreq.Enabled = true;
+            labelSweepStop.ForeColor = Color.White;
+            numStepSize.Enabled = true;
+            labelSweepStep.ForeColor = Color.White;
+            numDwellTime.Enabled = true;
+            labelSweepDwell.ForeColor = Color.White;
+            SweepProgress = 0;
+            Program.SweepThread = null;
+            btnSweep.Text = "Start";
         }
 
         #region Properties
@@ -401,16 +413,16 @@ namespace moRFctrl
             if (e.KeyChar == (char)13 && textFrequency.Text != "")
             {
                 // Frequency within moRFeus range
-                if (UInt64.Parse(textFrequency.Text) > 5400000000)
+                if (ulong.Parse(textFrequency.Text) > 5400000000)
                 {
                     textFrequency.Text = "5400000000";
                 }
-                else if (UInt64.Parse(textFrequency.Text) < 85000000)
+                else if (ulong.Parse(textFrequency.Text) < 85000000)
                 {
                     textFrequency.Text = "85000000";
                 }
 
-                moRFeus.SetFrequency(UInt64.Parse(textFrequency.Text));
+                moRFeus.SetFrequency(ulong.Parse(textFrequency.Text));
             }
         }
 
