@@ -659,6 +659,9 @@ namespace moRFctrl
             linkSweepOutFile.Text = "sweep.csv";
         }
 
+        /// <summary>
+        /// Set sweep CSV file path
+        /// </summary>
         private void linkSweepOutFile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             sweepFileDialog.Title = "Save CSV file...";
@@ -686,6 +689,14 @@ namespace moRFctrl
 
             // Save settings
             btnSaveSettings_Click(null, null);
+        }
+
+        /// <summary>
+        /// Shows full path on CSV file name hover
+        /// </summary>
+        private void linkSweepOutFile_MouseHover(object sender, EventArgs e)
+        {
+            tipCSVFilePath.Show(CSVFilePath, linkSweepOutFile, 0, 3, 5000);
         }
         #endregion
     }

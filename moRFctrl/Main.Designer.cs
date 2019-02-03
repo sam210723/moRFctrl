@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,17 +58,18 @@
             this.tabSweep = new System.Windows.Forms.TabPage();
             this.tabPresets = new System.Windows.Forms.TabPage();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.btnLoadDefaults = new System.Windows.Forms.Button();
+            this.btnSaveSettings = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numGqrxPort = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textGqrxIP = new System.Windows.Forms.TextBox();
-            this.btnSaveSettings = new System.Windows.Forms.Button();
             this.checkConfirmExit = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numGqrxPort = new System.Windows.Forms.NumericUpDown();
-            this.btnLoadDefaults = new System.Windows.Forms.Button();
             this.sweepFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.label4 = new System.Windows.Forms.Label();
             this.linkSweepOutFile = new System.Windows.Forms.LinkLabel();
+            this.tipCSVFilePath = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
@@ -105,7 +107,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -478,6 +480,28 @@
             this.tabSettings.TabIndex = 2;
             this.tabSettings.Text = "Settings";
             // 
+            // btnLoadDefaults
+            // 
+            this.btnLoadDefaults.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.btnLoadDefaults.Location = new System.Drawing.Point(3, 107);
+            this.btnLoadDefaults.Name = "btnLoadDefaults";
+            this.btnLoadDefaults.Size = new System.Drawing.Size(110, 23);
+            this.btnLoadDefaults.TabIndex = 7;
+            this.btnLoadDefaults.Text = "Load Defaults";
+            this.btnLoadDefaults.UseVisualStyleBackColor = false;
+            this.btnLoadDefaults.Click += new System.EventHandler(this.btnLoadDefaults_Click);
+            // 
+            // btnSaveSettings
+            // 
+            this.btnSaveSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.btnSaveSettings.Location = new System.Drawing.Point(117, 107);
+            this.btnSaveSettings.Name = "btnSaveSettings";
+            this.btnSaveSettings.Size = new System.Drawing.Size(110, 23);
+            this.btnSaveSettings.TabIndex = 6;
+            this.btnSaveSettings.Text = "Save Settings";
+            this.btnSaveSettings.UseVisualStyleBackColor = false;
+            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
@@ -500,58 +524,16 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(226, 100);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
-            // label3
+            // label4
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.label3.Size = new System.Drawing.Size(82, 18);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Gqrx IP address";
-            // 
-            // textGqrxIP
-            // 
-            this.textGqrxIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.textGqrxIP.ForeColor = System.Drawing.Color.White;
-            this.textGqrxIP.Location = new System.Drawing.Point(116, 3);
-            this.textGqrxIP.Name = "textGqrxIP";
-            this.textGqrxIP.Size = new System.Drawing.Size(107, 20);
-            this.textGqrxIP.TabIndex = 11;
-            // 
-            // btnSaveSettings
-            // 
-            this.btnSaveSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnSaveSettings.Location = new System.Drawing.Point(117, 107);
-            this.btnSaveSettings.Name = "btnSaveSettings";
-            this.btnSaveSettings.Size = new System.Drawing.Size(110, 23);
-            this.btnSaveSettings.TabIndex = 6;
-            this.btnSaveSettings.Text = "Save Settings";
-            this.btnSaveSettings.UseVisualStyleBackColor = false;
-            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
-            // 
-            // checkConfirmExit
-            // 
-            this.checkConfirmExit.AutoSize = true;
-            this.checkConfirmExit.Location = new System.Drawing.Point(3, 78);
-            this.checkConfirmExit.Name = "checkConfirmExit";
-            this.checkConfirmExit.Padding = new System.Windows.Forms.Padding(2, 3, 0, 0);
-            this.checkConfirmExit.Size = new System.Drawing.Size(105, 19);
-            this.checkConfirmExit.TabIndex = 12;
-            this.checkConfirmExit.Text = "Exit confirmation";
-            this.checkConfirmExit.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 25);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.label1.Size = new System.Drawing.Size(74, 18);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Gqrx TCP port";
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(3, 50);
+            this.label4.Name = "label4";
+            this.label4.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label4.Size = new System.Drawing.Size(89, 18);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Sweep output file";
             // 
             // numGqrxPort
             // 
@@ -577,27 +559,47 @@
             0,
             0});
             // 
-            // btnLoadDefaults
+            // label1
             // 
-            this.btnLoadDefaults.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.btnLoadDefaults.Location = new System.Drawing.Point(3, 107);
-            this.btnLoadDefaults.Name = "btnLoadDefaults";
-            this.btnLoadDefaults.Size = new System.Drawing.Size(110, 23);
-            this.btnLoadDefaults.TabIndex = 7;
-            this.btnLoadDefaults.Text = "Load Defaults";
-            this.btnLoadDefaults.UseVisualStyleBackColor = false;
-            this.btnLoadDefaults.Click += new System.EventHandler(this.btnLoadDefaults_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 25);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Size = new System.Drawing.Size(74, 18);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Gqrx TCP port";
             // 
-            // label4
+            // label3
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 50);
-            this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.label4.Size = new System.Drawing.Size(89, 18);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Sweep output file";
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label3.Size = new System.Drawing.Size(82, 18);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Gqrx IP address";
+            // 
+            // textGqrxIP
+            // 
+            this.textGqrxIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.textGqrxIP.ForeColor = System.Drawing.Color.White;
+            this.textGqrxIP.Location = new System.Drawing.Point(116, 3);
+            this.textGqrxIP.Name = "textGqrxIP";
+            this.textGqrxIP.Size = new System.Drawing.Size(107, 20);
+            this.textGqrxIP.TabIndex = 11;
+            // 
+            // checkConfirmExit
+            // 
+            this.checkConfirmExit.AutoSize = true;
+            this.checkConfirmExit.Location = new System.Drawing.Point(3, 78);
+            this.checkConfirmExit.Name = "checkConfirmExit";
+            this.checkConfirmExit.Padding = new System.Windows.Forms.Padding(2, 3, 0, 0);
+            this.checkConfirmExit.Size = new System.Drawing.Size(105, 19);
+            this.checkConfirmExit.TabIndex = 12;
+            this.checkConfirmExit.Text = "Exit confirmation";
+            this.checkConfirmExit.UseVisualStyleBackColor = true;
             // 
             // linkSweepOutFile
             // 
@@ -612,6 +614,7 @@
             this.linkSweepOutFile.TabStop = true;
             this.linkSweepOutFile.Text = "sweep.csv";
             this.linkSweepOutFile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSweepOutFile_LinkClicked);
+            this.linkSweepOutFile.MouseHover += new System.EventHandler(this.linkSweepOutFile_MouseHover);
             // 
             // Main
             // 
@@ -702,6 +705,7 @@
         private System.Windows.Forms.SaveFileDialog sweepFileDialog;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkSweepOutFile;
+        private System.Windows.Forms.ToolTip tipCSVFilePath;
     }
 }
 
