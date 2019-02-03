@@ -48,6 +48,7 @@ namespace moRFctrl
             Program.MainClass.SweepProgress = 0;
             Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(start, stop, step, dwell));
 
+            //TODO: Check CSV Path (valid + exists + permissions)
 
             //Step sequence globals
             //Program.MainClass.StatusMessage = "Starting step sequence";
@@ -61,7 +62,7 @@ namespace moRFctrl
             {
                 // Short delay between SNR reading and frequency change
                 // Without this Gqrx will fall behind
-                Thread.Sleep((int)(50));
+                Thread.Sleep(50);
 
                 //Calculate next frequency in sequence
                 newFrequency = start + (step * i);
@@ -86,6 +87,7 @@ namespace moRFctrl
                 if (Program.GQRXClass.IsConnected)
                 {
                     Program.GQRXClass.SetFrequency(newFrequency);
+                    //TODO: Confirm frequency set
                 }
 
                 // Wait for specified dwell time

@@ -8,6 +8,9 @@ namespace moRFctrl
 {
     public partial class About : Form
     {
+        private string apiUrl = "https://api.github.com/repos/sam210723/moRFctrl/releases/latest";
+        private string relUrl = "https://github.com/sam210723/moRFctrl/releases/latest";
+
         public About()
         {
             InitializeComponent();
@@ -61,8 +64,7 @@ namespace moRFctrl
         /// </summary>
         private async void UpdateCheckAsync()
         {
-            Console.WriteLine("Checking for update on GitHub");
-            string ghLatestRelease = "https://api.github.com/repos/sam210723/moRFctrl/releases/latest";
+            Tools.Debug("Checking for update on GitHub");
             string ghJSONRes = "";
 
             using (var client = new HttpClient())
@@ -70,12 +72,14 @@ namespace moRFctrl
                 client.DefaultRequestHeaders.UserAgent.ParseAdd("sam210723/moRFctrl Update Checker");
                 try
                 {
-                    ghJSONRes = await client.GetStringAsync(ghLatestRelease);
+                    ghJSONRes = await client.GetStringAsync(apiUrl);
                 }
                 catch (HttpRequestException e)
                 {
                     Tools.Debug("Update check exception: " + e.Message);
+
                     updateLabel.Text = "Update check failed";
+                    
                     return;
                 }
             }
@@ -86,7 +90,7 @@ namespace moRFctrl
 
             string releaseName = ghJSONRes.Substring(ghJSONRes.IndexOf("\"name\":\"") + 8);
             releaseName = releaseName.Substring(0, releaseName.IndexOf("\",\"draft\":"));
-            Console.WriteLine("Release Name: " + releaseName);
+            Tools.Debug("Release Name: " + releaseName);
 
             // Get current assembly version
             Assembly asm = Assembly.GetExecutingAssembly();
@@ -115,7 +119,12 @@ namespace moRFctrl
         /// </summary>
         private void updateBtn_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/sam210723/moRFctrl/releases/latest");
+            if (MessageBox.Show("This will open\n\"" + relUrl + "\"\nin your default browser.\nContinue?", "Update moRFctrl", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+
+            System.Diagnostics.Process.Start(relUrl);
         }
     }
 }
