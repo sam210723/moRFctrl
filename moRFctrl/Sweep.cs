@@ -62,7 +62,7 @@ namespace moRFctrl
             {
                 // Short delay between SNR reading and frequency change
                 // Without this Gqrx will fall behind
-                Thread.Sleep(50);
+                Thread.Sleep(40);
 
                 //Calculate next frequency in sequence
                 newFrequency = start + (step * i);
@@ -87,7 +87,18 @@ namespace moRFctrl
                 if (Program.GQRXClass.IsConnected)
                 {
                     Program.GQRXClass.SetFrequency(newFrequency);
-                    //TODO: Confirm frequency set
+                    Thread.Sleep(10);
+
+                    /*
+                    if (Program.GQRXClass.GetFrequency() != newFrequency)
+                    {
+                        Tools.Debug("Frequency mismatch");
+                    }
+                    else
+                    {
+                        Tools.Debug("Frequency check OK");
+                    }
+                    */
                 }
 
                 // Wait for specified dwell time

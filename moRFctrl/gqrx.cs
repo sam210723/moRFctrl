@@ -121,6 +121,15 @@ namespace moRFctrl
 
         #region Get
         /// <summary>
+        /// Get SDR frequency
+        /// </summary>
+        public ulong GetFrequency()
+        {
+            Console.WriteLine("GFREQ \"" + Get(CMD_FREQUENCY.ToLower() + "\""));
+            return ulong.Parse("0") * 100;
+        }
+
+        /// <summary>
         /// Get carrier strength in dBFS
         /// </summary>
         /// <returns>Carrier strength as string</returns>
