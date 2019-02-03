@@ -133,7 +133,8 @@ namespace moRFctrl
             checkConfirmExit.Checked = Properties.Settings.Default.confirm_exit;
 
             // CSV filename
-            linkSweepOutFile.Text = Path.GetFileName(Properties.Settings.Default.sweep_output_file);
+            CSVFilePath = Properties.Settings.Default.sweep_output_file;
+            linkSweepOutFile.Text = Path.GetFileName(CSVFilePath);
         }
 
         #region UI
@@ -455,6 +456,11 @@ namespace moRFctrl
                 }
             }
         }
+
+        /// <summary>
+        /// Full file path for sweep output CSV
+        /// </summary>
+        private string CSVFilePath { get; set; } = "";
         #endregion
 
         #region Events
@@ -629,7 +635,7 @@ namespace moRFctrl
 
             Properties.Settings.Default.gqrx_port = (int) numGqrxPort.Value;
             Properties.Settings.Default.confirm_exit = checkConfirmExit.Checked;
-            Properties.Settings.Default.sweep_output_file = linkSweepOutFile.Text;
+            Properties.Settings.Default.sweep_output_file = CSVFilePath;
 
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
@@ -660,7 +666,6 @@ namespace moRFctrl
             sweepFileDialog.CheckFileExists = false;
             sweepFileDialog.CheckPathExists = true;
             sweepFileDialog.DefaultExt = ".csv";
-            Tools.Debug("FROM SETTINGS: " + Properties.Settings.Default.sweep_output_file);  // TODO: Link Label saving bug
             sweepFileDialog.FileName = Path.GetFileName(Properties.Settings.Default.sweep_output_file);
             sweepFileDialog.Filter = "CSV file (*.csv)|*.csv|All files (*.*)|*.*";
             sweepFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
@@ -669,15 +674,15 @@ namespace moRFctrl
             sweepFileDialog.ValidateNames = true;
 
             sweepFileDialog.ShowDialog();
+            CSVFilePath = sweepFileDialog.FileName;
 
-            string path = Path.GetDirectoryName(sweepFileDialog.FileName);
-            string filename = Path.GetFileNameWithoutExtension(sweepFileDialog.FileName);
-            string ext = Path.GetExtension(sweepFileDialog.FileName);
+            string path = Path.GetDirectoryName(CSVFilePath);
+            string filename = Path.GetFileNameWithoutExtension(CSVFilePath);
+            string ext = Path.GetExtension(CSVFilePath);
 
-            Tools.Debug("TO SETTINGS: " + sweepFileDialog.FileName);
-            Properties.Settings.Default.sweep_output_file = sweepFileDialog.FileName;
+            Properties.Settings.Default.sweep_output_file = CSVFilePath;
 
-            linkSweepOutFile.Text = Path.GetFileName(sweepFileDialog.FileName);
+            linkSweepOutFile.Text = Path.GetFileName(CSVFilePath);
 
             // Save settings
             btnSaveSettings_Click(null, null);
