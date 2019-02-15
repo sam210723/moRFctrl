@@ -75,10 +75,10 @@
             this.vksdrLabel.LinkColor = System.Drawing.Color.Lime;
             this.vksdrLabel.Location = new System.Drawing.Point(13, 56);
             this.vksdrLabel.Name = "vksdrLabel";
-            this.vksdrLabel.Size = new System.Drawing.Size(128, 16);
+            this.vksdrLabel.Size = new System.Drawing.Size(117, 16);
             this.vksdrLabel.TabIndex = 4;
             this.vksdrLabel.TabStop = true;
-            this.vksdrLabel.Text = "vksdr.com/moRFctrl";
+            this.vksdrLabel.Text = "vksdr.com/morfctrl";
             this.vksdrLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.vksdrLabel_LinkClicked);
             // 
             // updateBtn

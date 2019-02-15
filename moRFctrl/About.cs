@@ -10,6 +10,7 @@ namespace moRFctrl
     {
         private string apiUrl = "https://api.github.com/repos/sam210723/moRFctrl/releases/latest";
         private string relUrl = "https://github.com/sam210723/moRFctrl/releases/latest";
+        private string docUrl = "https://vksdr.com/morfctrl";
 
         public About()
         {
@@ -56,7 +57,12 @@ namespace moRFctrl
         /// </summary>
         private void vksdrLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://vksdr.com/morfctrl");
+            if (MessageBox.Show("This will open:\n\"" + docUrl + "\" in your default browser.\n\nContinue?", "moRFctrl Documentation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+
+            System.Diagnostics.Process.Start(docUrl);
         }
 
         /// <summary>
@@ -119,7 +125,7 @@ namespace moRFctrl
         /// </summary>
         private void updateBtn_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This will open\n\"" + relUrl + "\"\nin your default browser.\nContinue?", "Update moRFctrl", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("This will open:\n\"" + relUrl + "\" in your default browser.\n\nContinue?", "Update moRFctrl", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 return;
             }
