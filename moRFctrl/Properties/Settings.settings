@@ -14,5 +14,8 @@
     <Setting Name="sweep_output_file" Type="System.String" Scope="User">
       <Value Profile="(Default)">sweep.csv</Value>
     </Setting>
+    <Setting Name="confirm_overwrite" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -70,5 +70,17 @@ namespace moRFctrl.Properties {
                 this["sweep_output_file"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool confirm_overwrite {
+            get {
+                return ((bool)(this["confirm_overwrite"]));
+            }
+            set {
+                this["confirm_overwrite"] = value;
+            }
+        }
     }
 }

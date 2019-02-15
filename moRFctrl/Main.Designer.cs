@@ -61,6 +61,7 @@
             this.btnLoadDefaults = new System.Windows.Forms.Button();
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkConfirmOverwrite = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.linkSweepOutFile = new System.Windows.Forms.LinkLabel();
             this.numGqrxPort = new System.Windows.Forms.NumericUpDown();
@@ -70,7 +71,6 @@
             this.checkConfirmExit = new System.Windows.Forms.CheckBox();
             this.sweepFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.tipCSVFilePath = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
@@ -502,14 +502,14 @@
             this.btnSaveSettings.TabIndex = 6;
             this.btnSaveSettings.Text = "Save Settings";
             this.btnSaveSettings.UseVisualStyleBackColor = false;
-            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_ClickAsync);
+            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.checkBox1, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.checkConfirmOverwrite, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.label4, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.linkSweepOutFile, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.numGqrxPort, 1, 1);
@@ -526,6 +526,19 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(226, 100);
             this.tableLayoutPanel2.TabIndex = 5;
+            // 
+            // checkConfirmOverwrite
+            // 
+            this.checkConfirmOverwrite.AutoSize = true;
+            this.checkConfirmOverwrite.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkConfirmOverwrite.Location = new System.Drawing.Point(116, 78);
+            this.checkConfirmOverwrite.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
+            this.checkConfirmOverwrite.Name = "checkConfirmOverwrite";
+            this.checkConfirmOverwrite.Padding = new System.Windows.Forms.Padding(2, 3, 0, 0);
+            this.checkConfirmOverwrite.Size = new System.Drawing.Size(109, 20);
+            this.checkConfirmOverwrite.TabIndex = 19;
+            this.checkConfirmOverwrite.Text = "Confirm overwrite";
+            this.checkConfirmOverwrite.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -622,19 +635,6 @@
             this.checkConfirmExit.UseVisualStyleBackColor = true;
             this.checkConfirmExit.CheckedChanged += new System.EventHandler(this.checkConfirmExit_CheckedChanged);
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(113, 78);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Padding = new System.Windows.Forms.Padding(2, 3, 0, 0);
-            this.checkBox1.Size = new System.Drawing.Size(113, 20);
-            this.checkBox1.TabIndex = 19;
-            this.checkBox1.Text = "Overwrite warning";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -725,7 +725,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkSweepOutFile;
         private System.Windows.Forms.ToolTip tipCSVFilePath;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkConfirmOverwrite;
     }
 }
 

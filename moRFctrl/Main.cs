@@ -132,6 +132,7 @@ namespace moRFctrl
             }
 
             checkConfirmExit.Checked = Properties.Settings.Default.confirm_exit;
+            checkConfirmOverwrite.Checked = Properties.Settings.Default.confirm_overwrite;
 
             // CSV filename
             CSVFilePath = Properties.Settings.Default.sweep_output_file;
@@ -662,7 +663,7 @@ namespace moRFctrl
         /// <summary>
         /// Save settings to file
         /// </summary>
-        private async void btnSaveSettings_ClickAsync(object sender, EventArgs e)
+        private async void btnSaveSettings_Click(object sender, EventArgs e)
         {
             if (Tools.ValidateIPv4(textGqrxIP.Text))
             {
@@ -701,7 +702,9 @@ namespace moRFctrl
             textGqrxIP.Text = "127.0.0.1";
             numGqrxPort.Value = 7356;
             checkConfirmExit.Checked = true;
+            checkConfirmOverwrite.Checked = true;
             linkSweepOutFile.Text = "sweep.csv";
+            CSVFilePath = "sweep.csv";
 
             EnableSaveSettings();
 
@@ -767,9 +770,11 @@ namespace moRFctrl
         /// <summary>
         /// Shows full path on CSV file name hover
         /// </summary>
-        private void linkSweepOutFile_MouseHover(object sender, EventArgs e)
+        private async void linkSweepOutFile_MouseHover(object sender, EventArgs e)
         {
-            tipCSVFilePath.Show(CSVFilePath, linkSweepOutFile, 0, 3, 5000);
+            await Task.Delay(1000);
+
+            tipCSVFilePath.Show(CSVFilePath, linkSweepOutFile, 0, 3, 3000);
         }
         #endregion
     }
