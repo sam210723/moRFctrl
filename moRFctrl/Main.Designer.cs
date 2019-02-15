@@ -62,14 +62,15 @@
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
+            this.linkSweepOutFile = new System.Windows.Forms.LinkLabel();
             this.numGqrxPort = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textGqrxIP = new System.Windows.Forms.TextBox();
             this.checkConfirmExit = new System.Windows.Forms.CheckBox();
             this.sweepFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.linkSweepOutFile = new System.Windows.Forms.LinkLabel();
             this.tipCSVFilePath = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackMixerI)).BeginInit();
@@ -494,19 +495,21 @@
             // btnSaveSettings
             // 
             this.btnSaveSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.btnSaveSettings.Enabled = false;
             this.btnSaveSettings.Location = new System.Drawing.Point(117, 107);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(110, 23);
             this.btnSaveSettings.TabIndex = 6;
             this.btnSaveSettings.Text = "Save Settings";
             this.btnSaveSettings.UseVisualStyleBackColor = false;
-            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_ClickAsync);
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.checkBox1, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.label4, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.linkSweepOutFile, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.numGqrxPort, 1, 1);
@@ -535,6 +538,21 @@
             this.label4.TabIndex = 17;
             this.label4.Text = "Sweep output file";
             // 
+            // linkSweepOutFile
+            // 
+            this.linkSweepOutFile.AutoSize = true;
+            this.linkSweepOutFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkSweepOutFile.LinkColor = System.Drawing.Color.DeepSkyBlue;
+            this.linkSweepOutFile.Location = new System.Drawing.Point(116, 50);
+            this.linkSweepOutFile.Name = "linkSweepOutFile";
+            this.linkSweepOutFile.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.linkSweepOutFile.Size = new System.Drawing.Size(58, 18);
+            this.linkSweepOutFile.TabIndex = 18;
+            this.linkSweepOutFile.TabStop = true;
+            this.linkSweepOutFile.Text = "sweep.csv";
+            this.linkSweepOutFile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSweepOutFile_LinkClicked);
+            this.linkSweepOutFile.MouseHover += new System.EventHandler(this.linkSweepOutFile_MouseHover);
+            // 
             // numGqrxPort
             // 
             this.numGqrxPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
@@ -558,6 +576,7 @@
             0,
             0,
             0});
+            this.numGqrxPort.ValueChanged += new System.EventHandler(this.numGqrxPort_ValueChanged);
             // 
             // label1
             // 
@@ -589,6 +608,7 @@
             this.textGqrxIP.Name = "textGqrxIP";
             this.textGqrxIP.Size = new System.Drawing.Size(107, 20);
             this.textGqrxIP.TabIndex = 11;
+            this.textGqrxIP.TextChanged += new System.EventHandler(this.textGqrxIP_TextChanged);
             // 
             // checkConfirmExit
             // 
@@ -600,21 +620,20 @@
             this.checkConfirmExit.TabIndex = 12;
             this.checkConfirmExit.Text = "Exit confirmation";
             this.checkConfirmExit.UseVisualStyleBackColor = true;
+            this.checkConfirmExit.CheckedChanged += new System.EventHandler(this.checkConfirmExit_CheckedChanged);
             // 
-            // linkSweepOutFile
+            // checkBox1
             // 
-            this.linkSweepOutFile.AutoSize = true;
-            this.linkSweepOutFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkSweepOutFile.LinkColor = System.Drawing.Color.DeepSkyBlue;
-            this.linkSweepOutFile.Location = new System.Drawing.Point(116, 50);
-            this.linkSweepOutFile.Name = "linkSweepOutFile";
-            this.linkSweepOutFile.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.linkSweepOutFile.Size = new System.Drawing.Size(58, 18);
-            this.linkSweepOutFile.TabIndex = 18;
-            this.linkSweepOutFile.TabStop = true;
-            this.linkSweepOutFile.Text = "sweep.csv";
-            this.linkSweepOutFile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkSweepOutFile_LinkClicked);
-            this.linkSweepOutFile.MouseHover += new System.EventHandler(this.linkSweepOutFile_MouseHover);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(113, 78);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Padding = new System.Windows.Forms.Padding(2, 3, 0, 0);
+            this.checkBox1.Size = new System.Drawing.Size(113, 20);
+            this.checkBox1.TabIndex = 19;
+            this.checkBox1.Text = "Overwrite warning";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -706,6 +725,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkSweepOutFile;
         private System.Windows.Forms.ToolTip tipCSVFilePath;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

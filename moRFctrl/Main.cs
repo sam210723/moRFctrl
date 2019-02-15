@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace moRFctrl
@@ -135,27 +136,12 @@ namespace moRFctrl
             // CSV filename
             CSVFilePath = Properties.Settings.Default.sweep_output_file;
             linkSweepOutFile.Text = Path.GetFileName(CSVFilePath);
+
+            // Disable save button until values change
+            DisableSaveSettings();
         }
 
         #region UI
-        /// <summary>
-        /// Enable UI elements
-        /// </summary>
-        public void EnableUI()
-        {
-            if (textFrequency.InvokeRequired)
-            {
-                textFrequency.BeginInvoke(new MethodInvoker(delegate {
-                    EnableUI();
-                }));
-            }
-            else
-            {
-                EnableSweepUI();
-                btnSweep.Enabled = true;
-            }
-        }
-
         /// <summary>
         /// Disable UI elements
         /// </summary>
@@ -174,6 +160,24 @@ namespace moRFctrl
             }
         }
 
+        /// <summary>
+        /// Enable UI elements
+        /// </summary>
+        public void EnableUI()
+        {
+            if (textFrequency.InvokeRequired)
+            {
+                textFrequency.BeginInvoke(new MethodInvoker(delegate {
+                    EnableUI();
+                }));
+            }
+            else
+            {
+                EnableSweepUI();
+                btnSweep.Enabled = true;
+            }
+        }
+        
         /// <summary>
         /// Disable sweep UI elements
         /// </summary>
@@ -243,6 +247,42 @@ namespace moRFctrl
                 labelSweepDwell.ForeColor = Color.White;
                 Program.SweepThread = null;
                 btnSweep.Text = "Start";
+            }
+        }
+
+        /// <summary>
+        /// Disable Save Settings button
+        /// </summary>
+        private void DisableSaveSettings()
+        {
+            btnSaveSettings.Enabled = false;
+            btnSaveSettings.ForeColor = Color.DarkGray;
+            btnSaveSettings.BackColor = Color.Gray;
+        }
+
+        /// <summary>
+        /// Enable Save Settings button
+        /// </summary>
+        private void EnableSaveSettings()
+        {
+            btnSaveSettings.Enabled = true;
+            btnSaveSettings.ForeColor = Color.White;
+            btnSaveSettings.BackColor = Color.FromArgb(70, 70, 70);
+        }
+
+        /// <summary>
+        /// Clear status message after a delay
+        /// </summary>
+        /// <param name="delay">Delay in seconds</param>
+        async Task StatusSetAndClear(int delay, String msg)
+        {
+            StatusMessage = msg;
+
+            await Task.Delay(delay*1000);
+
+            if (StatusMessage == msg)
+            {
+                StatusMessage = "";
             }
         }
         #endregion
@@ -622,7 +662,7 @@ namespace moRFctrl
         /// <summary>
         /// Save settings to file
         /// </summary>
-        private void btnSaveSettings_Click(object sender, EventArgs e)
+        private async void btnSaveSettings_ClickAsync(object sender, EventArgs e)
         {
             if (Tools.ValidateIPv4(textGqrxIP.Text))
             {
@@ -640,14 +680,19 @@ namespace moRFctrl
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             StatusMessage = "Settings saved";
+
+            DisableSaveSettings();
+
+            // Set then clear status message after 3 seconds
+            await StatusSetAndClear(3, "Settings saved");
         }
 
         /// <summary>
         /// Load default settings into UI
         /// </summary>
-        private void btnLoadDefaults_Click(object sender, EventArgs e)
+        private async void btnLoadDefaults_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to load default settings?\nAll current settings will be lost.", "Load Default Settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show("Are you sure you want to load default settings?\nAll current settings will be lost.", "Load default settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 return;
             }
@@ -657,6 +702,35 @@ namespace moRFctrl
             numGqrxPort.Value = 7356;
             checkConfirmExit.Checked = true;
             linkSweepOutFile.Text = "sweep.csv";
+
+            EnableSaveSettings();
+
+            // Set then clear status message after 3 seconds
+            await StatusSetAndClear(3, "Default settings loaded");
+        }
+
+        /// <summary>
+        /// Gqrx IP changed
+        /// </summary>
+        private void textGqrxIP_TextChanged(object sender, EventArgs e)
+        {
+            EnableSaveSettings();
+        }
+
+        /// <summary>
+        /// Gqrx port changed
+        /// </summary>
+        private void numGqrxPort_ValueChanged(object sender, EventArgs e)
+        {
+            EnableSaveSettings();
+        }
+
+        /// <summary>
+        /// Exit confirmation changed
+        /// </summary>
+        private void checkConfirmExit_CheckedChanged(object sender, EventArgs e)
+        {
+            EnableSaveSettings();
         }
 
         /// <summary>
@@ -687,8 +761,7 @@ namespace moRFctrl
 
             linkSweepOutFile.Text = Path.GetFileName(CSVFilePath);
 
-            // Save settings
-            btnSaveSettings_Click(null, null);
+            EnableSaveSettings();
         }
 
         /// <summary>
