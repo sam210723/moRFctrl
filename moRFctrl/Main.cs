@@ -98,9 +98,10 @@ namespace moRFctrl
         /// </summary>
         public void StopSweep()
         {
+            //TODO: Close CSV
+            //TODO: Safe thread termination (set flag, !abort)
             Program.SweepThread.Abort();
             Program.GQRXClass.Disconnect();
-            CSV.Close(Program.SweepClass.CSVFile);  //TODO: unref except
 
             EnableSweepUI();
             SweepProgress = 0;
@@ -775,6 +776,7 @@ namespace moRFctrl
             linkSweepOutFile.Text = Path.GetFileName(CSVFilePath);
 
             EnableSaveSettings();
+            btnSaveSettings_Click(null, null);
         }
 
         /// <summary>

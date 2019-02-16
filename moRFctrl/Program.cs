@@ -19,7 +19,7 @@ namespace moRFctrl
         public static Thread GQRXThread;
 
         // Globals
-        public static bool debugOutput = true;
+        public static bool debugOutput = false;
         static bool isExiting = false;
 
         /// <summary>

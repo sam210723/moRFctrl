@@ -56,7 +56,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSweep = new System.Windows.Forms.TabPage();
-            this.tabPresets = new System.Windows.Forms.TabPage();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.btnLoadDefaults = new System.Windows.Forms.Button();
             this.btnSaveSettings = new System.Windows.Forms.Button();
@@ -434,7 +433,6 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabSweep);
-            this.tabControl1.Controls.Add(this.tabPresets);
             this.tabControl1.Controls.Add(this.tabSettings);
             this.tabControl1.Location = new System.Drawing.Point(12, 134);
             this.tabControl1.Name = "tabControl1";
@@ -455,17 +453,6 @@
             this.tabSweep.Size = new System.Drawing.Size(230, 133);
             this.tabSweep.TabIndex = 0;
             this.tabSweep.Text = "Sweep";
-            // 
-            // tabPresets
-            // 
-            this.tabPresets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.tabPresets.ForeColor = System.Drawing.Color.White;
-            this.tabPresets.Location = new System.Drawing.Point(4, 22);
-            this.tabPresets.Name = "tabPresets";
-            this.tabPresets.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPresets.Size = new System.Drawing.Size(230, 133);
-            this.tabPresets.TabIndex = 1;
-            this.tabPresets.Text = "Presets";
             // 
             // tabSettings
             // 
@@ -712,7 +699,6 @@
         private System.Windows.Forms.Label labelSweepDwell;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabSweep;
-        private System.Windows.Forms.TabPage tabPresets;
         private System.Windows.Forms.TabPage tabSettings;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label3;

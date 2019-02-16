@@ -133,7 +133,7 @@ namespace moRFctrl
         /// </summary>
         public ulong GetFrequency()
         {
-            Console.WriteLine("GFREQ \"" + Get(CMD_FREQUENCY.ToLower() + "\"").Result);
+            Console.WriteLine("GFREQ \"" + Get(CMD_FREQUENCY.ToLower() + "\""));
             return ulong.Parse("0") * 100;
         }
 
@@ -143,13 +143,13 @@ namespace moRFctrl
         /// <returns>Carrier strength as string</returns>
         public string GetStrength()
         {
-            return Get(CMD_STRENGTH).Result;
+            return Get(CMD_STRENGTH);
         }
 
         /// <summary>
         /// Get Gqrx parameter
         /// </summary>
-        private async Task<string> Get(string cmd)
+        private string Get(string cmd)
         {
             if (IsConnected)
             {
@@ -157,8 +157,6 @@ namespace moRFctrl
 
                 byte[] recBuf = new byte[64];
                 string responseData = "";
-
-                //await tcpStream.FlushAsync();
 
                 try
                 {
