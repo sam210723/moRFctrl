@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace moRFctrl
 {
@@ -11,7 +12,7 @@ namespace moRFctrl
     class gqrx
     {
         TcpClient tcpClient;
-        Stream tcpStream;
+        NetworkStream tcpStream;
         ASCIIEncoding asciiEnc = new ASCIIEncoding();
 
         readonly string CMD_FREQUENCY = "F";
@@ -110,6 +111,13 @@ namespace moRFctrl
                 try
                 {
                     tcpStream.Write(dataBytes, 0, dataBytes.Length);
+
+                    // Empty response from buffer
+                    while (tcpStream.DataAvailable)
+                    {
+                        byte[] recBuf = new byte[64];
+                        int bytes = tcpStream.Read(recBuf, 0, recBuf.Length);
+                    }
                 }
                 catch (IOException e)
                 {
@@ -125,7 +133,7 @@ namespace moRFctrl
         /// </summary>
         public ulong GetFrequency()
         {
-            Console.WriteLine("GFREQ \"" + Get(CMD_FREQUENCY.ToLower() + "\""));
+            Console.WriteLine("GFREQ \"" + Get(CMD_FREQUENCY.ToLower() + "\"").Result);
             return ulong.Parse("0") * 100;
         }
 
@@ -135,13 +143,13 @@ namespace moRFctrl
         /// <returns>Carrier strength as string</returns>
         public string GetStrength()
         {
-            return Get(CMD_STRENGTH);
+            return Get(CMD_STRENGTH).Result;
         }
 
         /// <summary>
         /// Get Gqrx parameter
         /// </summary>
-        private string Get(string cmd)
+        private async Task<string> Get(string cmd)
         {
             if (IsConnected)
             {
@@ -150,10 +158,13 @@ namespace moRFctrl
                 byte[] recBuf = new byte[64];
                 string responseData = "";
 
+                //await tcpStream.FlushAsync();
+
                 try
                 {
-                    int bytes = tcpClient.GetStream().Read(recBuf, 0, recBuf.Length);
+                    int bytes = tcpStream.Read(recBuf, 0, recBuf.Length);
                     responseData = Encoding.ASCII.GetString(recBuf, 0, bytes);
+                    responseData = responseData.Replace("RPRT 0", "").Trim();
                 }
                 catch (IOException e)
                 {

@@ -377,10 +377,10 @@
             0,
             0});
             this.numDwellTime.Minimum = new decimal(new int[] {
-            1,
+            25,
             0,
             0,
-            65536});
+            131072});
             this.numDwellTime.Name = "numDwellTime";
             this.numDwellTime.Size = new System.Drawing.Size(107, 20);
             this.numDwellTime.TabIndex = 9;
@@ -539,6 +539,7 @@
             this.checkConfirmOverwrite.TabIndex = 19;
             this.checkConfirmOverwrite.Text = "Confirm overwrite";
             this.checkConfirmOverwrite.UseVisualStyleBackColor = true;
+            this.checkConfirmOverwrite.CheckedChanged += new System.EventHandler(this.checkConfirmOverwrite_CheckedChanged);
             // 
             // label4
             // 

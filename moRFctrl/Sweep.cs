@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 
 namespace moRFctrl
@@ -9,6 +10,7 @@ namespace moRFctrl
     class Sweep
     {
         string gqrxAddress = string.Format(" ({0}:{1})", Properties.Settings.Default.gqrx_host, Properties.Settings.Default.gqrx_port);
+        public StreamWriter CSVFile;
 
         /// <summary>
         /// Begin frequency sweep
@@ -48,7 +50,55 @@ namespace moRFctrl
             Program.MainClass.SweepProgress = 0;
             Program.MainClass.StatusMessage = "Time remaining: " + PrettifyTime(Time(start, stop, step, dwell));
 
-            //TODO: Check CSV Path (valid + exists + permissions)
+            // CSV setup
+            string CSVPath = Properties.Settings.Default.sweep_output_file;
+            string CSVDir = Path.GetDirectoryName(CSVPath);
+            string CSVName = Path.GetFileName(CSVPath);
+            Tools.Log("CSV file path: " + CSVPath);
+            Tools.Log("CSV directory: " + CSVDir);
+            Tools.Log("CSV file name: " + CSVName);
+
+            // If CSV directory doesn't exist
+            if (!CSV.DirectoryExists(CSVPath))
+            {
+                System.Windows.Forms.MessageBox.Show("Directory \"" + CSVDir + "\" does not exist.\nGo to Settings tab to change CSV file output path.", "moRFctrl", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                Program.MainClass.SweepProgress = 0;
+                Program.MainClass.StatusMessage = "Step sequence stopped";
+                Program.MainClass.EnableUI();
+                return;
+            }
+            
+            // If CSV file already exists
+            if (CSV.FileExists(CSVPath))
+            {
+                if (Properties.Settings.Default.confirm_overwrite)
+                {
+                    if (System.Windows.Forms.MessageBox.Show("\"" + CSVName + "\" already exists. Overwrite?", "moRFctrl", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.No)
+                    {
+                        Program.MainClass.SweepProgress = 0;
+                        Program.MainClass.StatusMessage = "Step sequence stopped";
+                        Program.MainClass.EnableUI();
+                        return;
+                    }
+                }
+                
+                // Remove existing file
+                try
+                {
+                    File.Delete(CSVPath);
+                }
+                catch (IOException e)
+                {
+                    System.Windows.Forms.MessageBox.Show("Could not delete CSV file", "moRFctrl", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    Program.MainClass.SweepProgress = 0;
+                    Program.MainClass.StatusMessage = "Step sequence stopped";
+                    Program.MainClass.EnableUI();
+                    return;
+                }
+            }
+
+            // Create CSV file
+            CSVFile = CSV.Create(CSVPath);
 
             //Step sequence globals
             //Program.MainClass.StatusMessage = "Starting step sequence";
@@ -62,7 +112,7 @@ namespace moRFctrl
             {
                 // Short delay between SNR reading and frequency change
                 // Without this Gqrx will fall behind
-                Thread.Sleep(40);
+                Thread.Sleep(125);
 
                 //Calculate next frequency in sequence
                 newFrequency = start + (step * i);
@@ -87,7 +137,7 @@ namespace moRFctrl
                 if (Program.GQRXClass.IsConnected)
                 {
                     Program.GQRXClass.SetFrequency(newFrequency);
-                    Thread.Sleep(10);
+                    Thread.Sleep(125);
 
                     /*
                     if (Program.GQRXClass.GetFrequency() != newFrequency)
@@ -102,13 +152,22 @@ namespace moRFctrl
                 }
 
                 // Wait for specified dwell time
-                Thread.Sleep((int)(dwell * 1000) - 50);
+                Thread.Sleep((int)(dwell * 1000) - 250);
 
                 // If Gqrx connection is active, get carrier level
                 if (Program.GQRXClass.IsConnected)
                 {
                     string snr = Program.GQRXClass.GetStrength();
                     Console.WriteLine("Strength: " + snr);
+
+                    // Write to CSV file, stop on error
+                    if (!CSV.Write(CSVFile, newFrequency, snr))
+                    {
+                        Program.MainClass.SweepProgress = 0;
+                        Program.MainClass.StatusMessage = "Error writing to CSV file";
+                        Program.MainClass.EnableUI();
+                        return;
+                    }
                 }
 
                 // Report remaining time
@@ -125,6 +184,9 @@ namespace moRFctrl
 
                 i += 1;
             }
+
+            // Close CSV at end of sweep
+            CSV.Close(CSVFile);
 
             // Reset UI to pre-sweep state
             Program.MainClass.SweepProgress = 100;

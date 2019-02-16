@@ -70,6 +70,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="CSV.cs" />
     <Compile Include="gqrx.cs" />
     <Compile Include="HID.cs" />
     <Compile Include="Main.cs">

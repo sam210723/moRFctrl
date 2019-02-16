@@ -100,6 +100,7 @@ namespace moRFctrl
         {
             Program.SweepThread.Abort();
             Program.GQRXClass.Disconnect();
+            CSV.Close(Program.SweepClass.CSVFile);  //TODO: unref except
 
             EnableSweepUI();
             SweepProgress = 0;
@@ -275,7 +276,7 @@ namespace moRFctrl
         /// Clear status message after a delay
         /// </summary>
         /// <param name="delay">Delay in seconds</param>
-        async Task StatusSetAndClear(int delay, String msg)
+        public async Task StatusSetAndClear(int delay, String msg)
         {
             StatusMessage = msg;
 
@@ -572,7 +573,7 @@ namespace moRFctrl
         {
             if (checkBiasTee.Checked)
             {
-                if (MessageBox.Show("Enable 5V bias-tee?\nThis can damage some devices!", "Bias-Tee", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                if (MessageBox.Show("Enable 5V bias-tee?\nThis can damage some devices!", "moRFctrl", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
                     moRFeus.SetBiasTee(moRFeus.BIAS_ON);
                 }
@@ -676,6 +677,7 @@ namespace moRFctrl
 
             Properties.Settings.Default.gqrx_port = (int) numGqrxPort.Value;
             Properties.Settings.Default.confirm_exit = checkConfirmExit.Checked;
+            Properties.Settings.Default.confirm_overwrite = checkConfirmOverwrite.Checked;
             Properties.Settings.Default.sweep_output_file = CSVFilePath;
 
             Properties.Settings.Default.Save();
@@ -732,6 +734,14 @@ namespace moRFctrl
         /// Exit confirmation changed
         /// </summary>
         private void checkConfirmExit_CheckedChanged(object sender, EventArgs e)
+        {
+            EnableSaveSettings();
+        }
+
+        /// <summary>
+        /// Overwrite confirmation changed
+        /// </summary>
+        private void checkConfirmOverwrite_CheckedChanged(object sender, EventArgs e)
         {
             EnableSaveSettings();
         }

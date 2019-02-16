@@ -72,7 +72,7 @@ namespace moRFctrl
             if (Properties.Settings.Default.confirm_exit && !isExiting)
             {
                 // Confirm the user wants to exit
-                if (MessageBox.Show("Do you want to exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                if (MessageBox.Show("Do you want to exit?", "moRFctrl", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 {
                     // Cancel exit if not confirmed
                     if (e != null)
